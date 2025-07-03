@@ -1,0 +1,7 @@
+description = "ceres-crypto"
+
+dependencies {
+	//local jars
+	implementation fileTree(dir: '../ceres-lib/', include: '*/*.jar')
+	
+}

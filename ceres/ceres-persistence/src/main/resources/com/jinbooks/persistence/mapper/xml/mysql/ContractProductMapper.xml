@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jinbooks.persistence.mapper.ContractProductMapper">
+
+    <!-- 分页查询 -->
+    <select id="pageList" parameterType="com.jinbooks.entity.contract.dto.ContractProductPageDto"
+            resultType="ContractProduct">
+        SELECT
+        	*
+        FROM jbx_contract_product jcp
+        WHERE jcp.deleted = 'n'
+        <!-- 根据参数过滤 -->
+        	and jcp.workspace_id = #{dto.workspaceId}
+        <if test="dto.contractId != null and dto.contractId != ''">
+            AND jcp.contract_id = #{dto.contractId}
+        </if>
+        <if test="dto.productName != null and dto.productName != ''">
+            AND jcp.product_name LIKE CONCAT('%', #{dto.productName}, '%')
+        </if>
+        <if test="dto.productCode != null and dto.productCode != ''">
+            AND jcp.product_code = #{dto.productCode}
+        </if>
+        order by product_code desc
+    </select>
+
+</mapper>

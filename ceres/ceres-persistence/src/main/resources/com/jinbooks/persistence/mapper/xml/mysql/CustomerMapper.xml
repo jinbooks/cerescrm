@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jinbooks.persistence.mapper.CustomerMapper">
+
+    <!-- 定义 CustomerVo 查询字段 -->
+    <resultMap id="BaseResultMap" type="com.jinbooks.entity.customer.vo.CustomerVo">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="customer_name" property="customerName" jdbcType="VARCHAR"/>
+        <result column="customer_type" property="customerType" jdbcType="VARCHAR"/>
+        <result column="industry" property="industry" jdbcType="VARCHAR"/>
+        <result column="province" property="province" jdbcType="VARCHAR"/>
+        <result column="city" property="city" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="website" property="website" jdbcType="VARCHAR"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="tax_number" property="taxNumber" jdbcType="VARCHAR"/>
+        <result column="tax_contact" property="taxContact" jdbcType="VARCHAR"/>
+        <result column="tax_bank" property="taxBank" jdbcType="VARCHAR"/>
+        <result column="tax_bank_account" property="taxBankAccount" jdbcType="VARCHAR"/>
+        <result column="tax_bank_account_number" property="taxBankAccountNumber" jdbcType="VARCHAR"/>
+        <result column="last_purchase_time" property="lastPurchaseTime" jdbcType="DATE"/>
+        <result column="purchase_frequency" property="purchaseFrequency" jdbcType="INTEGER"/>
+        <result column="total_spending" property="totalSpending" jdbcType="DECIMAL"/>
+        <result column="service_satisfaction" property="serviceSatisfaction" jdbcType="INTEGER"/>
+        <result column="segment_id" property="segmentId" jdbcType="VARCHAR"/>
+        <result column="segment_name" property="segmentName" jdbcType="VARCHAR"/>
+        <result column="customer_head" property="customerHead" jdbcType="VARCHAR"/>
+        <result column="customer_from" property="customerFrom" jdbcType="VARCHAR"/>
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="created_date" property="createdDate" jdbcType="TIMESTAMP"/>
+        <result column="modified_by" property="modifiedBy" jdbcType="VARCHAR"/>
+        <result column="modified_date" property="modifiedDate" jdbcType="TIMESTAMP"/>
+        <result column="workspace_id" property="workspaceId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 分页查询 -->
+    <select id="customerPageList" parameterType="com.jinbooks.entity.customer.dto.CustomerPageDto"
+            resultMap="BaseResultMap">
+        SELECT
+        c.id,
+        c.customer_name,
+        c.customer_type,
+        c.industry,
+        c.province,
+        c.city,
+        c.address,
+        c.email,
+        c.phone,
+        c.website,
+        c.content,
+        c.tax_number,
+        c.tax_contact,
+        c.tax_bank,
+        c.tax_bank_account,
+        c.tax_bank_account_number,
+        c.last_purchase_time,
+        c.purchase_frequency,
+        c.total_spending,
+        c.service_satisfaction,
+        c.segment_id,
+        s.segment_name,
+        c.customer_head,
+        c.customer_from,
+        c.created_by,
+        c.created_date,
+        c.modified_by,
+        c.modified_date
+        FROM jbx_customer c
+        LEFT JOIN jbx_customer_segment s ON c.segment_id = s.id and s.workspace_id = #{dto.workspaceId}
+        WHERE c.deleted = 'n'
+        <!-- 根据参数过滤 -->
+        and c.workspace_id = #{dto.workspaceId}
+        <if test="dto.customerName != null and dto.customerName != ''">
+            AND c.customer_name LIKE CONCAT('%', #{dto.customerName}, '%')
+        </if>
+        <if test="dto.customerType != null and dto.customerType != ''">
+            AND c.customer_type = #{dto.customerType}
+        </if>
+        <if test="dto.segmentId != null and dto.segmentId != ''">
+            AND c.segment_id = #{dto.segmentId}
+        </if>
+        <if test="dto.customerHead != null and dto.customerHead != ''">
+            AND c.customer_head = #{dto.customerHead}
+        </if>
+    </select>
+
+    <!-- 根据ID查询客户详情 -->
+    <select id="getCustomerById" resultMap="BaseResultMap">
+        SELECT c.id,
+               c.customer_name,
+               c.customer_type,
+               c.industry,
+               c.province,
+               c.city,
+               c.address,
+               c.email,
+               c.phone,
+               c.website,
+               c.content,
+               c.tax_number,
+               c.tax_contact,
+               c.tax_bank,
+               c.tax_bank_account,
+               c.tax_bank_account_number,
+               c.last_purchase_time,
+               c.purchase_frequency,
+               c.total_spending,
+               c.service_satisfaction,
+               c.segment_id,
+               s.segment_name,
+               c.customer_head,
+               c.customer_from,
+               c.created_by,
+               c.created_date,
+               c.modified_by,
+               c.modified_date
+        FROM jbx_customer c
+                 LEFT JOIN jbx_customer_segment s ON c.segment_id = s.id and s.workspace_id = #{workspaceId}
+        WHERE c.id = #{id}
+          and c.workspace_id = #{workspaceId}
+          AND c.deleted = 'n'
+    </select>
+
+    <select id="countRecentCustomer" resultType="com.jinbooks.entity.dashboard.BaseGroupVo">
+        SELECT DATE_FORMAT(created_date, '%Y-%m') AS name,
+               COUNT(*)                           AS value
+        FROM jbx_customer
+        WHERE created_date >= DATE_FORMAT(CURDATE() - INTERVAL 5 MONTH, '%Y-%m-01')
+          AND deleted = 'n'
+          AND workspace_id = #{workspaceId}
+        GROUP BY DATE_FORMAT(created_date, '%Y-%m')
+        ORDER BY name
+    </select>
+
+    <select id="countGroupFromCustomer" resultType="com.jinbooks.entity.dashboard.BaseGroupVo">
+        SELECT customer_from AS name,
+               COUNT(*)      AS value
+        FROM jbx_customer
+        WHERE workspace_id = #{workspaceId}
+          AND deleted = 'n'
+        GROUP BY customer_from
+    </select>
+
+    <select id="countCurrentYear" resultType="java.lang.Long">
+        SELECT COUNT(*)
+        FROM jbx_customer
+        WHERE YEAR(created_date) = YEAR(CURDATE())
+          AND deleted = 'n'
+          AND workspace_id = #{workspaceId}
+    </select>
+
+    <select id="groupYearCustomer" resultType="com.jinbooks.entity.dashboard.BaseGroupVo">
+        SELECT DATE_FORMAT(created_date, '%Y-%m') AS name,
+               COUNT(*)                           AS value
+        FROM jbx_customer
+        WHERE created_date &gt;= CONCAT(#{year}, '-01-01')
+          AND created_date &lt; CONCAT(#{year} + 1, '-01-01')
+          AND deleted = 'n'
+          AND workspace_id = #{workspaceId}
+        GROUP BY DATE_FORMAT(created_date, '%Y-%m')
+        ORDER BY name
+    </select>
+</mapper>

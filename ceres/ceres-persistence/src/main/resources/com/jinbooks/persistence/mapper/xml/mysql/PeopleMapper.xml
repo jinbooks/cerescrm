@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jinbooks.persistence.mapper.PeopleMapper">
+
+    <!-- 定义 CustomerContactVo 查询字段 -->
+    <resultMap id="BaseResultMap" type="com.jinbooks.entity.customer.vo.PeopleVo">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="customer_id" property="customerId" jdbcType="VARCHAR"/>
+        <result column="customer_name" property="customerName" jdbcType="VARCHAR"/>
+        <result column="contact_name" property="contactName" jdbcType="VARCHAR"/>
+        <result column="gender" property="gender" jdbcType="VARCHAR"/>
+        <result column="job_title" property="jobTitle" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="created_date" property="createdDate" jdbcType="TIMESTAMP"/>
+        <result column="modified_by" property="modifiedBy" jdbcType="VARCHAR"/>
+        <result column="modified_date" property="modifiedDate" jdbcType="TIMESTAMP"/>
+        <result column="workspace_id" property="workspaceId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 分页查询联系人 -->
+    <select id="pageList" parameterType="com.jinbooks.entity.customer.dto.PeoplePageDto"
+            resultMap="BaseResultMap">
+        SELECT
+        cc.id,
+        cc.customer_id,
+        c.customer_name,
+        cc.contact_name,
+        cc.gender,
+        cc.job_title,
+        cc.phone,
+        cc.email,
+        cc.address,
+        cc.remark,
+        cc.created_by,
+        cc.created_date,
+        cc.modified_by,
+        cc.modified_date
+        FROM jbx_people cc
+        LEFT JOIN jbx_customer c ON cc.customer_id = c.id and c.workspace_id = #{dto.workspaceId}
+        WHERE cc.deleted = 'n'
+        	and cc.workspace_id = #{dto.workspaceId}
+        <if test="dto.contactName != null and dto.contactName != ''">
+            AND cc.contact_name LIKE CONCAT('%', #{dto.contactName}, '%')
+        </if>
+        <if test="dto.phone != null and dto.phone != ''">
+            AND cc.phone LIKE CONCAT('%', #{dto.phone}, '%')
+        </if>
+        <if test="dto.customerId != null and dto.customerId != ''">
+            AND cc.customer_id = #{dto.customerId}
+        </if>
+        <if test="dto.gender != null and dto.gender != ''">
+            AND cc.gender = #{dto.gender}
+        </if>
+
+    </select>
+
+    <!-- 根据ID查询联系人详情 -->
+    <select id="getPeopleById" resultMap="BaseResultMap">
+        SELECT
+            cc.id,
+            cc.customer_id,
+            c.customer_name,
+            cc.contact_name,
+            cc.gender,
+            cc.job_title,
+            cc.phone,
+            cc.email,
+            cc.address,
+            cc.remark,
+            cc.created_by,
+            cc.created_date,
+            cc.modified_by,
+            cc.modified_date
+        FROM jbx_people cc
+        LEFT JOIN jbx_customer c ON cc.customer_id = c.id and c.workspace_id = #{workspaceId}
+        WHERE cc.id = #{id} AND cc.deleted = 'n'
+        	and cc.workspace_id = #{workspaceId}
+    </select>
+
+</mapper>

@@ -1,0 +1,15 @@
+
+description = "ceres-starter-sms"
+
+
+dependencies {
+	//local jars
+	implementation fileTree(dir: '../ceres-lib/', include: '*/*.jar')
+
+	implementation project(":ceres-commons:ceres-common")
+	implementation project(":ceres-commons:ceres-crypto")
+	implementation project(":ceres-core")
+	implementation project(":ceres-persistence")
+	implementation project(":ceres-starter:ceres-starter-otp")
+
+}

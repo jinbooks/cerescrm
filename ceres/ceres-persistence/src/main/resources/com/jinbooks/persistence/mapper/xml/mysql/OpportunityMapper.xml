@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jinbooks.persistence.mapper.OpportunityMapper">
+    <select id="pageList" parameterType="com.jinbooks.entity.opportunity.dto.OpportunityPageDto"
+            resultType="com.jinbooks.entity.opportunity.Opportunity">
+        select jo.*, ju.username as ownerName
+        from jbx_opportunity jo
+        left join jbx_userinfo ju on jo.owner_id = ju.id
+        and ju.deleted = 'n'
+        and ju.workspace_id = #{Dto.workspaceId}
+        <if test="Dto.customerName != null and Dto.customerName != ''">
+            left JOIN jbx_customer jc
+            ON jo.customer_id = jc.id
+            AND jc.deleted = 'n'
+            AND jc.workspace_id = #{Dto.workspaceId}
+        </if>
+        <if test="Dto.contactName != null and Dto.contactName != ''">
+            left JOIN jbx_people jp
+            ON jo.contact_id = jp.id
+            AND jp.deleted = 'n'
+            AND jp.workspace_id = #{Dto.workspaceId}
+        </if>
+        where jo.deleted = 'n'
+        and jo.workspace_id = #{Dto.workspaceId}
+        <if test="Dto.status != null">
+            and jo.status = #{Dto.status}
+        </if>
+        <if test="Dto.priority != null">
+            and jo.priority = #{Dto.priority}
+        </if>
+        <if test="Dto.name != null and Dto.name != ''">
+            and jo.name = #{Dto.name}
+        </if>
+        <if test="Dto.opportunityCode != null and Dto.opportunityCode != ''">
+            and jo.opportunity_code = #{Dto.opportunityCode}
+        </if>
+        <if test="Dto.customerName != null and Dto.customerName != ''">
+            AND (jc.customer_name LIKE CONCAT('%', #{Dto.customerName}, '%')
+            or jo.company LIKE CONCAT('%', #{Dto.customerName}, '%'))
+        </if>
+        <if test="Dto.contactName != null and Dto.contactName != ''">
+            AND (jp.contact_name LIKE CONCAT('%', #{Dto.contactName}, '%')
+            or jo.people_name LIKE CONCAT('%', #{Dto.contactName}, '%'))
+        </if>
+    </select>
+
+    <select id="countRecentOpportunity" resultType="com.jinbooks.entity.dashboard.BaseGroupVo">
+        SELECT DATE_FORMAT(created_date, '%Y-%m') AS name,
+               COUNT(*)                           AS value
+        FROM jbx_opportunity
+        WHERE created_date >= DATE_FORMAT(CURDATE() - INTERVAL 5 MONTH, '%Y-%m-01')
+          AND deleted = 'n'
+          AND workspace_id = #{workspaceId}
+        GROUP BY DATE_FORMAT(created_date, '%Y-%m')
+        ORDER BY name
+    </select>
+
+    <select id="countCurrentYear" resultType="java.lang.Long">
+        SELECT COUNT(*)
+        FROM jbx_opportunity
+        WHERE YEAR(created_date) = YEAR(CURDATE())
+          AND deleted = 'n'
+          AND workspace_id = #{workspaceId}
+    </select>
+</mapper>

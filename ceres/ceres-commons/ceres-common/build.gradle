@@ -1,0 +1,8 @@
+description = "ceres-common"
+
+dependencies {
+
+    implementation project(":ceres-commons:ceres-crypto")
+	//local jars
+	implementation fileTree(dir: '../ceres-lib/', include: '*/*.jar')
+}

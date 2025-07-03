@@ -1,0 +1,14 @@
+
+description = "ceres-authn-core"
+
+
+dependencies {
+	//local jars
+	implementation fileTree(dir: '../ceres-lib/', include: '*/*.jar')
+	
+	implementation project(":ceres-commons:ceres-common")
+	implementation project(":ceres-commons:ceres-crypto")
+	implementation project(":ceres-core")  
+	implementation project(":ceres-persistence")
+   
+}

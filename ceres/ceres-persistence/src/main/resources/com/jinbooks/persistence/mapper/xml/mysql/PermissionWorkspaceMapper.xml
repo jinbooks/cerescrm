@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jinbooks.persistence.mapper.PermissionWorkspaceMapper">
+
+    <select id="userAccessWorkspace" parameterType="com.jinbooks.entity.permissions.dto.PermissionWorkspacePageDto" resultType="PermissionWorkspace">
+        select distinct
+        	pw.id,
+        	w.workspace_id,
+			w.name
+        from
+        jbx_workspace w ,
+        jbx_permission_workspace pw
+        where  pw.workspace_id = w.workspace_id
+        	<if test="dto.workspaceId != null and dto.workspaceId != ''">
+        		and w.workspace_id = #{dto.workspaceId}
+        	</if>
+        	<if test="dto.workspaceName != null and dto.workspaceName != ''">
+	            and w.name like CONCAT('%', #{dto.workspaceName}, '%')
+	        </if>
+	        and pw.user_id = #{dto.userId}
+	        and w.deleted = 'n'
+	        and pw.deleted = 'n'
+    </select>
+
+
+    <select id="userNotAccessWorkspace" parameterType="com.jinbooks.entity.permissions.dto.PermissionWorkspacePageDto" resultType="PermissionWorkspace">
+        select distinct
+			w.*
+        from jbx_workspace w
+        where w.deleted = 'n'
+        	<if test="dto.workspaceId != null and dto.workspaceId != ''">
+        		and w.workspace_id = #{dto.workspaceId}
+        	</if>
+        	<if test="dto.workspaceName != null and dto.workspaceName != ''">
+	            and w.name like CONCAT('%', #{dto.workspaceName}, '%')
+	        </if>
+	        and w.workspace_id not in(
+		        select pw.workspace_id
+		        from jbx_permission_workspace pw
+		        where pw.user_id  = #{dto.userId}
+		        	and pw.deleted = 'n'
+	        )
+    </select>
+
+
+</mapper>

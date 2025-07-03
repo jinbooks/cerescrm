@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jinbooks.persistence.mapper.ReceivePaymentMapper">
+
+    <!-- 定义 CustomerVo 查询字段 -->
+    <resultMap id="BaseResultMap" type="com.jinbooks.entity.payment.ReceivePayment">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="contract_id" property="contractId" jdbcType="VARCHAR"/>
+        <result column="contract_code" property="contractCode" jdbcType="VARCHAR"/>
+        <result column="contract_name" property="contractName" jdbcType="VARCHAR"/>
+        <result column="customer_id" property="customerId" jdbcType="VARCHAR"/>
+        <result column="customer_name" property="customerName" jdbcType="VARCHAR"/>
+        <result column="currency" property="currency" jdbcType="VARCHAR"/>
+        <result column="tax_rate" property="taxRate"/>
+        <result column="percentage" property="percentage" jdbcType="INTEGER"/>
+
+        <result column="amount" property="amount" jdbcType="DECIMAL"/>
+        <result column="tax_amount" property="taxAmount" jdbcType="DECIMAL"/>
+        <result column="after_tax_amount" property="afterTaxAmount" jdbcType="DECIMAL"/>
+
+        <result column="invoice_date" property="invoiceDate" jdbcType="TIMESTAMP"/>
+        <result column="receive_date" property="receiveDate" jdbcType="TIMESTAMP"/>
+
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="workspace_id" property="workspaceId" jdbcType="VARCHAR"/>
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="created_date" property="createdDate" jdbcType="TIMESTAMP"/>
+        <result column="modified_by" property="modifiedBy" jdbcType="VARCHAR"/>
+        <result column="modified_date" property="modifiedDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!-- 分页查询 -->
+    <select id="pageList" parameterType="com.jinbooks.entity.payment.dto.ReceivePaymentPageDto"
+            resultMap="BaseResultMap">
+        SELECT
+        *
+        FROM jbx_receive_payment jrp
+        WHERE jrp.deleted = 'n'
+        <!-- 根据参数过滤 -->
+        and jrp.workspace_id = #{dto.workspaceId}
+        <if test="dto.contractId != null and dto.contractId != ''">
+            AND jrp.contract_id = #{dto.contractId}
+        </if>
+        <if test="dto.customerName != null and dto.customerName != ''">
+            AND jrp.customer_name LIKE CONCAT('%', #{dto.customerName}, '%')
+        </if>
+        <if test="dto.contractCode != null and dto.contractCode != ''">
+            AND jrp.contract_code = #{dto.contractCode}
+        </if>
+        <if test="dto.contractName != null and dto.contractName != ''">
+            AND jrp.contract_name = #{dto.contractName}
+        </if>
+        <if test="dto.status > 0">
+            AND jrp.status = #{dto.status}
+        </if>
+        order by invoice_date desc,receive_date desc
+    </select>
+
+    <select id="countRecentReceivePayment" resultType="com.jinbooks.entity.dashboard.BaseGroupVo">
+        SELECT DATE_FORMAT(receive_date, '%Y-%m') AS name,
+               IFNULL(SUM(amount), 0)             AS value
+        FROM jbx_receive_payment
+        WHERE receive_date >= DATE_FORMAT(CURDATE() - INTERVAL 5 MONTH, '%Y-%m-01')
+          AND deleted = 'n'
+          AND status = 2
+          AND workspace_id = #{workspaceId}
+        GROUP BY DATE_FORMAT(receive_date, '%Y-%m')
+        ORDER BY name
+    </select>
+
+    <select id="selectAllAccount" resultType="java.math.BigDecimal">
+        SELECT IFNULL(SUM(amount), 0)
+        FROM jbx_receive_payment
+        WHERE deleted = 'n'
+          AND status = 2
+          AND workspace_id = #{workspaceId}
+    </select>
+
+    <select id="selectYearReceivePayment" resultType="java.math.BigDecimal" parameterType="map">
+        SELECT IFNULL(SUM(amount), 0)
+        FROM jbx_receive_payment
+        WHERE workspace_id = #{workspaceId}
+          AND status = 2
+          AND deleted = 'n'
+          AND YEAR(receive_date) = #{year}
+    </select>
+
+    <select id="selectYearAccount" resultType="java.math.BigDecimal">
+        SELECT IFNULL(SUM(amount), 0)
+        FROM jbx_receive_payment
+        WHERE receive_date BETWEEN DATE_FORMAT(CURDATE(), '%Y-01-01')
+            AND DATE_FORMAT(CURDATE(), '%Y-12-31')
+          AND deleted = 'n'
+          AND status = 2
+          AND workspace_id = #{workspaceId}
+    </select>
+
+    <select id="groupYearReceivePayment" resultType="com.jinbooks.entity.dashboard.BaseGroupVo">
+        SELECT DATE_FORMAT(receive_date, '%Y-%m') AS name,
+               IFNULL(SUM(amount), 0)             AS value
+        FROM jbx_receive_payment
+        WHERE receive_date &gt;= CONCAT(#{year}, '-01-01')
+          AND receive_date &lt; CONCAT(#{year} + 1, '-01-01')
+          AND deleted = 'n'
+          AND status = 2
+          AND workspace_id = #{workspaceId}
+        GROUP BY DATE_FORMAT(receive_date, '%Y-%m')
+        ORDER BY name
+    </select>
+
+</mapper>

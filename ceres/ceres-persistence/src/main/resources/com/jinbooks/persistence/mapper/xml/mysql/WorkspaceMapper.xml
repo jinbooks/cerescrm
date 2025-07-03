@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jinbooks.persistence.mapper.WorkspaceMapper">
+    <select id="pageList" parameterType="com.jinbooks.entity.workspace.dto.WorkspacePageDto"
+            resultType="com.jinbooks.entity.workspace.Workspace">
+        select jbw.*
+        from jbx_workspace jbw
+        where jbw.deleted = 'n'
+        <if test="Dto.name != null and Dto.name != ''">
+            and jbw.name like CONCAT('%', #{Dto.name}, '%')
+        </if>
+        order by jbw.created_date desc
+    </select>
+
+    <select id="listWorkspaces" resultType="com.jinbooks.entity.workspace.vo.WorkspaceVo">
+        select w.workspace_id, w.name, w.company_name
+        from jbx_workspace w,jbx_permission_workspace pw
+        where  pw.workspace_id = w.workspace_id
+        	and w.deleted = 'n' 
+        	and pw.deleted = 'n'
+        	and pw.user_id = #{userId}
+    </select>
+</mapper>

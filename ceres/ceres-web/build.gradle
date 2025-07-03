@@ -1,0 +1,56 @@
+buildscript {
+	repositories {
+		maven { url 'https://maven.aliyun.com/nexus/content/groups/public/'}
+	}
+	dependencies {
+		//springboot jar
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+plugins {
+	id 'org.springframework.boot' version "${springBootVersion}"
+	id "io.spring.dependency-management" version "1.0.11.RELEASE"
+}
+
+description = "ceres-web"
+
+//springboot jar
+apply plugin: 'io.spring.dependency-management'
+//add support for Java
+apply plugin: 'java'
+
+bootJar {
+	dependsOn jar
+	archiveBaseName = 'ceres-boot'
+    version = "${project.version}-ga"
+    mainClass = 'com.jinbooks.CeresApplication'
+	manifest {
+	        attributes(
+						"Implementation-Title": project.name,
+	                	"Implementation-Vendor": project.vendor,
+	                	"Created-By": project.author,
+	                	"Implementation-Date": java.time.ZonedDateTime.now(),
+	                	"Implementation-Version": project.version
+	           )
+	    }
+}
+
+dependencies {
+	implementation project(":ceres-commons:ceres-common")
+	implementation project(":ceres-commons:ceres-crypto")
+	implementation project(":ceres-commons:ceres-authn-core")
+	implementation project(":ceres-commons:ceres-authn-provider")
+
+	implementation project(":ceres-core")
+	implementation project(":ceres-persistence")
+
+	implementation project(":ceres-starter:ceres-starter-captcha")
+   	implementation project(":ceres-starter:ceres-starter-ip2location")
+   	implementation project(":ceres-starter:ceres-starter-otp")
+   	implementation project(":ceres-starter:ceres-starter-oss")
+   	implementation project(":ceres-starter:ceres-starter-sms")
+   	implementation project(":ceres-starter:ceres-starter-web")
+   	implementation project(":ceres-starter:ceres-starter-xss")
+
+}

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jinbooks.persistence.mapper.ProductGrantMapper">
+
+    <!-- 分页查询 -->
+    <select id="pageList" parameterType="com.jinbooks.entity.product.dto.ProductGrantPageDto"
+            resultType="ProductGrant">
+        SELECT
+        *
+        FROM jbx_product_grant jpg
+        WHERE jpg.deleted = 'n'
+        <!-- 根据参数过滤 -->
+        and jpg.workspace_id = #{dto.workspaceId}
+        <if test="dto.customerId != null and dto.customerId != ''">
+            AND jpg.customer_id = #{dto.customerId}
+        </if>
+        <if test="dto.customerName != null and dto.customerName != ''">
+            AND jpg.product_name LIKE CONCAT('%', #{dto.customerName}, '%')
+        </if>
+        <if test="dto.productCode != null and dto.productCode != ''">
+            AND jpg.product_code = #{dto.productCode}
+        </if>
+        <if test="dto.productName != null and dto.productName != ''">
+            AND jpg.product_name LIKE CONCAT('%', #{dto.productName}, '%')
+        </if>
+        <if test="dto.license != null and dto.license != ''">
+            AND jpg.license = #{dto.license}
+        </if>
+        <if test="dto.status > 0">
+            AND jpg.status = #{dto.status}
+        </if>
+    </select>
+
+    <select id="countRecentProductGrant" resultType="com.jinbooks.entity.dashboard.BaseGroupVo">
+        SELECT DATE_FORMAT(grant_date, '%Y-%m') AS name,
+               COUNT(*)                         AS value
+        FROM jbx_product_grant
+        WHERE deleted = 'n'
+          AND workspace_id = #{workspaceId}
+          AND grant_date >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 5 MONTH), '%Y-%m-01')
+        GROUP BY DATE_FORMAT(grant_date, '%Y-%m')
+        ORDER BY name
+    </select>
+
+    <select id="countCurrentYear" resultType="java.lang.Long">
+        SELECT COUNT(*)
+        FROM jbx_product_grant
+        WHERE grant_date BETWEEN DATE_FORMAT(CURDATE(), '%Y-01-01')
+            AND DATE_FORMAT(CURDATE(), '%Y-12-31')
+          AND deleted = 'n'
+          AND workspace_id = #{workspaceId}
+    </select>
+</mapper>

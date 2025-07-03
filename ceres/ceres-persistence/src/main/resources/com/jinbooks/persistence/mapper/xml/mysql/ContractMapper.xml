@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jinbooks.persistence.mapper.ContractMapper">
+
+    <!-- 定义 ContractVo 查询字段 -->
+    <resultMap id="BaseResultMap" type="com.jinbooks.entity.contract.vo.ContractVo">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <id column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="customer_id" property="customerId" jdbcType="VARCHAR"/>
+        <result column="customer_name" property="customerName" jdbcType="VARCHAR"/>
+        <result column="contract_name" property="contractName" jdbcType="VARCHAR"/>
+        <result column="amount" property="amount" jdbcType="DECIMAL"/>
+        <result column="currency" property="currency" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="tax_rate" property="taxRate"/>
+        <result column="content" property="content"/>
+        <result column="signing_date" property="signingDate" jdbcType="DATE"/>
+        <result column="effective_date" property="effectiveDate" jdbcType="DATE"/>
+        <result column="expiration_date" property="expirationDate" jdbcType="DATE"/>
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="created_date" property="createdDate" jdbcType="TIMESTAMP"/>
+        <result column="modified_by" property="modifiedBy" jdbcType="VARCHAR"/>
+        <result column="modified_date" property="modifiedDate" jdbcType="TIMESTAMP"/>
+
+        <result column="pay_amount" property="payAmount" jdbcType="DECIMAL"/>
+        <result column="invoice_amount" property="invoiceAmount" jdbcType="DECIMAL"/>
+        <result column="receive_amount" property="receiveAmount" jdbcType="DECIMAL"/>
+        <result column="workspace_id" property="workspaceId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 分页查询合同 -->
+    <select id="contractPageList" parameterType="com.jinbooks.entity.contract.dto.ContractPageDto"
+            resultMap="BaseResultMap">
+        SELECT
+        c.id,
+        c.code,
+        c.customer_id,
+        cust.customer_name,
+        c.contract_name,
+        c.amount,
+        c.currency,
+        c.status,
+        c.signing_date,
+        c.effective_date,
+        c.expiration_date,
+        c.tax_rate,
+        c.created_by,
+        c.created_date,
+        c.modified_by,
+        c.modified_date,
+        c.workspace_id,
+        jrp.pay_amount,
+        jrp.invoice_amount,
+        jrp.receive_amount
+        FROM jbx_contract c
+        LEFT JOIN jbx_customer cust ON c.customer_id = cust.id
+        left join (
+        SELECT
+        contract_id,
+        sum(amount) pay_amount,
+        sum(CASE WHEN status=1 THEN amount ELSE 0 END) invoice_amount ,
+        sum(CASE WHEN status=2 THEN amount ELSE 0 END) receive_amount
+        FROM jbx_receive_payment
+        where deleted ='n'
+        and workspace_id = #{dto.workspaceId}
+        group by contract_id
+        ) jrp on c.id = jrp.contract_id
+        WHERE c.deleted = 'n'
+        <!-- 根据参数过滤 -->
+        and c.workspace_id = #{dto.workspaceId}
+        <if test="dto.customerId != null and dto.customerId != ''">
+            AND c.customer_id = #{dto.customerId}
+        </if>
+        <if test="dto.contractName != null and dto.contractName != ''">
+            AND c.contract_name LIKE CONCAT('%', #{dto.contractName}, '%')
+        </if>
+        <if test="dto.startSigningDate != null and dto.startSigningDate != ''">
+            AND c.signing_date &gt;= #{dto.startSigningDate}
+        </if>
+        <if test="dto.endSigningDate != null and dto.endSigningDate != ''">
+            AND c.signing_date &lt;= #{dto.endSigningDate}
+        </if>
+    </select>
+
+    <!-- 根据ID查询合同详情 -->
+    <select id="getContractById" resultMap="BaseResultMap">
+        SELECT c.id,
+               c.code,
+               c.customer_id,
+               cust.customer_name,
+               c.contract_name,
+               c.amount,
+               c.currency,
+               c.status,
+               c.signing_date,
+               c.effective_date,
+               c.expiration_date,
+               c.tax_rate,
+               c.content,
+               c.created_by,
+               c.created_date,
+               c.modified_by,
+               c.modified_date,
+               c.workspace_id,
+               jrp.pay_amount,
+               jrp.invoice_amount,
+               jrp.receive_amount
+        FROM jbx_contract c
+                 LEFT JOIN jbx_customer cust ON c.customer_id = cust.id
+                 left join (SELECT contract_id,
+                                   sum(amount)                                      pay_amount,
+                                   sum(CASE WHEN status = 1 THEN amount ELSE 0 END) invoice_amount,
+                                   sum(CASE WHEN status = 2 THEN amount ELSE 0 END) receive_amount
+                            FROM jbx_receive_payment
+                            where deleted = 'n'
+                              and workspace_id = #{workspaceId}
+                            group by contract_id) jrp on c.id = jrp.contract_id
+        WHERE c.id = #{id}
+          AND c.deleted = 'n'
+          and c.workspace_id = #{workspaceId}
+    </select>
+
+    <select id="countRecentContract" resultType="com.jinbooks.entity.dashboard.BaseGroupVo">
+        SELECT DATE_FORMAT(created_date, '%Y-%m') AS name,
+               COUNT(*) AS value
+        FROM jbx_contract
+        WHERE
+            created_date >= DATE_FORMAT(CURDATE() - INTERVAL 5 MONTH
+            , '%Y-%m-01')
+          AND deleted = 'n'
+          AND workspace_id = #{workspaceId}
+        GROUP BY DATE_FORMAT(created_date, '%Y-%m')
+        ORDER BY name
+    </select>
+
+    <select id="groupYearContractAmount" resultType="com.jinbooks.entity.dashboard.BaseGroupVo">
+        SELECT DATE_FORMAT(signing_date, '%Y-%m') AS name,
+               IFNULL(SUM(amount), 0) AS value
+        FROM jbx_contract
+        WHERE deleted = 'n'
+          AND workspace_id = #{workspaceId}
+          AND signing_date &gt;= CONCAT(#{year} , '-01-01')
+          AND signing_date &lt; CONCAT(#{year} + 1 , '-01-01')
+          AND status IN ('审批通过' , '履行中' , '已完成')
+        GROUP BY DATE_FORMAT(signing_date, '%Y-%m')
+        ORDER BY name ASC
+    </select>
+
+
+    <select id="selectYearContractAmount" resultType="java.math.BigDecimal" parameterType="map">
+        SELECT IFNULL(SUM(amount), 0)
+        FROM jbx_contract
+        WHERE workspace_id = #{workspaceId}
+            AND status IN ('审批通过', '履行中', '已完成')
+            AND signing_date &gt;= CONCAT(#{year}, '-01-01')
+            AND signing_date &lt; CONCAT(#{year} + 1, '-01-01')
+          AND deleted = 'n'
+    </select>
+
+    <select id="countCurrentYear" resultType="java.lang.Long">
+        SELECT COUNT(*)
+        FROM jbx_contract
+        WHERE signing_date BETWEEN DATE_FORMAT(CURDATE(), '%Y-01-01')
+            AND DATE_FORMAT(CURDATE(), '%Y-12-31')
+          AND deleted = 'n'
+          AND workspace_id = #{workspaceId}
+          AND status IN ('审批通过', '履行中', '已完成')
+    </select>
+
+    <select id="groupContractAmountTotal"
+            resultType="com.jinbooks.entity.dashboard.ContractAmountTotal">
+        SELECT SUM(c.amount)                                               AS contract_total_amount,
+               IFNULL(SUM(r.received_amount), 0)                           AS received_total_amount,
+               ROUND(SUM(c.amount) - IFNULL(SUM(r.received_amount), 0), 2) AS unreceived_total_amount
+        FROM (SELECT id, amount
+              FROM jbx_contract
+              WHERE deleted = 'n'
+                AND status = '履行中'
+                AND workspace_id = #{workspaceId}) c
+                 LEFT JOIN (SELECT contract_id, SUM(amount) AS received_amount
+                            FROM jbx_receive_payment
+                            WHERE deleted = 'n'
+                              AND status = 2
+                              AND workspace_id = #{workspaceId}
+                            GROUP BY contract_id) r ON c.id = r.contract_id
+    </select>
+
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jinbooks.persistence.mapper.ProductMapper">
+
+    <!-- 分页查询 -->
+    <select id="pageList" parameterType="com.jinbooks.entity.product.dto.ProductPageDto"
+            resultType="Product">
+        SELECT
+        	*
+        FROM jbx_product jp
+        WHERE jp.deleted = 'n'
+        <!-- 根据参数过滤 -->
+        	and jp.workspace_id = #{dto.workspaceId}
+        <if test="dto.productCode != null and dto.productCode != ''">
+            AND jp.product_code = #{dto.productCode}
+        </if>
+        <if test="dto.productName != null and dto.productName != ''">
+            AND jp.product_name LIKE CONCAT('%', #{dto.productName}, '%')
+        </if>
+        <if test="dto.categoryId != null and dto.categoryId != ''">
+            AND jp.category_id = #{dto.categoryId}
+        </if>
+        <if test="dto.status > 0">
+            AND jp.status = #{dto.status}
+        </if>
+    </select>
+
+</mapper>

@@ -1,0 +1,22 @@
+
+description = "ceres-authn-provider"
+
+
+dependencies {
+	//local jars
+	implementation fileTree(dir: '../ceres-lib/', include: '*/*.jar')
+
+	implementation project(":ceres-commons:ceres-common")
+	implementation project(":ceres-commons:ceres-crypto")
+	implementation project(":ceres-commons:ceres-authn-core")
+	
+	implementation project(":ceres-core")
+	implementation project(":ceres-persistence")
+
+
+	implementation project(":ceres-starter:ceres-starter-ip2location")
+   	implementation project(":ceres-starter:ceres-starter-otp")
+   	implementation project(":ceres-starter:ceres-starter-sms")
+
+
+}

@@ -1,0 +1,12 @@
+
+description = "ceres-starter-captcha"
+
+
+dependencies {
+    implementation project(":ceres-commons:ceres-common")
+	implementation project(":ceres-commons:ceres-crypto")
+	implementation project(":ceres-commons:ceres-authn-core")
+    implementation project(":ceres-core")
+	//local jars
+	implementation fileTree(dir: '../ceres-lib/', include: '*/*.jar')
+}

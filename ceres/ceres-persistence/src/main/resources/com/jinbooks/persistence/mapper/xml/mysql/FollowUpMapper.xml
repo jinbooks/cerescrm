@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jinbooks.persistence.mapper.FollowUpMapper">
+    <select id="pageList" parameterType="com.jinbooks.entity.followup.dto.FollowUpPageDto"
+            resultType="com.jinbooks.entity.followup.FollowUp">
+        select jfu.*, ju.username as followUserName,
+
+        CASE
+        WHEN jfu.category = 1 THEN jl.lead_code
+        WHEN jfu.category = 2 THEN jc.customer_name
+        WHEN jfu.category = 3 THEN jo.name
+        WHEN jfu.category = 4 THEN jct.contract_name
+        ELSE NULL
+        END AS relationName
+
+        from jbx_follow_up jfu
+        left join jbx_userinfo ju on jfu.follow_user_id = ju.id
+
+        LEFT JOIN jbx_lead jl ON jfu.relation_id = jl.id AND jfu.category = 1
+        LEFT JOIN jbx_customer jc ON jfu.relation_id = jc.id AND jfu.category = 2
+        LEFT JOIN jbx_opportunity jo ON jfu.relation_id = jo.id AND jfu.category = 3
+        LEFT JOIN jbx_contract jct ON jfu.relation_id = jct.id AND jfu.category = 4
+
+        and ju.deleted = 'n'
+        and ju.workspace_id = #{Dto.workspaceId}
+        where jfu.deleted = 'n'
+        and jfu.workspace_id = #{Dto.workspaceId}
+        <if test="Dto.category != null">
+            and jfu.category = #{Dto.category}
+        </if>
+        <if test="Dto.result != null">
+            and jfu.result = #{Dto.result}
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jinbooks.persistence.mapper.LeadMapper">
+    <select id="getLeadStatisticsBySQL" resultType="com.jinbooks.entity.lead.vo.LeadStatisticsVo"
+            parameterType="com.jinbooks.entity.lead.dto.LeadStatisticsDto">
+        SELECT COUNT(*)                                                     AS lead_nums, -- 总条数
+               SUM(CASE WHEN status = #{Dto.intention} THEN 1 ELSE 0 END)   as intention_count,
+               SUM(CASE WHEN follow_up_times = 0 THEN 1 ELSE 0 END)         as pending_count,
+               SUM(CASE WHEN status = #{Dto.transferred} THEN 1 ELSE 0 END) as converted_count
+        FROM jbx_lead
+        WHERE workspace_id = #{Dto.workspaceId}
+          and deleted = 'n'
+    </select>
+
+    <select id="pageList" parameterType="com.jinbooks.entity.lead.dto.LeadPageDto"
+            resultType="com.jinbooks.entity.lead.Lead">
+        select jl.*, ju.username as ownerName
+        from jbx_lead jl
+        left join jbx_userinfo ju on jl.owner_id = ju.id
+        and ju.deleted = 'n'
+        and ju.workspace_id = #{Dto.workspaceId}
+        where jl.deleted = 'n'
+        and jl.workspace_id = #{Dto.workspaceId}
+        <if test="Dto.status != null">
+            and jl.status = #{Dto.status}
+        </if>
+        <if test="Dto.priority != null">
+            and jl.priority = #{Dto.priority}
+        </if>
+        <if test="Dto.name != null and Dto.name != ''">
+            and jl.name = #{Dto.name}
+        </if>
+        <if test="Dto.phone != null and Dto.phone != ''">
+            and jl.phone = #{Dto.phone}
+        </if>
+        <if test="Dto.company != null and Dto.company != ''">
+            and jl.company LIKE CONCAT('%', #{Dto.company}, '%')
+        </if>
+    </select>
+
+    <select id="countRecentLeads" resultType="com.jinbooks.entity.dashboard.BaseGroupVo">
+        SELECT DATE_FORMAT(created_date, '%Y-%m') AS name,
+               COUNT(*)                           AS value
+        FROM jbx_lead
+        WHERE created_date >= DATE_FORMAT(CURDATE() - INTERVAL 5 MONTH, '%Y-%m-01')
+          AND deleted = 'n'
+          AND workspace_id = #{workspaceId}
+        GROUP BY DATE_FORMAT(created_date, '%Y-%m')
+        ORDER BY name
+    </select>
+
+    <select id="countCurrentYear" resultType="java.lang.Long">
+        SELECT COUNT(*)
+        FROM jbx_lead
+        WHERE YEAR(created_date) = YEAR(CURDATE())
+          AND deleted = 'n'
+          AND workspace_id = #{workspaceId}
+    </select>
+</mapper>

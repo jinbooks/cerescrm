@@ -1,0 +1,26 @@
+/*
+ * project name and include subprojects
+ */
+
+rootProject.name = 'ceres'
+
+
+//Common
+include ('ceres-commons:ceres-common')
+include ('ceres-commons:ceres-crypto')
+include ('ceres-commons:ceres-authn-core')
+include ('ceres-commons:ceres-authn-provider')
+
+include ('ceres-core')
+include ('ceres-persistence')
+//starter
+include ('ceres-starter:ceres-starter-captcha')
+include ('ceres-starter:ceres-starter-ip2location')
+include ('ceres-starter:ceres-starter-oss')
+include ('ceres-starter:ceres-starter-otp')
+include ('ceres-starter:ceres-starter-sms')
+include ('ceres-starter:ceres-starter-web')
+include ('ceres-starter:ceres-starter-xss')
+
+//webs
+include ('ceres-web')

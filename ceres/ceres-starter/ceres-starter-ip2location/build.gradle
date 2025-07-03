@@ -1,0 +1,12 @@
+
+description = "ceres-starter-ip2location"
+
+
+dependencies {
+	//local jars
+	implementation fileTree(dir: '../ceres-lib/', include: '*/*.jar')
+
+	implementation project(":ceres-commons:ceres-common")
+	implementation project(":ceres-core")
+
+}
