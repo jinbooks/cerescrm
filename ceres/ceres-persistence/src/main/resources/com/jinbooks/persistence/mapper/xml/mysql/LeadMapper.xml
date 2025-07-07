@@ -36,6 +36,7 @@
         <if test="Dto.company != null and Dto.company != ''">
             and jl.company LIKE CONCAT('%', #{Dto.company}, '%')
         </if>
+        order by priority desc,last_contact_time,created_date
     </select>
 
     <select id="countRecentLeads" resultType="com.jinbooks.entity.dashboard.BaseGroupVo">

@@ -81,6 +81,7 @@
         <if test="dto.endSigningDate != null and dto.endSigningDate != ''">
             AND c.signing_date &lt;= #{dto.endSigningDate}
         </if>
+         order by signing_date desc
     </select>
 
     <!-- 根据ID查询合同详情 -->
