@@ -16,7 +16,10 @@
               <More/>
             </el-icon>
           </div>
-          <div class="card-value">{{card.title === '回款金额' ? (card.value / 10000).toFixed(4) + '万' : card.value }}</div>
+          <div class="card-value">{{
+              card.title === '回款金额' ? (card.value / 10000).toFixed(4) + '万' : card.value
+            }}
+          </div>
           <div
               class="trend-info"
               :class="{ 'up': card.trend > 0, 'down': card.trend < 0 }"
@@ -257,7 +260,7 @@ const updateData = () => {
       series: [{
         name: '销售漏斗',
         type: 'funnel',
-        left: '10%',
+        left: '5%',
         top: 0,
         bottom: 0,
         width: '80%',
@@ -269,7 +272,10 @@ const updateData = () => {
         gap: 2,
         label: {
           show: true,
-          position: 'right'
+          position: 'right',
+          formatter: function (params) {
+            return params.name + ': ' + params.value;
+          }
         },
         labelLine: {
           length: 10,
@@ -294,24 +300,48 @@ const updateData = () => {
     pieInstance.setOption({
       animation: false,
       tooltip: {trigger: 'item'},
-      legend: {
-        orient: 'vertical',
-        right: '5%',
-        top: 'center'
-      },
       series: [{
         name: '客户来源',
         type: 'pie',
         radius: ['40%', '70%'],
-        center: ['40%', '50%'],
+        center: ['50%', '50%'],
         avoidLabelOverlap: false,
         itemStyle: {
           borderRadius: 10,
           borderColor: '#fff',
           borderWidth: 2
         },
-        label: {show: false},
-        labelLine: {show: false},
+        label: {
+          show: true,
+          position: 'outside',
+          formatter: function (params) {
+            const percent = ((params.value / params.percent) * 100).toFixed(1); // 计算原始百分比
+            return `{name|${params.name}}：{value|${params.value}个}\n{percent|(${percent}%)}`;
+          },
+          rich: {
+            name: {
+              fontSize: 12,
+              fontWeight: 'bold'
+            },
+            value: {
+              fontSize: 12,
+              color: '#666'
+            },
+            percent: {
+              fontSize: 12,
+              color: '#999'
+            }
+          }
+        },
+        labelLine: {
+          show: true,
+          length: 10,
+          length2: 15,
+          lineStyle: {
+            width: 1,
+            type: 'solid'
+          }
+        },
         data: res.data.customerFromData
       }]
     });
@@ -400,28 +430,13 @@ const updateData = () => {
       },
       legend: {
         bottom: '0%',
-        formatter: name => {
-          let value = 0
-          switch (name) {
-            case '总额':
-              value = pieContractData.contractTotalAmount
-              break
-            case '已回款':
-              value = pieContractData.receivedTotalAmount
-              break
-            case '未回款':
-              value = pieContractData.unreceivedTotalAmount
-              break
-          }
-          return `${name}: ￥${formatWan(value)} 万`
-        },
         data: ['总额', '已回款', '未回款']
       },
       grid: {
         top: '5%',
         left: '3%',
         right: '3%',
-        bottom: 60,
+        bottom: "10%",
         containLabel: true
       },
       xAxis: {
@@ -439,18 +454,33 @@ const updateData = () => {
           name: '总额',
           type: 'bar',
           data: [pieContractData.contractTotalAmount],
+          label: {
+            show: true,
+            position: 'top',
+            formatter: value => `￥${formatWan(pieContractData.contractTotalAmount)} 万`
+          },
           itemStyle: {color: '#5470c6'}
         },
         {
           name: '已回款',
           type: 'bar',
           data: [pieContractData.receivedTotalAmount],
+          label: {
+            show: true,
+            position: 'top',
+            formatter: value => `￥${formatWan(pieContractData.receivedTotalAmount)} 万`
+          },
           itemStyle: {color: '#91cc75'}
         },
         {
           name: '未回款',
           type: 'bar',
           data: [pieContractData.unreceivedTotalAmount],
+          label: {
+            show: true,
+            position: 'top',
+            formatter: value => `￥${formatWan(pieContractData.unreceivedTotalAmount)} 万`
+          },
           itemStyle: {color: '#fac858'}
         }
       ]
