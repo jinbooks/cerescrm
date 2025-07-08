@@ -190,13 +190,35 @@ const handleTrendMetric = (value) => {
       {
         name: legend[0],
         type: 'bar',
-        data: secondData.data.map(d => d.value)
+        data: secondData.data.map(d => d.value),
+        label: {
+          show: true,
+          position: 'inside',   // 标签显示在柱子顶部
+          valueAnimation: true,
+          formatter: params => {
+            if(params.value === 0){
+              return '';
+            }
+            return `￥${(params.value / 10000).toFixed(4)} 万`
+          }
+        }
       },
       {
         name: legend[1],
         type: 'line',
         yAxisIndex: 1,
-        data: customer.data.map(d => d.value)
+        data: customer.data.map(d => d.value),
+        label: {
+          show: true,
+          position: 'right',
+          offset: [0, -10], // 向上偏移 10px
+          formatter: params => {
+            if(params.value === 0){
+              return '';
+            }
+            return `${params.value}个`
+          }
+        }
       }
     ]
   }, true);
