@@ -90,7 +90,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="状态">
+            <el-form-item :label="t('org.status')">
               <el-select v-model="form.status" placeholder="请选择">
                 <el-option label="草稿" value="草稿"/>
                 <el-option label="待审批" value="待审批"/>

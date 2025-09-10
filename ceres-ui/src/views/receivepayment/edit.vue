@@ -119,7 +119,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="状态" prop="status">
+            <el-form-item :label="t('org.status')" prop="status">
               <el-select v-model="form.status" placeholder="请选择">
                 <el-option label="开票" value="1"/>
                 <el-option label="收款" value="2"/>

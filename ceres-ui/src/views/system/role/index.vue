@@ -98,7 +98,7 @@
          <el-table-column label="角色名称" prop="roleName" :show-overflow-tooltip="true" width="150" />
          <el-table-column label="权限字符" prop="roleKey" :show-overflow-tooltip="true" width="150" />
          <el-table-column label="显示顺序" prop="roleSort" width="100" />
-         <el-table-column label="状态" align="center" width="100">
+         <el-form-item :label="t('org.status')" prop="status">
             <template #default="scope">
                <el-switch
                   v-model="scope.row.status"

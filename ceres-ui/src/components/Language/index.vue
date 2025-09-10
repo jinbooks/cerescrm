@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!--
     <el-dropdown trigger="click" @command="handleSetLanguage">
       <div class="size-icon--style">
         <svg-icon class-name="language" icon-class="language2"/>
@@ -14,19 +13,16 @@
         </el-dropdown-menu>
       </template>
     </el-dropdown>
-    -->
   </div>
 </template>
 
-<script setup lang="ts">
-import {ref, getCurrentInstance, reactive, toRefs, watch, defineComponent, watchEffect} from "vue";
-import modal from "@/plugins/modal";
+<script setup>
 import {useI18n} from 'vue-i18n'
 import {getLangList, setLang} from '@/languages'
 
 const {locale} = useI18n()
-const languages: any = getLangList()
-const handleSetLanguage: any = (lang: any) => {
+const languages = getLangList()
+const handleSetLanguage = (lang) => {
   locale.value = lang
   setLang(lang)
   window.location.reload()

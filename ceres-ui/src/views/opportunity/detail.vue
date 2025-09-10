@@ -1,79 +1,79 @@
 <template>
   <div class="app-container" v-loading="submitLoading">
     <el-card class="common-card detail-header">
-      <el-divider><span>商机基本信息</span></el-divider>
+      <el-divider><span>{{t('oppBasicInfo')}}</span></el-divider>
       <el-descriptions :column="4" border label-class-name="label-style" style="margin-top: 15px">
-        <el-descriptions-item label="商机编号">{{ opportunity.opportunityCode }}</el-descriptions-item>
-        <el-descriptions-item label="商机名称">{{ opportunity.name }}</el-descriptions-item>
-        <el-descriptions-item label="商机描述">
+        <el-descriptions-item :label="t('oppName')">{{ opportunity.opportunityCode }}</el-descriptions-item>
+        <el-descriptions-item :label="t('oppNo')">{{ opportunity.name }}</el-descriptions-item>
+        <el-descriptions-item :label="t('oppDes')">
           <el-tooltip class="item" effect="dark" :content="opportunity.description" placement="top">
             <span class="ellipsis">{{ opportunity.description}}</span>
           </el-tooltip>
         </el-descriptions-item>
-        <el-descriptions-item label="客户">{{ opportunity.customerName || "无"}}</el-descriptions-item>
+        <el-descriptions-item :label="t('subjectCustomer')">{{ opportunity.customerName || t('none')}}</el-descriptions-item>
 
-        <el-descriptions-item label="联系人">{{ opportunity.contactName || "无"}}</el-descriptions-item>
-        <el-descriptions-item label="商机类型">{{ getTypeLabel(opportunity.type) }}</el-descriptions-item>
-        <el-descriptions-item label="来源类型">{{ getSourceTypeLabel(opportunity.sourceType) }}</el-descriptions-item>
-        <el-descriptions-item label="来源线索" v-if=" opportunity.sourceType === 1">{{ opportunity.leadName || "无"}}</el-descriptions-item>
-        <el-descriptions-item label="姓名">{{ opportunity.peopleName || "无"}}</el-descriptions-item>
-        <el-descriptions-item label="公司">{{ opportunity.company || "无"}}</el-descriptions-item>
+        <el-descriptions-item :label="t('contact')">{{ opportunity.contactName || t('none')}}</el-descriptions-item>
+        <el-descriptions-item :label="t('oppType')">{{ getTypeLabel(opportunity.type) }}</el-descriptions-item>
+        <el-descriptions-item :label="t('SourceType')">{{ getSourceTypeLabel(opportunity.sourceType) }}</el-descriptions-item>
+        <el-descriptions-item :label="t('sourceLead')" v-if=" opportunity.sourceType === 1">{{ opportunity.leadName || t('none')}}</el-descriptions-item>
+        <el-descriptions-item :label="t('jbx.users.displayName')">{{ opportunity.peopleName || t('none')}}</el-descriptions-item>
+        <el-descriptions-item :label="t('jbx.organizations.typeCompany')">{{ opportunity.company || t('none')}}</el-descriptions-item>
 
-        <el-descriptions-item label="来源详情">
+        <el-descriptions-item :label="t('SourceDetails')">
           <el-tooltip class="item" effect="dark" :content="opportunity.sourceDetail" placement="top">
             <span class="ellipsis">{{ opportunity.sourceDetail}}</span>
           </el-tooltip>
         </el-descriptions-item>
-        <el-descriptions-item label="行业">{{ getIndustryLabel(opportunity.industry) }}</el-descriptions-item>
-        <el-descriptions-item label="所在地">{{ opportunity.province }}{{opportunity.city}}</el-descriptions-item>
-        <el-descriptions-item label="商机金额">{{ formatAmount(opportunity.amount) }}</el-descriptions-item>
+        <el-descriptions-item :label="t('industry')">{{ getIndustryLabel(opportunity.industry) }}</el-descriptions-item>
+        <el-descriptions-item :label="t('Region')">{{ opportunity.province }}{{opportunity.city}}</el-descriptions-item>
+        <el-descriptions-item :label="t('oppAmount')">{{ formatAmount(opportunity.amount) }}</el-descriptions-item>
 
-        <el-descriptions-item label="预期金额">{{ formatAmount(opportunity.expectedAmount) }}</el-descriptions-item>
-        <el-descriptions-item label="加权金额">{{ formatAmount(opportunity.weightedAmount) }}</el-descriptions-item>
-        <el-descriptions-item label="预估成本">{{ formatAmount(opportunity.cost) }}</el-descriptions-item>
-        <el-descriptions-item label="预估利润">{{ formatAmount(opportunity.profit) }}</el-descriptions-item>
+        <el-descriptions-item :label="t('expAmount')">{{ formatAmount(opportunity.expectedAmount) }}</el-descriptions-item>
+        <el-descriptions-item :label="t('weightAmount')">{{ formatAmount(opportunity.weightedAmount) }}</el-descriptions-item>
+        <el-descriptions-item :label="t('expCost')">{{ formatAmount(opportunity.cost) }}</el-descriptions-item>
+        <el-descriptions-item :label="t('estimateProfit')">{{ formatAmount(opportunity.profit) }}</el-descriptions-item>
 
-        <el-descriptions-item label="当前阶段">{{ opportunity.stageName }}</el-descriptions-item>
-        <el-descriptions-item label="成功概率">{{ opportunity.probability || 0}}%</el-descriptions-item>
-        <el-descriptions-item label="状态">{{ getStatusLabel(opportunity.status) }}</el-descriptions-item>
-        <el-descriptions-item label="赢单原因" v-if="opportunity.status === 2">
+        <el-descriptions-item :label="t('currentStage')">{{ opportunity.stageName }}</el-descriptions-item>
+        <el-descriptions-item :label="t('successProb')">{{ opportunity.probability || 0}}%</el-descriptions-item>
+        <el-descriptions-item :label="t('org.status')">{{ getStatusLabel(opportunity.status) }}</el-descriptions-item>
+        <el-descriptions-item :label="t('winReason')" v-if="opportunity.status === 2">
           <el-tooltip class="item" effect="dark" :content="opportunity.winReason" placement="top">
             <span class="ellipsis">{{ opportunity.winReason}}</span>
           </el-tooltip>
         </el-descriptions-item>
-        <el-descriptions-item label="输单原因" v-if="opportunity.status === 3">
+        <el-descriptions-item :label="t('loseReason')" v-if="opportunity.status === 3">
           <el-tooltip class="item" effect="dark" :content="opportunity.loseReason" placement="top">
             <span class="ellipsis">{{ opportunity.loseReason}}</span>
           </el-tooltip>
         </el-descriptions-item>
 
-        <el-descriptions-item label="预计成交日期">{{ opportunity.expectedCloseDate }}</el-descriptions-item>
-        <el-descriptions-item label="实际成交日期">{{ opportunity.actualCloseDate }}</el-descriptions-item>
-        <el-descriptions-item label="首次接触日期">{{ opportunity.firstContactDate }}</el-descriptions-item>
-        <el-descriptions-item label="最后活动日期">{{ opportunity.lastActivityDate }}</el-descriptions-item>
+        <el-descriptions-item :label="t('expClosingDate')">{{ opportunity.expectedCloseDate }}</el-descriptions-item>
+        <el-descriptions-item :label="t('ActualTransactionDate')">{{ opportunity.actualCloseDate }}</el-descriptions-item>
+        <el-descriptions-item :label="t('firstContactDate')">{{ opportunity.firstContactDate }}</el-descriptions-item>
+        <el-descriptions-item :label="t('LastEventDate')">{{ opportunity.lastActivityDate }}</el-descriptions-item>
 
-        <el-descriptions-item label="负责人">{{ opportunity.ownerName || "无"}}</el-descriptions-item>
-        <el-descriptions-item label="分配时间">{{ opportunity.assignedAt }}</el-descriptions-item>
-        <el-descriptions-item label="优先级">{{ getPriorityLabel(opportunity.priority) }}</el-descriptions-item>
-        <el-descriptions-item label="质量评分">{{ opportunity.qualityScore }}</el-descriptions-item>
+        <el-descriptions-item :label="t('PersonCharge')">{{ opportunity.ownerName || "无"}}</el-descriptions-item>
+        <el-descriptions-item :label="t('AllocateTime')">{{ opportunity.assignedAt }}</el-descriptions-item>
+        <el-descriptions-item :label="t('priority')">{{ getPriorityLabel(opportunity.priority) }}</el-descriptions-item>
+        <el-descriptions-item :label="t('QualityRating')">{{ opportunity.qualityScore }}</el-descriptions-item>
       </el-descriptions>
 
     </el-card>
     <el-card class="common-card detail-header">
-      <div class="section-title">竞争对手</div>
+      <div class="section-title">{{t('competitors')}}</div>
       <div>
         <editor v-model="opportunity.competitors" :height="200" read-only />
       </div>
     </el-card>
     <el-card class="common-card detail-header">
-      <div class="section-title-follow">跟进记录</div>
+      <div class="section-title-follow">{{t('Follow-upRecords')}}</div>
       <div v-for="(item, index) in followUps" :key="index" class="follow-record">
         <div class="left-border">
           <div class="follow-title">{{ getFollowTypeLabel(item.followType) }}</div>
           <div class="follow-desc">{{ item.content }}</div>
           <el-tag type="success" size="small">{{ getResultsLabel(item.result) }}</el-tag>
         </div>
-        <div class="follow-time">跟进时间：{{ item.followAt }}</div>
+        <div class="follow-time">{{t('Follow-upTime:')}}{{ item.followAt }}</div>
       </div>
     </el-card>
   </div>
@@ -87,7 +87,9 @@ import {formatAmount} from "../../utils";
 import Editor from "@/components/Editor/index.vue";
 import {getOne} from "@/api/opportunity/opportunity";
 import {createValueLabelMap, getLabelFromMap} from "@/utils/Dict-utils";
+import {useI18n} from "vue-i18n";
 const {proxy} = getCurrentInstance()!;
+const {t} = useI18n();
 const {opportunity_type, opportunity_source_type, opportunity_status, priority, books_industry, follow_types, results}
     = proxy?.useDict("opportunity_type", "opportunity_source_type", "opportunity_status", "priority", "books_industry",
 "follow_types", "results");

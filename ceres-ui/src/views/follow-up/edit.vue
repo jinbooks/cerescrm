@@ -171,7 +171,7 @@ watch(
           if (props.followUserId) {
             form.value.followUserId = props.followUserId;
           }
-          form.value.category = props.followUpType;
+          form.value.category = props.followUpType as number ;
         });
       } else {
         reset();

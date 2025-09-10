@@ -1,21 +1,29 @@
 import {createI18n} from "vue-i18n";
 
 // 从语言包文件中导入语言包对象
-import zhCN from './locales/zh-CN.js'
+import zhCN from './locales/zh-CN'
 import elZhCN from 'element-plus/es/locale/lang/zh-cn'
 import elEnUS from 'element-plus/es/locale/lang/en'
+import enUS from './locales/en-US.js'
 
 const langs: any = [
     {
         label: '简体中文',
         value: 'zh-CN'
-    }
+    },
+    {
+        label: 'English',
+        value: 'en-US'
+    },
 ]
 
 const messages: any = {
     "zh-CN": {
         ...zhCN, ...elZhCN
-    }
+    },
+    "en-US": {
+        ...enUS, ...elEnUS
+    },
 }
 
 const LangName: any = 'Admin-Lang'

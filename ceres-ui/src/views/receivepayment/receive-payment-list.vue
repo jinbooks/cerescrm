@@ -9,7 +9,7 @@
         <el-table v-loading="loading" :data="dataList" border  show-summary :summary-method="getSummaries" >
           <el-table-column prop="invoiceDate" label="开票日期" align="center"></el-table-column>
           <el-table-column prop="receiveDate" label="收款日期" align="center"></el-table-column>
-          <el-table-column prop="status" label="状态" align="center">
+          <el-table-column prop="status" :label="t('org.status')" align="center">
             <template #default="scope">
               <el-tag type="primary" v-show="scope.row.status=='1'">开票</el-tag>
               <el-tag type="success" v-show="scope.row.status=='2'">收款</el-tag>

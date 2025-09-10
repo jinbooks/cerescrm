@@ -12,7 +12,7 @@
     </el-card>
     <el-card class="common-card">
       <div class="btn-form">
-        <el-button @click="onBatchDelete" :disabled="ids.length === 0" type="danger">批量删除</el-button>
+        <el-button @click="onBatchDelete" :disabled="ids.length === 0" type="danger">{{t('org.button.deleteBatch')}}</el-button>
       </div>
       <el-table v-loading="loading" :data="dataList"
                 border

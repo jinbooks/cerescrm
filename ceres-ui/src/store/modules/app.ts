@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie'
 import logo from '@/assets/logo/logo.png'
 import {defineStore} from "pinia"
+import i18n from "@/languages";
 
 const useAppStore: any = defineStore(
     'app',
@@ -13,7 +14,7 @@ const useAppStore: any = defineStore(
             },
             device: 'desktop',
             size: Cookies.get('size') || 'default',
-            appTitle: import.meta.env.VITE_APP_TITLE,
+             appTitle: i18n.global.t(import.meta.env.VITE_APP_TITLE || 'appTitle'),
             logo: logo,
         }),
         actions: {
@@ -42,7 +43,7 @@ const useAppStore: any = defineStore(
                 Cookies.set('size', size)
             },
             setAppInfo(info: any) {
-                this.appTitle = info.consoleTitle || import.meta.env.VITE_APP_TITLE
+                this.appTitle = info.consoleTitle || i18n.global.t(import.meta.env.VITE_APP_TITLE || 'appTitle')
                 this.logo = info.logo || logo
                 setTimeout(() => {
                     document.title = this.appTitle

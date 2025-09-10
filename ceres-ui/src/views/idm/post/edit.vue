@@ -26,7 +26,7 @@
         <el-form-item :label="$t('jbx.text.sortIndex')" :required="true" prop="sortIndex">
           <el-input-number v-model="form.sortIndex" :min="0" :max="100000"></el-input-number>
         </el-form-item>
-        <el-form-item prop="status" :label="$t('jbx.text.status.status')">
+        <el-form-item prop="status" :label="t('org.status')">
           <el-switch
               :width="44"
               v-model="form.status"

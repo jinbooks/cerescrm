@@ -9,7 +9,7 @@
     <div class="right-menu">
       <div class="right-menu-item">
         <el-divider direction="vertical"></el-divider>
-        <span>工作区：</span>
+        <span>{{ i18n.global.t("workSpace") }}：</span>
         <el-select
             @change="handleSwitchWorkspace"
             v-model="currentSet"
@@ -65,7 +65,7 @@
               <el-dropdown-item>
                 <router-link to="/user/profile">
                   <svg-icon icon-class="user"></svg-icon>
-                  <span style="margin-left: 5px">个人中心</span>
+                  <span style="margin-left: 5px">{{i18n.global.t("menuAccountCenter")}}</span>
                 </router-link>
               </el-dropdown-item>
 <!--              <el-dropdown-item>-->
@@ -85,7 +85,7 @@
               <el-dropdown-item style="border-top: 1px solid #888888;">
                 <div @click="logout">
                   <svg-icon icon-class="logout"></svg-icon>
-                  <span style="margin-left: 5px">退出登录</span>
+                  <span style="margin-left: 5px">{{i18n.global.t("menuAccountLogout")}}</span>
                 </div>
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -110,10 +110,13 @@ import {logoutApi} from "@/api/login";
 import Logo from "./Sidebar/Logo.vue";
 import SvgIcon from "@/components/SvgIcon/index.vue";
 import {parseTime} from "@/utils/Jinbooks"
+import {useI18n} from "vue-i18n";
+import i18n from "../../languages";
 
 const appStore = useAppStore()
 const userStore = useUserStore()
 const currWorkspaceStore = workspaceStore()
+const t = useI18n();
 
 const currentSet = computed({
   get: () => currWorkspaceStore.workspaceId,

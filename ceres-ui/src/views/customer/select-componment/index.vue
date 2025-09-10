@@ -49,7 +49,7 @@
             <el-table-column prop="industry" label="所属行业" align="center"></el-table-column>
             <el-table-column prop="phone" label="联系电话" align="center"></el-table-column>
             <el-table-column prop="email" label="邮箱" align="center"></el-table-column>
-            <el-table-column prop="customerHead" label="负责人" align="center"></el-table-column>
+            <el-table-column prop="customerHead" :label="t('PersonCharge')" align="center"></el-table-column>
           </el-table>
           <pagination
               v-show="total > 0"
@@ -63,8 +63,8 @@
       </div>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="handleClose">取消</el-button>
-          <el-button type="primary" @click="handleSubmit">确定</el-button>
+           <el-button @click="handleClose">{{ t('org.cancel') }}</el-button>
+          <el-button type="primary" @click="handleSubmit">{{ t('org.confirm') }}</el-button>
         </span>
       </template>
     </el-dialog>

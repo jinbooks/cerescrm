@@ -16,7 +16,7 @@
         <el-table-column prop="jobTitle" :label="$t('jbx.users.jobTitle')" min-width="90" align="center"/>
         <el-table-column prop="departmentId" :label="$t('jbx.users.departmentId')" min-width="90" align="center"/>
         <el-table-column prop="department" :label="$t('jbx.users.department')" min-width="90" align="center"/>
-        <el-table-column prop="status" :label="$t('jbx.text.status.status')" min-width="50" align="center">
+        <el-table-column prop="status" :label="t('org.status')" min-width="50" align="center">
           <template #default="scope">
             <a :title="$t('jbx.users.statusActive')" v-if="scope.row.status === 1">
               <el-icon color="green">

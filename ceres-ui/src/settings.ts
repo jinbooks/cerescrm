@@ -1,8 +1,10 @@
+import i18n from "@/languages";
+
 export default {
   /**
    * 网页标题
    */
-  title: import.meta.env.VITE_APP_TITLE,
+  title: i18n.global.t(import.meta.env.VITE_APP_TITLE || 'appTitle'),
   /**
    * 侧边栏主题 深色主题theme-dark，浅色主题theme-light
    */

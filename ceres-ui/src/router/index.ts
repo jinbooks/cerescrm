@@ -1,6 +1,7 @@
 import {createWebHistory, createRouter} from 'vue-router'
 /* Layout */
 import Layout from '@/layout/index.vue'
+import i18n from "@/languages";
 
 /**
  * Note: 路由配置项
@@ -87,7 +88,7 @@ export const constantRoutes: any = [
                 path: 'profile',
                 component: () => import('@/views/system/user/profile/index.vue'),
                 name: 'Profile',
-                meta: {title: '个人中心', icon: 'user'}
+                 meta: {title: i18n.global.t('menuAccountCenter'), icon: 'user'}
             }
         ]
     }

@@ -31,7 +31,7 @@
         <el-form-item prop="address" label="单位地址">
           <el-input v-model="form.address"/>
         </el-form-item>
-        <el-form-item prop="status" :label="$t('jbx.text.status.status')">
+        <el-form-item prop="status" :label="t('org.status')">
           <el-switch
               :width="44"
               v-model="form.status"

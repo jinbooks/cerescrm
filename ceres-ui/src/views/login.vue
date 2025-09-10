@@ -6,11 +6,11 @@
         {{ staticAppInfo.consoleTitle || t('appTitle') }}
       </div>
       <div class="right">
-        <!--
-        <el-tooltip content="语言选择" effect="dark" placement="bottom">
-          <language class="right-menu-item hover-effect"></language>
-        </el-tooltip>
-        -->
+        <div class="el-tooltip">
+          <el-tooltip :content="t('jbx.users.locale')" effect="dark" placement="bottom">
+            <language></language>
+          </el-tooltip>
+        </div>
       </div>
     </div>
 
@@ -78,7 +78,7 @@
       </el-form-item>
       <el-form-item style="width:100%;" v-if="others.length > 0">
         <div class="other" style="width: 100%;display: flex;">
-          其他方式
+           {{t("loginOtherType")}}
           <div class="item" v-for="other in others" @click="openOtherLogin(other.id)" :title="other.name"
                style="cursor: pointer">
             <img :src="privateImage(other.icon)" style="width: 28px;height: 28px" alt=""/>
@@ -104,11 +104,13 @@ import {useI18n} from 'vue-i18n'
 import logoUrl from '@/assets/logo/logo.png'
 import modal from "@/plugins/modal"
 
+
 const {t} = useI18n()
 import {getToken} from '@/utils/Auth'
 import Footer from "@/components/Footer/index.vue"
 import {useRoute, useRouter} from "vue-router";
 import type {FormInstance, FormRules} from 'element-plus';
+import Language from "../components/Language/index.vue";
 
 const userStore: any = useUserStore();
 const route: any = useRoute();
@@ -181,7 +183,7 @@ function handleLogin(): any {
         }
       }).catch((err: any) => {
         console.error(err)
-        ElMessage.error(err.message || "登录失败")
+        ElMessage.error(err.message || t("loginFailed"))
         loading.value = false;
         // 重新获取验证码
         if (captchaEnabled.value) {

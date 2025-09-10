@@ -19,7 +19,7 @@
         />
 
         <el-menu-item index="toggleSide" @click="toggleSideBar">
-          <el-tooltip :content="appStore.sidebar.opened ? '收缩' : '展开'">
+          <el-tooltip :content="appStore.sidebar.opened ? i18n.global.t('componentCollapse') : i18n.global.t('jbx.text.expand')">
             <hamburger :style="{marginLeft: appStore.sidebar.opened ? '80px': '0', padding: '0'}"
                        :is-active="appStore.sidebar.opened"/>
           </el-tooltip>
@@ -39,6 +39,7 @@ import useAppStore from '@/store/modules/app'
 import useSettingsStore from '@/store/modules/settings'
 import usePermissionStore from '@/store/modules/permission'
 import Hamburger from "@/components/Hamburger/index.vue";
+import i18n from "@/languages";
 
 const route = useRoute();
 const appStore = useAppStore()

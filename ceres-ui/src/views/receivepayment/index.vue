@@ -12,7 +12,7 @@
           <el-form-item label="客户名称">
             <el-input v-model="queryParams.customerName" placeholder="请输入客户名称"/>
           </el-form-item>
-          <el-form-item label="状态">
+          <el-table-column prop="status" :label="t('org.status')" align="center" width="80" >
             <el-select style="width: 120px" v-model="queryParams.status" clearable placeholder="请选择">
               <el-option label="全部" value=""/>
               <el-option label="开票" value="1"/>
@@ -44,13 +44,13 @@
         <el-table-column prop="afterTaxAmount" label="税后金额"  align="right" header-align="center" width="120"></el-table-column>
         <el-table-column prop="invoiceDate" label="开票日期"  align="center" header-align="center" width="100"></el-table-column>
         <el-table-column prop="receiveDate" label="收款日期"  align="center" header-align="center" width="100" ></el-table-column>
-        <el-table-column prop="status" label="状态" align="center" width="80" >
+         <el-table-column prop="status" :label="t('org.status')" align="center" width="80" >
             <template #default="scope">
               <el-tag type="primary" v-show="scope.row.status=='1'">开票</el-tag>
               <el-tag type="success" v-show="scope.row.status=='2'">收款</el-tag>
               </template>
           </el-table-column>
-        <el-table-column label="操作" align="center" width="120">
+        <el-table-column :label="t('org.operate')" align="center" width="120">
           <template #default="scope">
             <el-button link icon="Edit" @click="handleUpdate(scope.row)"></el-button>
             <el-button link icon="Delete" type="danger" @click="handleDelete(scope.row)"></el-button>

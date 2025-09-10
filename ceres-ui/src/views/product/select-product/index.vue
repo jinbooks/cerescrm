@@ -31,7 +31,7 @@
                   style="width: 200px"  placeholder="请选择"
                 ></el-tree-select>
             </el-form-item>
-            <!--<el-form-item label="状态">
+            <!-- <el-form-item :label="t('org.status')">
               <el-select style="width: 120px" v-model="queryParams.status" clearable placeholder="请选择">
                 <el-option label="全部" value=""/>
                 <el-option label="正常" value="1"/>
@@ -39,8 +39,8 @@
               </el-select>
             </el-form-item>-->
             <el-form-item>
-              <el-button @click="handleQuery">查询</el-button>
-              <el-button @click="resetQuery">重置</el-button>
+               <el-button @click="handleClose">{{ t('org.cancel') }}</el-button>
+          <el-button type="primary" @click="handleSubmit">{{ t('org.confirm') }}</el-button>
             </el-form-item>
           </el-form>
         </el-card>
@@ -67,7 +67,7 @@
             <el-table-column prop="releaseDate" label="发布日期" align="center"></el-table-column>
             <el-table-column prop="lifeCycle" label="周期(月)" align="center"></el-table-column>
             <el-table-column prop="endOfLifeDate" label="下线日期" align="center"></el-table-column>
-            <el-table-column prop="status" label="状态" align="center">
+           <el-table-column prop="status" :label="t('org.status')" align="center">
               <template #default="scope">
                 <el-tag type="primary" v-show="scope.row.status == '1'">正常</el-tag>
                 <el-tag type="success" v-show="scope.row.status == '2'">下线</el-tag>

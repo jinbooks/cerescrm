@@ -12,6 +12,8 @@
 <script setup lang="ts">
 import {useRoute, useRouter} from "vue-router";
 import {ref, watchEffect} from "vue";
+import {useI18n} from "vue-i18n";
+import i18n from "@/languages";
 
 const route: any = useRoute();
 const router: any = useRouter();
@@ -23,7 +25,7 @@ function getBreadcrumb(): any {
   const first: any = matched[0]
   // 判断是否为首页
   if (!isDashboard(first)) {
-    matched = [{path: '/index', meta: {title: import.meta.env.VITE_APP_TITLE}}].concat(matched)
+    matched = [{path: '/index', meta: {title: i18n.global.t(import.meta.env.VITE_APP_TITLE || 'appTitle')}}].concat(matched)
   }
 
   levelList.value = matched

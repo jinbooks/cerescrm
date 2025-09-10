@@ -32,7 +32,7 @@
             <el-table-column label="用户昵称" prop="nickName" :show-overflow-tooltip="true" />
             <el-table-column label="邮箱" prop="email" :show-overflow-tooltip="true" />
             <el-table-column label="手机" prop="phonenumber" :show-overflow-tooltip="true" />
-            <el-table-column label="状态" align="center" prop="status">
+             <el-table-column :label="t('org.status')" align="center" prop="status">
                <template #default="scope">
                   <dict-tag :options="sys_normal_disable" :value="scope.row.status" />
                </template>

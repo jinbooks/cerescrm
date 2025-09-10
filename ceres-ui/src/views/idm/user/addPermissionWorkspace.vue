@@ -1,7 +1,7 @@
 <template>
     <div class="queryForm">
       <el-form :model="queryParams" ref="queryForm" :inline="true" @submit.native.prevent>
-        <el-form-item label="工作区">
+         <el-form-item :label="t('workSpace')">
           <el-input
               v-model="queryParams.bookName"
               clearable

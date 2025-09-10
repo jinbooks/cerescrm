@@ -71,7 +71,7 @@ const logo = computed(() => appStore.logo);
 
     & .sidebar-title {
       display: inline-block;
-      margin: 0;
+      margin: 0 0 0 10px;
       color: #fff;
       line-height: $base-navbar-height;
       font-size: 20px;

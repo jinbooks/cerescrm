@@ -7,7 +7,7 @@
     <template #default>
       <div class="queryForm">
         <el-form :model="queryParams" ref="queryForm" :inline="true" @submit.native.prevent>
-          <el-form-item label="工作区">
+          <el-form-item :label="t('workSpace')">
             <el-input
                 v-model="queryParams.name"
                 clearable
@@ -36,7 +36,7 @@
       <el-table v-loading="loading" :data="groupsList" border @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="50" align="center"/>
         <el-table-column prop="workspaceId" label="编码" min-width="80" align="left"/>
-        <el-table-column prop="name" label="工作区" min-width="100" align="left"/>
+        <el-table-column prop="name" :label="t('workSpace')" min-width="100" align="left"/>
         <el-table-column :label="$t('jbx.text.action')" min-width="50" align="center">
           <template #default="scope">
             <el-button type="danger"  @click="onDelete(scope.row)">

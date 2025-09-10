@@ -22,7 +22,7 @@
 
       <el-card class="common-card">
         <div class="btn-form">
-          <el-button type="primary" @click="handleAdd">新增</el-button>
+          <el-button type="primary" @click="handleAdd">{{t('jbx.text.add')}}</el-button>
         </div>
         <el-table v-loading="loading" :data="dataList" border  show-summary :summary-method="getSummaries" >
           <el-table-column prop="productCode" label="产品编码" align="center"></el-table-column>
@@ -34,7 +34,7 @@
           <el-table-column prop="originalPrice" label="原价" align="center"></el-table-column>
           <el-table-column prop="discount" label="折扣率(%)" align="center"></el-table-column>
           <el-table-column prop="amount" label="价格" align="center"></el-table-column>
-          <el-table-column label="操作" align="center" width="120">
+           <el-table-column :label="t('org.operate')" align="center" width="120">
           <template #default="scope">
             <el-button icon="Edit" link @click="handleUpdate(scope.row)"></el-button>
             <el-button icon="Delete" link type="danger" @click="handleDelete(scope.row)"></el-button>

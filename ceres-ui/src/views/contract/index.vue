@@ -34,7 +34,7 @@
     <el-card class="common-card">
       <div class="btn-form">
         <el-button type="primary" @click="handleAdd">新增合同</el-button>
-        <el-button @click="onBatchDelete" :disabled="ids.length === 0">批量删除</el-button>
+        <el-button @click="onBatchDelete" :disabled="ids.length === 0">{{t('org.button.deleteBatch')}}</el-button>
       </div>
       <el-table v-loading="loading" :data="dataList" border @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
@@ -66,7 +66,7 @@
             {{ scope.row.amount -  scope.row.payAmount}}
           </template>
         </el-table-column>
-        <el-table-column prop="status" label="状态" align="center" width="100">
+        <el-table-column prop="status" :label="t('org.status')" align="center" width="100">
           <template #default="scope">
             <el-tag :type="getStatusLabel(scope.row.status).type">
               {{ getStatusLabel(scope.row.status).label }}
@@ -80,7 +80,7 @@
             <el-button link icon="View" @click="viewPayment(scope.row)"></el-button>
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" width="120">
+        <el-table-column :label="t('org.operate')" align="center" width="120">
           <template #default="scope">
             <el-button icon="Edit" link @click="handleUpdate(scope.row)"></el-button>
             <el-button icon="Delete" link type="danger" @click="handleDelete(scope.row)"></el-button>

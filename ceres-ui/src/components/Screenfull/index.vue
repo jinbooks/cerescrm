@@ -1,7 +1,7 @@
 <template>
   <div @click="toggle">
     <svg-icon :icon-class="isFullscreen ? 'exit-fullscreen' : 'fullscreen'"/>
-    <span style="margin-left: 5px">{{ isFullscreen ? "退出全屏" : '全屏' }}</span>
+     <span style="margin-left: 5px">{{ isFullscreen ? t('menuFullscreenExit') : t('menuFullscreen') }}</span>
   </div>
 </template>
 
@@ -9,6 +9,9 @@
 import modal from "@/plugins/modal";
 import {ref, getCurrentInstance, reactive, toRefs, watch, defineComponent, watchEffect} from "vue";
 import {useFullscreen} from '@vueuse/core'
+import {useI18n} from "vue-i18n";
+
+const {t} = useI18n()
 
 const {isFullscreen, toggle} = useFullscreen();
 
