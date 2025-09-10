@@ -13,7 +13,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="姓名" prop="contactName">
+            <el-form-item :label="t('jbx.users.displayName')" prop="contactName">
               <el-input v-model="form.contactName"/>
             </el-form-item>
           </el-col>
@@ -30,28 +30,28 @@
           <el-col :span="span">
             <el-form-item :label="t('jbx.users.gender')" prop="gender">
               <el-select v-model="form.gender" :placeholder="t('pleaseSelect')">
-                <el-option label="男" value="男"/>
-                <el-option label="女" value="女"/>
-                <el-option label="未知" value="未知"/>
+                <el-option :label="t('jbx.users.genderMale')" value="男"/>
+                <el-option :label="t('jbx.users.genderFemale')" value="女"/>
+                <el-option :label="t('marriedUnknown')" value="未知"/>
               </el-select>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="职位名称" prop="jobTitle">
+            <el-form-item :label="t('jobTitleName')" prop="jobTitle">
               <el-input v-model="form.jobTitle"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="电子邮箱" prop="email">
+            <el-form-item :label="t('jbx.users.email')" prop="email">
               <el-input v-model="form.email"/>
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="地址" prop="address">
+            <el-form-item :label="t('jbx.institutions.address')" prop="address">
               <el-input v-model="form.address"/>
             </el-form-item>
           </el-col>
@@ -130,15 +130,15 @@ const data = reactive<FormState>({
   },
   rules: {
     contactName: [
-      {required: true, message: '请输入联系人姓名', trigger: 'blur'}
+      {required: true, message: t('contactTip'), trigger: 'blur'}
     ],
     phone: [
-      {required: true, message: '请输入手机号码', trigger: 'blur'}
+      {required: true, message: t('phoneTipInput'), trigger: 'blur'}
     ],
     email: [
       {
         pattern: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
-        message: '请输入正确的电子邮箱',
+        message: t('emailTipInput'),
         trigger: 'blur'
       }
     ]

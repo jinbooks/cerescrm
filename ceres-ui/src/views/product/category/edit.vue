@@ -92,7 +92,7 @@ const data = reactive<FormState>({
       {required: true, message: '请输入联系人姓名', trigger: 'blur'}
     ],
     phone: [
-      {required: true, message: '请输入手机号码', trigger: 'blur'},
+      {required: true, message: t('phoneTipInput'), trigger: 'blur'},
       {
         pattern: /^1[3456789]\d{8}$/,
         message: '请输入正确的手机号码',
@@ -102,7 +102,7 @@ const data = reactive<FormState>({
     email: [
       {
         pattern: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
-        message: '请输入正确的电子邮箱',
+        message: t('emailTipInput'),
         trigger: 'blur'
       }
     ]

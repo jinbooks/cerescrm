@@ -3,18 +3,18 @@
     <el-card class="common-card query-box">
       <div class="queryForm">
         <el-form :model="queryParams" ref="queryRef" :inline="true" label-width="80px">
-          <el-form-item label="联系人">
+          <el-form-item :label="t('contact')">
             <el-input v-model="queryParams.contactName" placeholder="请输入联系人姓名"/>
           </el-form-item>
           <el-form-item :label="t('jbx.users.gender')">
             <el-select style="width: 120px" v-model="queryParams.gender" clearable :placeholder="t('pleaseSelect')">
-              <el-option label="男" value="男"/>
-              <el-option label="女" value="女"/>
-              <el-option label="未知" value="未知"/>
+              <el-option :label="t('jbx.users.genderMale')" value="男"/>
+              <el-option :label="t('jbx.users.genderFemale')" value="女"/>
+              <el-option :label="t('marriedUnknown')" value="未知"/>
             </el-select>
           </el-form-item>
           <el-form-item :label="t('jbx.organizations.phone')">
-            <el-input v-model="queryParams.phone" placeholder="请输入联系电话"/>
+            <el-input v-model="queryParams.phone" :placeholder="t('phoneTip')"/>
           </el-form-item>
           <el-form-item>
             <el-button @click="handleQuery">{{ t('org.button.query') }}</el-button>
@@ -26,15 +26,15 @@
 
     <el-card class="common-card">
       <div class="btn-form">
-        <el-button type="primary" @click="handleAdd">新增联系人</el-button>
+        <el-button type="primary" @click="handleAdd">{{t('newContact')}}</el-button>
         <el-button @click="onBatchDelete" :disabled="ids.length === 0">{{t('org.button.deleteBatch')}}</el-button>
       </div>
       <el-table v-loading="loading" :data="dataList" border @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="customerName" :label="t('customerName')" align="left" header-align="center"></el-table-column>
-        <el-table-column prop="contactName" label="联系人姓名" align="left" header-align="center"></el-table-column>
+        <el-table-column prop="contactName" :label="t('ContactName')" align="left" header-align="center"></el-table-column>
         <el-table-column prop="gender" :label="t('jbx.users.gender')" align="center"></el-table-column>
-        <el-table-column prop="jobTitle" label="职位" align="left" header-align="center"></el-table-column>
+        <el-table-column prop="jobTitle" :label="t('jbx.users.jobTitle')" align="left" header-align="center"></el-table-column>
         <el-table-column prop="phone" :label="t('jbx.organizations.phone')" align="left" header-align="center"></el-table-column>
         <el-table-column prop="wechat" :label="t('wechat')" align="left" header-align="center"></el-table-column>
         <el-table-column prop="email" :label="t('jbx.institutions.email')" align="left" header-align="center"></el-table-column>
@@ -126,19 +126,19 @@ function dialogOfClosedMethods(val: boolean) {
 
 function handleAdd() {
   id.value = undefined
-  title.value = '新增联系人'
+  title.value = t('newContact')
   open.value = true
 }
 
 function handleUpdate(row: any) {
   id.value = row.id
-  title.value = '编辑联系人'
+  title.value = t('updateContact')
   open.value = true
 }
 
 function handleDelete(row: any) {
   const _ids = row.id || ids.value
-  modal.confirm(`是否确认删除编号为"${_ids}"的数据项？`).then(() => {
+  modal.confirm(`${t('deleteTipCommon')}${_ids}${t('deleteTipLead1')}`).then(() => {
     return delCustomerContact( [_ids])
   }).then((res: any) => {
     if (res.code === 0) {

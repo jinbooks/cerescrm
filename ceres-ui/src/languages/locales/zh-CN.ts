@@ -1281,4 +1281,7 @@ export default {
   "showRepay": "查看回款",
   "deleteTipCommon": "是否确认删除编号为\"",
   "ContractDetails": "合同详情",
+  "jobTitleName": "职位名称",
+  "phoneTipInput": "请输入手机号码",
+  "emailTipInput": "请输入正确的电子邮箱",
 }
