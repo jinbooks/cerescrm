@@ -16,17 +16,17 @@
               </template>
           </el-table-column>
            <!--
-          <el-table-column prop="contractCode" label="合同编码" align="center"></el-table-column>
+          <el-table-column prop="contractCode" :label="t('contractCode')" align="center"></el-table-column>
           <el-table-column prop="contractName" label="合同名称" align="center"></el-table-column>
-         
-          <el-table-column prop="customerName" label="客户名称" align="center"></el-table-column>
+
+          <el-table-column prop="customerName" :label="t('customerName')" align="center"></el-table-column>
           <el-table-column prop="currency" label="币种" align="center"></el-table-column>
           -->
           <el-table-column prop="percentage" label="合同额占比(%)" align="center"></el-table-column>
           <el-table-column prop="amount" label="金额" align="center"></el-table-column>
           <el-table-column prop="taxAmount" label="税额" align="center"></el-table-column>
           <el-table-column prop="afterTaxAmount" label="税后金额" align="center"></el-table-column>
-          
+
         </el-table>
         <pagination
             v-show="total > 0"

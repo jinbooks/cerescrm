@@ -2,7 +2,7 @@
   <div class="table-select-input">
     <el-input :model-value="inputValue" readonly>
       <template #append>
-        <el-button @click="handleOpenDialog" :disabled="isConvert">选择</el-button>
+        <el-button @click="handleOpenDialog" :disabled="isConvert">{{t('jbx.text.select')}}</el-button>
       </template>
     </el-input>
 
@@ -15,13 +15,13 @@
         <el-card class="common-card">
           <div class="queryForm">
             <el-form :model="queryParams" :inline="true" label-width="68px" >
-              <el-form-item label="姓名">
+              <el-form-item :label="t('jbx.users.displayName')">
                 <el-input v-model="queryParams.name"/>
               </el-form-item>
-              <el-form-item label="公司">
+              <el-form-item :label="t('jbx.organizations.typeCompany')">
                 <el-input v-model="queryParams.company"/>
               </el-form-item>
-              <el-form-item label="状态">
+              <el-form-item :label="t('org.status')">
                 <el-select v-model="queryParams.status" clearable style="width: 240px">
                   <el-option
                       v-for="dict in status_manage"
@@ -32,8 +32,8 @@
                 </el-select>
               </el-form-item>
               <el-form-item>
-                <el-button @click="handleQuery">查询</el-button>
-                <el-button @click="resetQuery">重置</el-button>
+                <el-button @click="handleQuery">{{ t('org.button.query') }}</el-button>
+                <el-button @click="resetQuery">{{ t('org.button.reset') }}</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -47,42 +47,42 @@
                 <el-radio v-model="tempSingleSelectId" :value="row.id"></el-radio>
               </template>
             </el-table-column>
-            <el-table-column prop="leadCode" label="线索编码" align="center" width="140"
+            <el-table-column prop="leadCode" :label="t('clueCoding')" align="center" width="140"
                              :show-overflow-tooltip="true">
             </el-table-column>
-            <el-table-column prop="name" label="姓名" align="left" header-align="center" min-width="80"
+            <el-table-column prop="name" :label="t('jbx.users.displayName')" align="left" header-align="center" min-width="80"
                              :show-overflow-tooltip="true">
             </el-table-column>
-            <el-table-column prop="phone" label="电话" align="left" header-align="center"  width="120"
+            <el-table-column prop="phone" :label="t('jbx.institutions.phone')" align="left" header-align="center"  width="120"
                              :show-overflow-tooltip="true">
             </el-table-column>
-            <el-table-column prop="email" label="邮箱" align="left" header-align="center"  min-width="80"
+            <el-table-column prop="email" :label="t('jbx.institutions.email')" align="left" header-align="center"  min-width="80"
                              :show-overflow-tooltip="true">
             </el-table-column>
-            <el-table-column prop="province" label="地区" align="left" header-align="center"  width="80"
+            <el-table-column prop="province" :label="t('area')" align="left" header-align="center"  width="80"
                              :show-overflow-tooltip="true">
             </el-table-column>
-            <el-table-column prop="company" label="公司" align="left" header-align="center"  min-width="100"
+            <el-table-column prop="company" :label="t('jbx.organizations.typeCompany')" align="left" header-align="center"  min-width="100"
                              :show-overflow-tooltip="true">
             </el-table-column>
-            <el-table-column prop="ownerName" label="负责人"  align="center"  width="120"
+            <el-table-column prop="ownerName" :label="t('PersonCharge')"  align="center"  width="120"
                              :show-overflow-tooltip="true">
             </el-table-column>
-            <el-table-column prop="status" label="状态" align="center" width="80"
+            <el-table-column prop="status" :label="t('org.status')" align="center" width="80"
                              :show-overflow-tooltip="true">
               <template #default="scope"  >
                 <dict-tag-number :options="status_manage" :value="scope.row.status"/>
               </template>
             </el-table-column>
-            <el-table-column prop="priority" label="优先级" align="center" width="80"
+            <el-table-column prop="priority" :label="t('priority')" align="center" width="80"
                              :show-overflow-tooltip="true">
               <template #default="scope">
-                <span v-if="scope.row.priority === 1"><el-tag type="info">低</el-tag></span>
-                <span v-if="scope.row.priority === 2"><el-tag type="warning">中</el-tag></span>
-                <span v-if="scope.row.priority === 3"><el-tag type="danger">高</el-tag></span>
+                <span v-if="scope.row.priority === 1"><el-tag type="info">{{t('low')}}</el-tag></span>
+                <span v-if="scope.row.priority === 2"><el-tag type="warning">{{t('middle')}}</el-tag></span>
+                <span v-if="scope.row.priority === 3"><el-tag type="danger">{{t('high')}}</el-tag></span>
               </template>
             </el-table-column>
-            <el-table-column prop="budget" label="预算" align="right" header-align="center" width="120"
+            <el-table-column prop="budget" :label="t('budget')" align="right" header-align="center" width="120"
                              :show-overflow-tooltip="true">
               <template #default="scope">
                 {{ formatAmount(scope.row.budget) }}
@@ -101,8 +101,8 @@
       </div>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="handleClose">取消</el-button>
-          <el-button type="primary" @click="handleSubmit">确定</el-button>
+          <el-button @click="handleClose">{{ t('org.cancel') }}</el-button>
+          <el-button type="primary" @click="handleSubmit">{{ t('org.confirm') }}</el-button>
         </span>
       </template>
     </el-dialog>

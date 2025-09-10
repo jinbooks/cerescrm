@@ -17,11 +17,11 @@
                   filterable
                   clearable
                   check-strictly="true"
-                  style="width: 240px"  placeholder="请选择"
+                  style="width: 240px"  :placeholder="t('pleaseSelect')"
                 ></el-tree-select>
           </el-form-item>
           <el-form-item label="状态">
-            <el-select style="width: 120px" v-model="queryParams.status" clearable placeholder="请选择">
+            <el-select style="width: 120px" v-model="queryParams.status" clearable :placeholder="t('pleaseSelect')">
               <el-option label="全部" value=""/>
               <el-option label="正常" value="1"/>
               <el-option label="下线" value="2"/>

@@ -6,7 +6,7 @@
           <el-form-item label="合同名称">
             <el-input v-model="queryParams.contractName" placeholder="请输入合同名称"/>
           </el-form-item>
-          <el-form-item label="签订日期">
+          <el-form-item :label="t('SigningDate')">
             <el-date-picker
                 v-model="queryParams.startSigningDate"
                 type="date"
@@ -44,9 +44,9 @@
             <el-button icon="Comment" type="warning" link @click="followUp(scope.row)"></el-button>
           </template>
         </el-table-column>
-        <el-table-column prop="code" label="合同编码" align="left" header-align="center" width="120"></el-table-column>
+        <el-table-column prop="code" :label="t('contractCode')" align="left" header-align="center" width="120"></el-table-column>
         <el-table-column prop="contractName" label="合同名称" align="left" header-align="center"></el-table-column>
-        <el-table-column prop="customerName" label="客户名称" align="left" header-align="center">
+        <el-table-column prop="customerName" :label="t('customerName')" align="left" header-align="center">
           <template #default="scope">
             <router-link :to="'/customer/detail?id=' + scope.row.customerId">
               <el-link type="primary">{{ scope.row.customerName }}</el-link>
@@ -58,7 +58,7 @@
             <el-button link icon="ShoppingCartFull" @click="viewProduct(scope.row)"></el-button>
           </template>
         </el-table-column>
-        <el-table-column prop="amount" label="合同金额" align="right"  header-align="center"  width="120"></el-table-column>
+        <el-table-column prop="amount" :label="t('contractName')" align="right"  header-align="center"  width="120"></el-table-column>
         <!--<el-table-column prop="invoiceAmount" label="开票金额" align="right" header-align="center"  width="120"></el-table-column>-->
         <el-table-column prop="receiveAmount" label="收款金额" align="right" header-align="center"  width="120"></el-table-column>
         <el-table-column prop="invoiceAmount" label="剩余金额" align="right" header-align="center" width="120">
@@ -73,8 +73,8 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="signingDate" label="签订日期"  align="center" header-align="center" width="100"></el-table-column>
-        <el-table-column prop="expirationDate" label="到期日期"  align="center" header-align="center" width="100"></el-table-column>
+        <el-table-column prop="signingDate" :label="t('SigningDate')"  align="center" header-align="center" width="100"></el-table-column>
+        <el-table-column prop="expirationDate" :label="t('ExpiryDate')"  align="center" header-align="center" width="100"></el-table-column>
         <el-table-column label="回款" align="center" width="60">
           <template #default="scope">
             <el-button link icon="View" @click="viewPayment(scope.row)"></el-button>

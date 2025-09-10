@@ -2,34 +2,34 @@
   <div class="table-select-input">
     <el-input :model-value="inputValue" readonly>
       <template #append>
-        <el-button @click="handleOpenDialog">选择</el-button>
+        <el-button @click="handleOpenDialog">{{t('jbx.text.select')}}</el-button>
       </template>
     </el-input>
 
     <el-dialog
         v-model="visible"
-        title="选择联系人"
+        :title="t('selectContact')"
         width="1200px"
         @close="handleClose">
       <div class="app-container">
         <el-card class="common-card">
           <el-form :inline="true" label-width="80px">
-            <el-form-item label="联系人">
-              <el-input v-model="queryParams.contactName" placeholder="请输入联系人姓名"/>
+            <el-form-item :label="t('contact')">
+              <el-input v-model="queryParams.contactName" :placeholder="t('contactTip')"/>
             </el-form-item>
-            <el-form-item label="性别">
-              <el-select style="width: 120px" v-model="queryParams.gender" clearable placeholder="请选择">
-                <el-option label="男" value="男"/>
-                <el-option label="女" value="女"/>
-                <el-option label="未知" value="未知"/>
+            <el-form-item :label="t('jbx.users.gender')">
+              <el-select style="width: 120px" v-model="queryParams.gender" clearable :placeholder="t('pleaseSelect')">
+                <el-option :label="t('jbx.users.genderMale')" value="男"/>
+                <el-option :label="t('jbx.users.genderFemale')" value="女"/>
+                <el-option :label="t('jbx.users.marriedUnknown')" value="未知"/>
               </el-select>
             </el-form-item>
-            <el-form-item label="联系电话">
-              <el-input v-model="queryParams.phone" placeholder="请输入联系电话"/>
+            <el-form-item :label="t('jbx.organizations.phone')">
+              <el-input v-model="queryParams.phone" :placeholder="t('phoneTip')"/>
             </el-form-item>
             <el-form-item>
-              <el-button @click="handleQuery">查询</el-button>
-              <el-button @click="resetQuery">重置</el-button>
+              <el-button @click="handleQuery">{{ t('org.button.query') }}</el-button>
+              <el-button @click="resetQuery">{{ t('org.button.reset') }}</el-button>
             </el-form-item>
           </el-form>
         </el-card>
@@ -42,12 +42,12 @@
                 <el-radio v-model="tempSingleSelectId" :value="row.id"></el-radio>
               </template>
             </el-table-column>
-            <el-table-column prop="customerName" label="客户名称" align="center"></el-table-column>
-            <el-table-column prop="contactName" label="联系人姓名" align="center"></el-table-column>
-            <el-table-column prop="gender" label="性别" align="center"></el-table-column>
-            <el-table-column prop="jobTitle" label="职位" align="center"></el-table-column>
-            <el-table-column prop="phone" label="联系电话" align="center"></el-table-column>
-            <el-table-column prop="email" label="邮箱" align="center"></el-table-column>
+            <el-table-column prop="customerName" :label="t('customerName')" align="center"></el-table-column>
+            <el-table-column prop="contactName" :label="t('ContactName')" align="center"></el-table-column>
+            <el-table-column prop="gender" :label="t('jbx.users.gender')" align="center"></el-table-column>
+            <el-table-column prop="jobTitle" :label="t('jbx.users.jobTitle')" align="center"></el-table-column>
+            <el-table-column prop="phone" :label="t('jbx.organizations.phone')" align="center"></el-table-column>
+            <el-table-column prop="email" :label="t('jbx.institutions.email')" align="center"></el-table-column>
           </el-table>
           <pagination
               v-show="total > 0"
@@ -61,8 +61,8 @@
       </div>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="handleClose">取消</el-button>
-          <el-button type="primary" @click="handleSubmit">确定</el-button>
+          <el-button @click="handleClose">{{ t('org.cancel') }}</el-button>
+          <el-button type="primary" @click="handleSubmit">{{ t('org.confirm') }}</el-button>
         </span>
       </template>
     </el-dialog>

@@ -12,25 +12,25 @@
     </el-card>
     <el-card class="common-card">
       <div class="btn-form">
-        <el-button type="primary" @click="handleAdd">新增</el-button>
-        <el-button @click="onBatchDelete" :disabled="ids.length === 0" type="danger">批量删除</el-button>
+        <el-button type="primary" @click="handleAdd">{{t('jbx.text.add')}}</el-button>
+        <el-button @click="onBatchDelete" :disabled="ids.length === 0" type="danger">{{t('org.button.deleteBatch')}}</el-button>
       </div>
       <el-table v-loading="loading" :data="dataList"
                 border
                 @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="50" align="center"/>
-        <el-table-column prop="code" label="阶段编码" align="center" min-width="100"
+        <el-table-column prop="code" :label="t('stageCode')" align="center" min-width="100"
                          :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column prop="name" label="阶段名称" align="center" min-width="100"
+        <el-table-column prop="name" :label="t('stageName')" align="center" min-width="100"
                          :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column prop="colorCode" label="颜色标记" align="center">
+        <el-table-column prop="colorCode" :label="t('colorFlag')" align="center">
           <template #default="scope">
             <span :style="{ color: scope.row.color, fontWeight: 'bold' }">●</span> {{ scope.row.color }}
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" width="120">
+        <el-table-column :label="t('org.operate')" align="center" width="120">
           <template #default="scope">
             <el-button icon="Edit" link @click="handleUpdate(scope.row)"></el-button>
             <el-button icon="Delete" link type="danger"  @click="handleDelete(scope.row)"></el-button>
@@ -103,13 +103,13 @@ function getList() {
 
 function handleAdd() {
   id.value = undefined;
-  title.value = "新增阶段";
+  title.value = t('addStage');
   open.value = true;
 }
 
 function handleDelete(row: any) {
   const _ids = row.id || ids.value;
-  modal.confirm('是否确认删除阶段编号为"' + _ids + '"的数据项？').then(function () {
+  modal.confirm(t('deleteStageTip') + _ids + t('deleteTip2')).then(function () {
     return delLead({listIds: [_ids]});
   }).then((res: any) => {
     if (res.code === 0) {
@@ -150,7 +150,7 @@ function resetQuery() {
 
 function handleUpdate(row: any) {
   id.value = row.id;
-  title.value = "修改阶段";
+  title.value = t('updateStage');
   open.value = true;
 }
 

@@ -8,7 +8,7 @@
       <el-form :model="form" :rules="rules" ref="formRef" label-width="100px" inline-message>
         <el-row :gutter="20">
           <el-col v-if="!customerId" :span="span">
-            <el-form-item label="客户名称">
+            <el-form-item :label="t('customerName')">
               <customer-select v-model="form.customerId"/>
             </el-form-item>
           </el-col>
@@ -18,18 +18,18 @@
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="联系电话" prop="phone">
+            <el-form-item :label="t('jbx.organizations.phone')" prop="phone">
               <el-input v-model="form.phone"/>
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="微信" prop="wechat">
+            <el-form-item :label="t('wechat')" prop="wechat">
               <el-input v-model="form.wechat"/>
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="性别" prop="gender">
-              <el-select v-model="form.gender" placeholder="请选择">
+            <el-form-item :label="t('jbx.users.gender')" prop="gender">
+              <el-select v-model="form.gender" :placeholder="t('pleaseSelect')">
                 <el-option label="男" value="男"/>
                 <el-option label="女" value="女"/>
                 <el-option label="未知" value="未知"/>
@@ -58,7 +58,7 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="24">
-            <el-form-item label="备注" prop="remark">
+            <el-form-item :label="t('remark')" prop="remark">
               <el-input v-model="form.remark" type="textarea" :rows="3"/>
             </el-form-item>
           </el-col>

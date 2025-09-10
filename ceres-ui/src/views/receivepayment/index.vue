@@ -3,17 +3,17 @@
     <el-card class="common-card query-box">
       <div class="queryForm">
         <el-form :model="queryParams" ref="queryRef" :inline="true" label-width="80px">
-          <el-form-item label="合同编码">
+          <el-form-item :label="t('contractCode')">
             <el-input v-model="queryParams.contractCode" placeholder="请输入合同编码"/>
           </el-form-item>
           <el-form-item label="合同名称">
             <el-input v-model="queryParams.contractName" placeholder="请输入合同名称"/>
           </el-form-item>
-          <el-form-item label="客户名称">
-            <el-input v-model="queryParams.customerName" placeholder="请输入客户名称"/>
+          <el-form-item :label="t('customerName')">
+            <el-input v-model="queryParams.customerName" :placeholder="t('customerTip')"/>
           </el-form-item>
           <el-table-column prop="status" :label="t('org.status')" align="center" width="80" >
-            <el-select style="width: 120px" v-model="queryParams.status" clearable placeholder="请选择">
+            <el-select style="width: 120px" v-model="queryParams.status" clearable :placeholder="t('pleaseSelect')">
               <el-option label="全部" value=""/>
               <el-option label="开票" value="1"/>
               <el-option label="收款" value="2"/>
@@ -34,9 +34,9 @@
       </div>
       <el-table v-loading="loading" :data="dataList" border @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
-        <el-table-column prop="contractCode" label="合同编码" align="left" header-align="center" ></el-table-column>
+        <el-table-column prop="contractCode" :label="t('contractCode')" align="left" header-align="center" ></el-table-column>
         <el-table-column prop="contractName" label="合同名称" align="left" header-align="center" ></el-table-column>
-        <el-table-column prop="customerName" label="客户名称" align="left" header-align="center" ></el-table-column>
+        <el-table-column prop="customerName" :label="t('customerName')" align="left" header-align="center" ></el-table-column>
         <!--<el-table-column prop="currency" label="币种" align="center"></el-table-column>-->
         <el-table-column prop="percentage" label="占比(%)" align="center"  width="80"></el-table-column>
         <el-table-column prop="amount" label="金额"  align="right" header-align="center" width="120"></el-table-column>

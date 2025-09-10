@@ -168,7 +168,7 @@
             <el-form-item :label="t('oppAmount')">
               <el-input-number :min="0" :precision="2" v-model="form.amount" style="width: 100%">
                 <template #suffix>
-                  <span>元</span>
+                  <span>{{t('Yuan')}}</span>
                 </template>
               </el-input-number>
             </el-form-item>
@@ -188,7 +188,7 @@
             <el-form-item :label="t('expCost')">
               <el-input-number :min="0" :precision="2" v-model="form.cost" style="width: 100%">
                 <template #suffix>
-                  <span>元</span>
+                  <span>{{t('Yuan')}}</span>
                 </template>
               </el-input-number>
             </el-form-item>
@@ -205,7 +205,7 @@
               <el-input-number :min="0" :precision="2" :model-value="weightedAmountDisplay" style="width: 100%"
                                disabled>
                 <template #suffix>
-                  <span>元</span>
+                  <span>{{t('Yuan')}}</span>
                 </template>
               </el-input-number>
             </el-form-item>

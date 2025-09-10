@@ -12,7 +12,7 @@
         <el-form-item prop="companyName" label="单位名称" :required="true">
           <el-input v-model="form.companyName"/>
         </el-form-item>
-        <el-form-item prop="industry" label="所属行业">
+        <el-form-item prop="industry" :label="t('belongIndustry')">
           <el-select v-model="form.industry" clearable>
             <el-option-group
                 v-for="group in books_industry"

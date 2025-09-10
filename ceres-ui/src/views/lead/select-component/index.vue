@@ -2,7 +2,7 @@
   <div class="table-select-input">
     <el-input :model-value="inputValue" readonly>
       <template #append>
-        <el-button @click="handleOpenDialog">选择</el-button>
+        <el-button @click="handleOpenDialog">{{t('jbx.text.select')}}</el-button>
       </template>
     </el-input>
 

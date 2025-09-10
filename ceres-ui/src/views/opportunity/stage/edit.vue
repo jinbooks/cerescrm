@@ -6,19 +6,19 @@
     </template>
     <template #default>
       <el-form :model="form" :rules="rules" ref="formRef" label-width="100px" inline-message>
-        <el-form-item label="阶段名称">
+        <el-form-item :label="t('stageName')">
           <el-input v-model="form.name"/>
         </el-form-item>
-        <el-form-item label="阶段编码">
+        <el-form-item :label="t('stageCode')">
           <el-input v-model="form.code"/>
         </el-form-item>
-        <el-form-item label="成功概率">
+        <el-form-item :label="t('successProb')">
           <el-slider v-model="form.probability" placement="bottom"/>
         </el-form-item>
-        <el-form-item label="排序">
+        <el-form-item :label="t('jbx.text.sortIndex')">
           <el-input-number v-model="form.sortOrder" controls-position="right" :min="0" />
         </el-form-item>
-        <el-form-item label="阶段颜色">
+        <el-form-item :label="t('stageColor')">
           <div class="color-picker">
             <div
                 v-for="color in colors"
@@ -29,7 +29,7 @@
             ></div>
           </div>
         </el-form-item>
-        <el-form-item label="阶段描述">
+        <el-form-item :label="t('stageDes')">
           <el-input
               type="textarea"
               v-model="form.description"
@@ -37,13 +37,13 @@
               show-word-limit
           />
         </el-form-item>
-        <el-form-item prop="status" :label="$t('jbx.text.status.status')">
+        <el-form-item prop="status" :label="t('org.status')">
           <el-switch
               :width="44"
               v-model="form.isActive"
               :active-value="0"
               :inactive-value="1"
-             >
+          >
           </el-switch>
         </el-form-item>
       </el-form>
@@ -197,4 +197,3 @@ function submitForm() {
   transition: border 0.2s;
 }
 </style>
-

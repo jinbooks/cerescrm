@@ -47,9 +47,9 @@
             >批量取消授权</el-button>
          </el-col>
          <el-col :span="1.5">
-            <el-button 
-               type="warning" 
-               plain 
+            <el-button
+               type="warning"
+               plain
                icon="Close"
                @click="handleClose"
             >关闭</el-button>
@@ -61,7 +61,7 @@
          <el-table-column type="selection" width="55" align="center" />
          <el-table-column label="用户名称" prop="userName" :show-overflow-tooltip="true" />
          <el-table-column label="用户昵称" prop="nickName" :show-overflow-tooltip="true" />
-         <el-table-column label="邮箱" prop="email" :show-overflow-tooltip="true" />
+         <el-table-column :label="t('jbx.institutions.email')" prop="email" :show-overflow-tooltip="true" />
          <el-table-column label="手机" prop="phonenumber" :show-overflow-tooltip="true" />
          <el-table-column :label="t('org.status')" align="center" prop="status">
             <template #default="scope">

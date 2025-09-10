@@ -2,30 +2,30 @@
   <div class="table-select-input">
     <el-input :model-value="inputValue" readonly>
       <template #append>
-        <el-button @click="handleOpenDialog">选择</el-button>
+        <el-button @click="handleOpenDialog">{{t('jbx.text.select')}}</el-button>
       </template>
     </el-input>
 
     <el-dialog
         v-model="visible"
-        title="选择客户"
+        :title="t('selectCustomer')"
         width="1200px"
         @close="handleClose">
       <div class="app-container">
         <el-card class="common-card">
           <el-form :inline="true" label-width="80px">
-            <el-form-item label="客户名称">
-              <el-input v-model="queryParams.customerName" placeholder="请输入客户名称"/>
+            <el-form-item :label="t('customerName')">
+              <el-input v-model="queryParams.customerName" :placeholder="t('customerTip')"/>
             </el-form-item>
-            <el-form-item label="客户分组">
-              <el-select style="width: 240px" v-model="queryParams.segmentId" clearable placeholder="请选择">
+            <el-form-item :label="t('customerGroup')">
+              <el-select style="width: 240px" v-model="queryParams.segmentId" clearable :placeholder="t('pleaseSelect')">
                 <el-option v-for="(item, index) in dataSegmentList" :key="index"
                            :value="item.id" :label="item.segmentName"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-button @click="handleQuery">查询</el-button>
-              <el-button @click="resetQuery">重置</el-button>
+              <el-button @click="handleQuery">{{ t('org.button.query') }}</el-button>
+              <el-button @click="resetQuery">{{ t('org.button.reset') }}</el-button>
             </el-form-item>
           </el-form>
         </el-card>
@@ -37,18 +37,18 @@
                 <el-radio v-model="singleSelectId" :value="row.id"></el-radio>
               </template>
             </el-table-column>
-            <el-table-column prop="customerName" label="客户名称" align="center"></el-table-column>
-            <el-table-column prop="customerType" label="客户类型" align="center"></el-table-column>
-            <el-table-column prop="segmentName" label="所在分层" align="center">
+            <el-table-column prop="customerName" :label="t('customerName')" align="center"></el-table-column>
+            <el-table-column prop="customerType" :label="t('customerType')" align="center"></el-table-column>
+            <el-table-column prop="segmentName" :label="t('layer')" align="center">
               <template #default="scope">
                 <text v-if="scope.row.segmentId" :style="{color: getSegmentColor(scope.row.segmentId)}">
                   {{ scope.row.segmentName }}
                 </text>
               </template>
             </el-table-column>
-            <el-table-column prop="industry" label="所属行业" align="center"></el-table-column>
-            <el-table-column prop="phone" label="联系电话" align="center"></el-table-column>
-            <el-table-column prop="email" label="邮箱" align="center"></el-table-column>
+            <el-table-column prop="industry" :label="t('belongIndustry')" align="center"></el-table-column>
+            <el-table-column prop="phone" :label="t('jbx.organizations.phone')" align="center"></el-table-column>
+            <el-table-column prop="email" :label="t('jbx.institutions.email')" align="center"></el-table-column>
             <el-table-column prop="customerHead" :label="t('PersonCharge')" align="center"></el-table-column>
           </el-table>
           <pagination

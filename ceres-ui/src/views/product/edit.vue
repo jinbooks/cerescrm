@@ -39,7 +39,7 @@
           </el-col>
           <el-col :span="span">
             <el-form-item label="发布日期" prop="releaseDate">
-              <el-date-picker v-model="form.releaseDate" 
+              <el-date-picker v-model="form.releaseDate"
                 format="YYYY-MM-DD"
                 value-format="YYYY-MM-DD"/>
             </el-form-item>
@@ -58,13 +58,13 @@
           </el-col>
           <el-col :span="span">
             <el-form-item label="状态" prop="status">
-              <el-select v-model="form.status" placeholder="请选择">
+              <el-select v-model="form.status" :placeholder="t('pleaseSelect')">
                 <el-option label="正常" value="1"/>
                 <el-option label="下线" value="2"/>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="span" > 
+          <el-col :span="span" >
             <el-form-item label="分类" prop="categoryId">
                 <el-tree-select
                   v-model="form.categoryId"

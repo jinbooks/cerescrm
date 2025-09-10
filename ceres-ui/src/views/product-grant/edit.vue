@@ -42,7 +42,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="到期日期" prop="expirationDate">
+            <el-form-item :label="t('ExpiryDate')" prop="expirationDate">
               <el-date-picker v-model="form.expirationDate"
                               format="YYYY-MM-DD"
                               value-format="YYYY-MM-DD"/>
@@ -50,7 +50,7 @@
           </el-col>
           <el-col :span="span">
             <el-form-item label="状态" prop="status">
-              <el-select v-model="form.status" placeholder="请选择">
+              <el-select v-model="form.status" :placeholder="t('pleaseSelect')">
                 <el-option label="生效" value="1"/>
                 <el-option label="失效" value="2"/>
               </el-select>
@@ -59,7 +59,7 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="24">
-            <el-form-item label="备注">
+            <el-form-item :label="t('remark')">
               <editor v-model="form.content" :height="150"/>
             </el-form-item>
           </el-col>

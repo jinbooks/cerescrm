@@ -130,7 +130,7 @@
                   >{{ dict.label }}</el-radio>
                </el-radio-group>
             </el-form-item>
-            <el-form-item label="备注" prop="remark">
+            <el-form-item :label="t('remark')" prop="remark">
                <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
             </el-form-item>
          </el-form>

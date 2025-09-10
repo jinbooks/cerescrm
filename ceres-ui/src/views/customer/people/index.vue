@@ -6,14 +6,14 @@
           <el-form-item label="联系人">
             <el-input v-model="queryParams.contactName" placeholder="请输入联系人姓名"/>
           </el-form-item>
-          <el-form-item label="性别">
-            <el-select style="width: 120px" v-model="queryParams.gender" clearable placeholder="请选择">
+          <el-form-item :label="t('jbx.users.gender')">
+            <el-select style="width: 120px" v-model="queryParams.gender" clearable :placeholder="t('pleaseSelect')">
               <el-option label="男" value="男"/>
               <el-option label="女" value="女"/>
               <el-option label="未知" value="未知"/>
             </el-select>
           </el-form-item>
-          <el-form-item label="联系电话">
+          <el-form-item :label="t('jbx.organizations.phone')">
             <el-input v-model="queryParams.phone" placeholder="请输入联系电话"/>
           </el-form-item>
           <el-form-item>
@@ -31,13 +31,13 @@
       </div>
       <el-table v-loading="loading" :data="dataList" border @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
-        <el-table-column prop="customerName" label="客户名称" align="left" header-align="center"></el-table-column>
+        <el-table-column prop="customerName" :label="t('customerName')" align="left" header-align="center"></el-table-column>
         <el-table-column prop="contactName" label="联系人姓名" align="left" header-align="center"></el-table-column>
-        <el-table-column prop="gender" label="性别" align="center"></el-table-column>
+        <el-table-column prop="gender" :label="t('jbx.users.gender')" align="center"></el-table-column>
         <el-table-column prop="jobTitle" label="职位" align="left" header-align="center"></el-table-column>
-        <el-table-column prop="phone" label="联系电话" align="left" header-align="center"></el-table-column>
-        <el-table-column prop="wechat" label="微信" align="left" header-align="center"></el-table-column>
-        <el-table-column prop="email" label="邮箱" align="left" header-align="center"></el-table-column>
+        <el-table-column prop="phone" :label="t('jbx.organizations.phone')" align="left" header-align="center"></el-table-column>
+        <el-table-column prop="wechat" :label="t('wechat')" align="left" header-align="center"></el-table-column>
+        <el-table-column prop="email" :label="t('jbx.institutions.email')" align="left" header-align="center"></el-table-column>
         <el-table-column :label="t('org.operate')" align="center" width="120">
           <template #default="scope">
             <el-button link icon="Edit" @click="handleUpdate(scope.row)"></el-button>

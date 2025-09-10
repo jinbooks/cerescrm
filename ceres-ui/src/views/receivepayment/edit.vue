@@ -20,7 +20,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="合同编码" prop="contractCode">
+            <el-form-item :label="t('contractCode')" prop="contractCode">
               <el-input v-model="form.contractCode" disabled />
             </el-form-item>
           </el-col>
@@ -35,12 +35,12 @@
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="客户名称" prop="customerName">
+            <el-form-item :label="t('customerName')" prop="customerName">
               <el-input v-model="form.customerName" disabled />
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="合同金额" prop="contractAmount">
+            <el-form-item :label="t('contractName')" prop="contractAmount">
               <el-input v-model="form.contractAmount" disabled />
             </el-form-item>
           </el-col>
@@ -65,12 +65,12 @@
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="银行账户" prop="taxBankAccount">
+            <el-form-item :label="t('bankAccount')" prop="taxBankAccount">
               <el-input v-model="form.taxBankAccount" disabled />
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="开户银行" prop="taxBank">
+            <el-form-item :label="t('BankOpening')" prop="taxBank">
               <el-input v-model="form.taxBank" disabled />
             </el-form-item>
           </el-col>
@@ -106,7 +106,7 @@
           </el-col>
           <el-col :span="span">
             <el-form-item label="开票日期" prop="invoiceDate">
-              <el-date-picker v-model="form.invoiceDate" 
+              <el-date-picker v-model="form.invoiceDate"
                 format="YYYY-MM-DD"
                 value-format="YYYY-MM-DD"/>
             </el-form-item>
@@ -120,7 +120,7 @@
           </el-col>
           <el-col :span="span">
             <el-form-item :label="t('org.status')" prop="status">
-              <el-select v-model="form.status" placeholder="请选择">
+              <el-select v-model="form.status" :placeholder="t('pleaseSelect')">
                 <el-option label="开票" value="1"/>
                 <el-option label="收款" value="2"/>
               </el-select>
@@ -129,7 +129,7 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="24">
-            <el-form-item label="备注" prop="remark">
+            <el-form-item :label="t('remark')" prop="remark">
               <el-input v-model="form.remark" type="textarea" :rows="3"/>
             </el-form-item>
           </el-col>

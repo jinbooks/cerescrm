@@ -3,56 +3,56 @@
     <el-card class="common-card detail-header">
       <el-divider><span>客户基本信息</span></el-divider>
       <el-descriptions :column="4" border label-class-name="label-style" style="margin-top: 15px">
-        <el-descriptions-item label="客户名称">{{ customer.customerName }}</el-descriptions-item>
-        <el-descriptions-item label="客户类型">{{ customer.customerType }}</el-descriptions-item>
-        <el-descriptions-item label="所属行业">{{ customer.industry }}</el-descriptions-item>
-        <el-descriptions-item label="地区">{{ customer.province +"/" +customer.city}}</el-descriptions-item>
+        <el-descriptions-item :label="t('customerName')">{{ customer.customerName }}</el-descriptions-item>
+        <el-descriptions-item :label="t('customerType')">{{ customer.customerType }}</el-descriptions-item>
+        <el-descriptions-item :label="t('belongIndustry')">{{ customer.industry }}</el-descriptions-item>
+        <el-descriptions-item :label="t('area')">{{ customer.province +"/" +customer.city}}</el-descriptions-item>
 
         <el-descriptions-item :label="t('PersonCharge')">{{ customer.customerHead }}</el-descriptions-item>
-        <el-descriptions-item label="联系电话">{{ customer.phone }}</el-descriptions-item>
-        <el-descriptions-item label="邮箱">{{ customer.email }}</el-descriptions-item>
-        <el-descriptions-item label="微信">{{ customer.wechat }}</el-descriptions-item>
-        <el-descriptions-item label="官网网址">{{ customer.website || '无' }}</el-descriptions-item>
-        <el-descriptions-item label="来源渠道">{{ customer.customerFrom }}</el-descriptions-item>
+        <el-descriptions-item :label="t('jbx.organizations.phone')">{{ customer.phone }}</el-descriptions-item>
+        <el-descriptions-item :label="t('jbx.institutions.email')">{{ customer.email }}</el-descriptions-item>
+        <el-descriptions-item :label="t('wechat')">{{ customer.wechat }}</el-descriptions-item>
+        <el-descriptions-item :label="t('webUrl')">{{ customer.website || t('none') }}</el-descriptions-item>
+        <el-descriptions-item :label="t('sourceChannel')">{{ customer.customerFrom }}</el-descriptions-item>
 
-        <el-descriptions-item label="最近购买时间">{{ customer.lastPurchaseTime || '无' }}</el-descriptions-item>
-        <el-descriptions-item label="累计消费金额">{{ customer.totalSpending || 0 }} 元</el-descriptions-item>
-        <el-descriptions-item label="服务满意度">
+        <el-descriptions-item :label="t('LastPurchaseTime')">{{ customer.lastPurchaseTime || t('none') }}</el-descriptions-item>
+        <el-descriptions-item :label="t('CumulativeCA')">{{ customer.totalSpending || 0 }} {{t('Yuan')}}</el-descriptions-item>
+        <el-descriptions-item :label="t('ServiceSatisfaction')">
           <el-rate v-model="customer.serviceSatisfaction" disabled/>
         </el-descriptions-item>
-        <el-descriptions-item label="客户分层">{{ customer.segmentName || '未分类' }}</el-descriptions-item>
+        <el-descriptions-item :label="t('customerLayer')">{{ customer.segmentName || t('Uncategorized') }}</el-descriptions-item>
 
       </el-descriptions>
-      <el-divider><span>开票信息</span></el-divider>
+      <el-divider><span>{{t('BillingInfo')}}</span></el-divider>
       <el-descriptions :column="3" border label-class-name="label-style" style="margin-top: 15px">
-        <el-descriptions-item label="纳税人识别号">{{ customer.taxNumber }}</el-descriptions-item>
-        <el-descriptions-item label="账户名称">{{ customer.taxBankAccount }}</el-descriptions-item>
+        <el-descriptions-item :label="t('TaxpayerNo')">{{ customer.taxNumber }}</el-descriptions-item>
+        <el-descriptions-item :label="t('accountName')">{{ customer.taxBankAccount }}</el-descriptions-item>
 
-        <el-descriptions-item label="开户银行">{{ customer.taxBank }}</el-descriptions-item>
-        <el-descriptions-item label="银行账户">{{ customer.taxBankAccountNumber }}</el-descriptions-item>
+        <el-descriptions-item :label="t('BankOpening')">{{ customer.taxBank }}</el-descriptions-item>
+        <el-descriptions-item :label="t('bankAccount')">{{ customer.taxBankAccountNumber }}</el-descriptions-item>
 
-        <el-descriptions-item label="联系方式">{{ customer.taxContact }}</el-descriptions-item>
+        <el-descriptions-item :label="t('contactWay')">{{ customer.taxContact }}</el-descriptions-item>
       </el-descriptions>
       <el-descriptions :column="2" border label-class-name="label-style" style="margin-top: 15px">
-        <el-descriptions-item label="备注"><editor v-model="customer.content" :height="150" /></el-descriptions-item>
+        <el-descriptions-item :label="t('remark')"><editor v-model="customer.content" :height="150" /></el-descriptions-item>
       </el-descriptions>
     </el-card>
 
     <el-tabs v-model="activeTab" type="card">
-      <el-tab-pane label="联系人" name="contact"></el-tab-pane>
-      <el-tab-pane label="合同" name="contract"></el-tab-pane>
+      <el-tab-pane :label="t('contact')" name="contact"></el-tab-pane>
+      <el-tab-pane :label="t('contract')" name="contract"></el-tab-pane>
     </el-tabs>
 
     <el-card v-if="activeTab==='contact'" class="common-card">
       <div class="btn-form">
-        <el-button type="primary" @click="handleContactAdd">新增联系人</el-button>
+        <el-button type="primary" @click="handleContactAdd">{{t('newContact')}}</el-button>
       </div>
       <el-table :data="contacts" border style="width: 100%">
-        <el-table-column prop="contactName" label="姓名" align="center"></el-table-column>
-        <el-table-column prop="gender" label="性别" align="center"></el-table-column>
-        <el-table-column prop="jobTitle" label="职位" align="center"></el-table-column>
-        <el-table-column prop="phone" label="联系电话" align="center"></el-table-column>
-        <el-table-column prop="email" label="邮箱" align="center"></el-table-column>
+        <el-table-column prop="contactName" :label="t('jbx.users.displayName')" align="center"></el-table-column>
+        <el-table-column prop="gender" :label="t('jbx.users.gender')" align="center"></el-table-column>
+        <el-table-column prop="jobTitle" :label="t('jbx.users.jobTitle')" align="center"></el-table-column>
+        <el-table-column prop="phone" :label="t('jbx.organizations.phone')" align="center"></el-table-column>
+        <el-table-column prop="email" :label="t('jbx.institutions.email')" align="center"></el-table-column>
         <el-table-column :label="t('org.operate')" align="center" width="120">
           <template #default="scope">
             <el-button link icon="Edit" @click="editContact(scope.row)"></el-button>
@@ -71,18 +71,18 @@
     </el-card>
     <el-card v-if="activeTab==='contract'" class="common-card">
       <el-table :data="contracts" border style="width: 100%">
-        <el-table-column prop="code" label="合同编码" header-align="center" min-width="50"></el-table-column>
-        <el-table-column prop="contractName" label="合同名称" header-align="center" min-width="50">
+        <el-table-column prop="code" :label="t('contractCode')" header-align="center" min-width="50"></el-table-column>
+        <el-table-column prop="contractName" :label="t('contractName')" header-align="center" min-width="50">
           <template #default="scope">
             <el-button link type="primary" @click="handleContractDetail(scope.row)">{{ scope.row.contractName }}</el-button>
           </template>
         </el-table-column>
-        <el-table-column prop="amount" label="合同金额" align="center"></el-table-column>
+        <el-table-column prop="amount" :label="t('contractAmount')" align="center"></el-table-column>
         <!--<el-table-column prop="currency" label="货币类型" align="center"></el-table-column>
         <el-table-column prop="taxRate" label="税率" align="center"></el-table-column>-->
-        <el-table-column prop="signingDate" label="签订日期"  align="center" header-align="center" width="100"></el-table-column>
+        <el-table-column prop="signingDate" :label="t('SigningDate')"  align="center" header-align="center" width="100"></el-table-column>
         <!--<el-table-column prop="effectiveDate" label="生效日期"  align="center"  header-align="center" width="100"></el-table-column>-->
-        <el-table-column prop="expirationDate" label="到期日期"  align="center" header-align="center" width="100"></el-table-column>
+        <el-table-column prop="expirationDate" :label="t('ExpiryDate')"  align="center" header-align="center" width="100"></el-table-column>
         <el-table-column prop="status" :label="t('org.status')" align="center" width="120">
           <template #default="scope">
             <el-tag :type="getStatusLabel(scope.row.status).type">
@@ -90,7 +90,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="status" label="回款" align="center" width="120">
+        <el-table-column prop="status" :label="t('Repayment')" align="center" width="120">
           <template #default="scope">
             <el-button link icon="CreditCard" @click="viewPayment(scope.row)"></el-button>
           </template>
@@ -121,7 +121,7 @@
         <div v-if="contentContract">
           <Editor v-model="contentContract" :min-height="500" :read-only="true"></Editor>
         </div>
-        <div v-else>未定义合同内容</div>
+        <div v-else>{{t('UndefinedContractContent')}}</div>
       </template>
     </el-drawer>
 
@@ -220,19 +220,19 @@ function getContracts() {
 function getStatusLabel(status: string) {
   switch (status) {
     case '草稿':
-      return {label: '草稿', type: ''}
+      return {label: t('draft'), type: ''}
     case '待审批':
-      return {label: '待审批', type: 'warning'}
+      return {label: t('AwaitingApproval'), type: 'warning'}
     case '审批通过':
-      return {label: '审批通过', type: 'success'}
+      return {label: t('Approved'), type: 'success'}
     case '审批拒绝':
-      return {label: '审批拒绝', type: 'danger'}
+      return {label: t('ApprovalRejection'), type: 'danger'}
     case '履行中':
-      return {label: '履行中', type: 'info'}
+      return {label: t('InProgress'), type: 'info'}
     case '已完成':
-      return {label: '已完成', type: 'success'}
+      return {label: t('Completed'), type: 'success'}
     case '已终止':
-      return {label: '已终止', type: 'danger'}
+      return {label: t('Terminated'), type: 'danger'}
     default:
       return {label: status, type: ''}
   }
@@ -241,7 +241,7 @@ function getStatusLabel(status: string) {
 // 编辑联系人
 function editContact(row: any) {
   idContact.value = row.id
-  titleContact.value = '编辑联系人'
+  titleContact.value = t('updateContact')
   openContact.value = true
 }
 
@@ -256,20 +256,20 @@ function dialogOfClosedMethods(val: boolean) {
 
 function handleContactAdd() {
   idContact.value = undefined
-  titleContact.value = '新增联系人'
+  titleContact.value = t('addContact')
   openContact.value = true
 }
 
 function viewPayment(row: any) {
   contractId.value = row.id
-  titlePayment.value = '查看回款'
+  titlePayment.value = t('showRepay')
   openPayment.value = true
   console.log(titlePayment.value +" , id "+contractId.value );
 }
 
 function handleContactDelete(row: any) {
   const _ids = row.id
-  modal.confirm(`是否确认删除编号为"${_ids}"的数据项？`).then(() => {
+  modal.confirm(`${t('deleteTipCommon')}${_ids}${t('deleteTipLead1')}`).then(() => {
     return delCustomerContact({listIds: [_ids]})
   }).then((res: any) => {
     if (res.code === 0) {
@@ -285,7 +285,7 @@ function handleContactDelete(row: any) {
 function handleContractDetail(row: any): void {
   getContractOne(row.id).then((res: any) => {
     contentContract.value = res.data.content
-    titleContract.value = '合同详情'
+    titleContract.value = t('ContractDetails')
     openContract.value = true
   })
 }

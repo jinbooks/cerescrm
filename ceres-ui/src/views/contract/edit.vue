@@ -8,7 +8,7 @@
       <el-form :model="form" :rules="rules" ref="formRef" label-width="100px" inline-message>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="合同编码">
+            <el-form-item :label="t('contractCode')">
               <el-input v-model="form.code" style="width: 100%"/>
             </el-form-item>
           </el-col>
@@ -20,14 +20,14 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="客户名称">
+            <el-form-item :label="t('customerName')">
               <customer-select v-model="form.customerId"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="合同金额">
+            <el-form-item :label="t('contractName')">
               <el-input-number v-model="form.amount" :precision="2" :step="1000" :min="0" style="width: 100%"/>
             </el-form-item>
           </el-col>
@@ -52,7 +52,7 @@
 
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="签订日期">
+            <el-form-item :label="t('SigningDate')">
               <el-date-picker
                   v-model="form.signingDate"
                   type="date"
@@ -78,7 +78,7 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="到期日期">
+            <el-form-item :label="t('ExpiryDate')">
               <el-date-picker
                   v-model="form.expirationDate"
                   type="date"
@@ -91,7 +91,7 @@
           </el-col>
           <el-col :span="span">
             <el-form-item :label="t('org.status')">
-              <el-select v-model="form.status" placeholder="请选择">
+              <el-select v-model="form.status" :placeholder="t('pleaseSelect')">
                 <el-option label="草稿" value="草稿"/>
                 <el-option label="待审批" value="待审批"/>
                 <el-option label="审批通过" value="审批通过"/>

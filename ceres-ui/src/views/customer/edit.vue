@@ -11,83 +11,83 @@
             type="card"
             class="demo-tabs"
         >
-          <el-tab-pane label="基本信息" name="first">
+          <el-tab-pane :label="t('basicInfo')" name="first">
 
             <el-row :gutter="20">
               <el-col :span="span">
-                <el-form-item label="客户名称" prop="customerName">
+                <el-form-item :label="t('customerName')" prop="customerName">
                   <el-input v-model="form.customerName"/>
                 </el-form-item>
               </el-col>
               <el-col :span="span">
-                <el-form-item label="客户类型" prop="customerType">
-                  <el-select v-model="form.customerType" placeholder="请选择">
-                    <el-option label="个人" value="个人"/>
-                    <el-option label="企业" value="企业"/>
+                <el-form-item :label="t('customerType')" prop="customerType">
+                  <el-select v-model="form.customerType" :placeholder="t('pleaseSelect')">
+                    <el-option :label="t('personal')" value="个人"/>
+                    <el-option :label="t('business')" value="企业"/>
                   </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
-            <el-form-item label="客户分组">
-              <el-select v-model="form.segmentId" clearable placeholder="请选择">
+            <el-form-item :label="t('customerGroup')">
+              <el-select v-model="form.segmentId" clearable :placeholder="t('pleaseSelect')">
                 <el-option v-for="(item, index) in dataSegmentList" :key="index"
                            :value="item.id" :label="item.segmentName"></el-option>
               </el-select>
             </el-form-item>
             <el-row :gutter="20">
               <el-col :span="span">
-                <el-form-item label="所属行业" prop="industry">
+                <el-form-item :label="t('belongIndustry')" prop="industry">
                   <el-input v-model="form.industry"/>
                 </el-form-item>
               </el-col>
               <el-col :span="span">
-                <el-form-item label="所在地区">
+                <el-form-item :label="t('Region')">
                   <el-cascader
                       v-model="region"
                       :options="pcTextArr"
                       :props="{ emitPath: true, checkStrictly: true }"
                       clearable
                       filterable
-                      placeholder="请选择省市"
+                      :placeholder="t('RegionSelect')"
                       style="width: 100%"
                   />
                 </el-form-item>
               </el-col>
               <el-col :span="span">
-                <el-form-item label="地址" prop="address">
+                <el-form-item :label="t('jbx.institutions.address')" prop="address">
                   <el-input v-model="form.address"/>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="20">
               <el-col :span="span">
-                <el-form-item label="电子邮箱" prop="email">
+                <el-form-item :label="t('jbx.organizations.email')" prop="email">
                   <el-input v-model="form.email"/>
                 </el-form-item>
               </el-col>
               <el-col :span="span">
-                <el-form-item label="联系电话" prop="phone">
+                <el-form-item :label="t('jbx.organizations.phone')" prop="phone">
                   <el-input v-model="form.phone"/>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="20">
               <el-col :span="span">
-                <el-form-item label="微信" prop="wechat">
+                <el-form-item :label="t('wechat')" prop="wechat">
                   <el-input v-model="form.wechat"/>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="20">
               <el-col :span="span">
-                <el-form-item label="官网网址" prop="website">
+                <el-form-item :label="t('webUrl')" prop="website">
                   <el-input v-model="form.website"/>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="20">
               <el-col :span="span">
-                <el-form-item label="备注">
+                <el-form-item :label="t('remark')">
                   <editor v-model="form.content" :height="250"/>
                 </el-form-item>
               </el-col>
@@ -99,47 +99,47 @@
                 </el-form-item>
               </el-col>
               <el-col :span="span">
-                <el-form-item label="来源渠道" prop="customerFrom">
-                  <el-select v-model="form.customerFrom" placeholder="请选择">
-                    <el-option label="搜索引擎" value="搜索引擎"/>
-                    <el-option label="直接访问" value="直接访问"/>
-                    <el-option label="邮件营销" value="邮件营销"/>
-                    <el-option label="社交媒体" value="社交媒体"/>
-                    <el-option label="广告" value="广告"/>
-                    <el-option label="销售人员介绍" value="销售人员介绍"/>
-                    <el-option label="客户介绍" value="客户介绍"/>
-                    <el-option label="其他渠道" value="其他渠道"/>
+                <el-form-item :label="t('sourceChannel')" prop="customerFrom">
+                  <el-select v-model="form.customerFrom" :placeholder="t('pleaseSelect')">
+                    <el-option :label="t('searchEngine')" value="搜索引擎"/>
+                    <el-option :label="t('straightVisit')" value="直接访问"/>
+                    <el-option :label="t('EmailMarketing')" value="邮件营销"/>
+                    <el-option :label="t('socialMedia')" value="社交媒体"/>
+                    <el-option :label="t('ads')" value="广告"/>
+                    <el-option :label="t('salesmanIntro')" value="销售人员介绍"/>
+                    <el-option :label="t('customerIntro')" value="客户介绍"/>
+                    <el-option :label="t('otherChannel')" value="其他渠道"/>
                   </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
           </el-tab-pane>
-          <el-tab-pane label="开票信息" name="second">
+          <el-tab-pane :label="t('BillingInfo')" name="second">
             <el-row :gutter="20">
               <el-col :span="span">
-                <el-form-item label="纳税人识别号" prop="taxNumber">
+                <el-form-item :label="t('TaxpayerNo')" prop="taxNumber">
                   <el-input v-model="form.taxNumber"/>
                 </el-form-item>
               </el-col>
               <el-col :span="span">
-                <el-form-item label="账户名称" prop="taxBankAccount">
+                <el-form-item :label="t('accountName')" prop="taxBankAccount">
                   <el-input v-model="form.taxBankAccount"/>
                 </el-form-item>
               </el-col>
               <el-col :span="span">
-                <el-form-item label="开户银行" prop="taxBank">
+                <el-form-item :label="t('BankOpening')" prop="taxBank">
                   <el-input v-model="form.taxBank"/>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="20">
               <el-col :span="span">
-                <el-form-item label="银行账户" prop="taxBankAccountNumber">
+                <el-form-item :label="t('bankAccount')" prop="taxBankAccountNumber">
                   <el-input v-model="form.taxBankAccountNumber"/>
                 </el-form-item>
               </el-col>
               <el-col :span="span">
-                <el-form-item label="联系方式" prop="taxContact">
+                <el-form-item :label="t('contactWay')" prop="taxContact">
                   <el-input v-model="form.taxContact"/>
                 </el-form-item>
               </el-col>
@@ -235,10 +235,10 @@ const data = reactive<FormState>({
   },
   rules: {
     customerName: [
-      {required: true, message: "客户名称不能为空", trigger: 'blur'}
+      {required: true, message: t('cstNameTip'), trigger: 'blur'}
     ],
     customerType: [
-      {required: true, message: "客户类型不能为空", trigger: 'blur'}
+      {required: true, message: t('cstTypeTip'), trigger: 'blur'}
     ],
   }
 })

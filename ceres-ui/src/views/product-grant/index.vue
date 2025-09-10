@@ -3,8 +3,8 @@
     <el-card class="common-card query-box">
       <div class="queryForm">
         <el-form :model="queryParams" ref="queryRef" :inline="true" label-width="80px">
-          <el-form-item label="客户名称">
-            <el-input v-model="queryParams.customerName" placeholder="请输入客户名称"/>
+          <el-form-item :label="t('customerName')">
+            <el-input v-model="queryParams.customerName" :placeholder="t('customerTip')"/>
           </el-form-item>
           <el-form-item label="产品编码">
             <el-input v-model="queryParams.productCode" placeholder="请输入产品编码"/>
@@ -13,7 +13,7 @@
             <el-input v-model="queryParams.productName" placeholder="请输入产品名称"/>
           </el-form-item>
           <el-form-item label="状态">
-            <el-select style="width: 120px" v-model="queryParams.status" clearable placeholder="请选择">
+            <el-select style="width: 120px" v-model="queryParams.status" clearable :placeholder="t('pleaseSelect')">
               <el-option label="全部" value=""/>
               <el-option label="生效" value="1"/>
               <el-option label="失效" value="2"/>
@@ -35,14 +35,14 @@
       <el-table v-loading="loading" :data="dataList" border @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <!--<el-table-column prop="customerId" label="客户编码"  align="left" header-align="center" ></el-table-column>-->
-        <el-table-column prop="customerName" label="客户名称"  align="left" header-align="center" ></el-table-column>
+        <el-table-column prop="customerName" :label="t('customerName')"  align="left" header-align="center" ></el-table-column>
         <el-table-column prop="productCode" label="产品编码" align="left" header-align="center"></el-table-column>
         <el-table-column prop="productName" label="产品名称" align="left" header-align="center"></el-table-column>
         <el-table-column prop="productVersion" label="版本" align="left" header-align="center"></el-table-column>
         <el-table-column prop="license" label="授权码" align="left" header-align="center"></el-table-column>
         <el-table-column prop="grantType" label="授权方式"  align="center" header-align="center" width="100"></el-table-column>
         <el-table-column prop="grantDate" label="授权日期"  align="center" header-align="center" width="100" ></el-table-column>
-        <el-table-column prop="expirationDate" label="到期日期" align="center"></el-table-column>
+        <el-table-column prop="expirationDate" :label="t('ExpiryDate')" align="center"></el-table-column>
         <el-table-column prop="status" label="状态" align="center"  width="100">
             <template #default="scope">
               <el-tag type="primary" v-show="scope.row.status=='1'">生效</el-tag>

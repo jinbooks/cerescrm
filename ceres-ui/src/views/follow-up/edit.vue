@@ -80,7 +80,7 @@
         <el-form-item label="跟进人">
           <follow-user-select v-model="form.followUserId"/>
         </el-form-item>
-        <el-form-item label="备注">
+        <el-form-item :label="t('remark')">
           <el-input
               type="textarea"
               v-model="form.remark"
