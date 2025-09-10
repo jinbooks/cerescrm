@@ -3,49 +3,49 @@
     <el-card class="common-card detail-header">
       <el-divider><span>线索基本信息</span></el-divider>
       <el-descriptions :column="4" border label-class-name="label-style" style="margin-top: 15px">
-        <el-descriptions-item label="线索编号">{{ lead.leadCode }}</el-descriptions-item>
-        <el-descriptions-item label="联系人姓名">{{ lead.name }}</el-descriptions-item>
-        <el-descriptions-item label="公司名称">{{ lead.company }}</el-descriptions-item>
-        <el-descriptions-item label="职位">{{ lead.title }}</el-descriptions-item>
+        <el-descriptions-item :label="t('clueCoding')">{{ lead.leadCode }}</el-descriptions-item>
+        <el-descriptions-item :label="t('ContactName')">{{ lead.name }}</el-descriptions-item>
+        <el-descriptions-item :label="t('jbx.organizations.typeCompany')">{{ lead.company }}</el-descriptions-item>
+        <el-descriptions-item :label="t('jbx.users.jobTitle')">{{ lead.title }}</el-descriptions-item>
 
-        <el-descriptions-item label="电话">{{ lead.phone }}</el-descriptions-item>
-        <el-descriptions-item label="邮箱">{{ lead.email }}</el-descriptions-item>
-        <el-descriptions-item label="微信号">{{ lead.wechat}}</el-descriptions-item>
-        <el-descriptions-item label="所在地">{{ lead.province }}{{lead.city}}</el-descriptions-item>
+        <el-descriptions-item :label="t('appLoginTextMobile')">{{ lead.phone }}</el-descriptions-item>
+        <el-descriptions-item :label="t('jbx.institutions.email')">{{ lead.email }}</el-descriptions-item>
+        <el-descriptions-item :label="t('wechat')">{{ lead.wechat}}</el-descriptions-item>
+        <el-descriptions-item :label="t('Region')">{{ lead.province }}{{lead.city}}</el-descriptions-item>
 
-        <el-descriptions-item label="来源类型">{{ getSourceTypeLabel(lead.sourceType) }}</el-descriptions-item>
-        <el-descriptions-item label="来源详情">
+        <el-descriptions-item :label="t('SourceType')">{{ getSourceTypeLabel(lead.sourceType) }}</el-descriptions-item>
+        <el-descriptions-item :label="t('SourceDetails')">
           <el-tooltip class="item" effect="dark" :content="lead.sourceDetail" placement="top">
             <span class="ellipsis">{{ lead.sourceDetail}}</span>
           </el-tooltip>
         </el-descriptions-item>
-        <el-descriptions-item label="行业">{{ getIndustryLabel(lead.industry) }}</el-descriptions-item>
-        <el-descriptions-item label="预算">{{ formatAmount(lead.budget) }}</el-descriptions-item>
+        <el-descriptions-item :label="t('industry')">{{ getIndustryLabel(lead.industry) }}</el-descriptions-item>
+        <el-descriptions-item :label="t('budget')">{{ formatAmount(lead.budget) }}</el-descriptions-item>
 
 
-        <el-descriptions-item label="状态">{{ getStatusLabel(lead.status) }}</el-descriptions-item>
-        <el-descriptions-item label="质量评分">
+        <el-descriptions-item :label="t('org.status')">{{ getStatusLabel(lead.status) }}</el-descriptions-item>
+        <el-descriptions-item :label="t('QualityRating')">
           <el-rate v-model="lead.qualityScore" disabled/>
         </el-descriptions-item>
-        <el-descriptions-item label="优先级">{{ getPriorityLabel(lead.priority) }}</el-descriptions-item>
-        <el-descriptions-item label="负责人">{{ lead.ownerName || "无"}}</el-descriptions-item>
+        <el-descriptions-item :label="t('priority')">{{ getPriorityLabel(lead.priority) }}</el-descriptions-item>
+        <el-descriptions-item :label="t('PersonCharge')">{{ lead.ownerName || "无"}}</el-descriptions-item>
 
-        <el-descriptions-item label="分配时间">{{ lead.assignedAt }}</el-descriptions-item>
-        <el-descriptions-item label="下次跟进时间">{{ lead.nextFollowTime }}</el-descriptions-item>
-        <el-descriptions-item label="最后联系时间">{{ lead.lastContactTime }}</el-descriptions-item>
-        <el-descriptions-item label="转化时间">{{ lead.convertedAt }}</el-descriptions-item>
+        <el-descriptions-item :label="t('AllocateTime')">{{ lead.assignedAt }}</el-descriptions-item>
+        <el-descriptions-item :label="t('NextFollowTime')">{{ lead.nextFollowTime }}</el-descriptions-item>
+        <el-descriptions-item :label="t('LastContactTime')">{{ lead.lastContactTime }}</el-descriptions-item>
+        <el-descriptions-item :label="t('ConversionTime')">{{ lead.convertedAt }}</el-descriptions-item>
 
       </el-descriptions>
     </el-card>
     <el-card class="common-card detail-header">
-      <div class="section-title-follow">跟进记录</div>
+      <div class="section-title-follow">{{t('Follow-upRecords')}}</div>
       <div v-for="(item, index) in followUps" :key="index" class="follow-record">
         <div class="left-border">
           <div class="follow-title">{{ getFollowTypeLabel(item.followType) }}</div>
           <div class="follow-desc">{{ item.content }}</div>
           <el-tag type="success" size="small">{{ getResultsLabel(item.result) }}</el-tag>
         </div>
-        <div class="follow-time">跟进时间：{{ item.followAt }}</div>
+        <div class="follow-time">{{t('Follow-upTime:')}}{{ item.followAt }}</div>
       </div>
     </el-card>
   </div>
@@ -57,11 +57,14 @@ import {useRouter} from "vue-router";
 import {getOne} from "@/api/lead/lead";
 import {createValueLabelMap, getLabelFromMap} from "@/utils/Dict-utils";
 import {formatAmount} from "@/utils";
+import {useI18n} from "vue-i18n";
 const {proxy} = getCurrentInstance()!;
 const {source_type, books_industry, status_manage, priority, follow_types, results}
     = proxy?.useDict("source_type", "books_industry", "status_manage", "priority", "follow_types", "results");
 const router = useRouter()
 const submitLoading = ref(true)
+
+const {t} = useI18n();
 
 //行业
 const flatIndustryList = books_industry.value.flatMap(group => group.options)

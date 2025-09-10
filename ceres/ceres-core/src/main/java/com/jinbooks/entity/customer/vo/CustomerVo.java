@@ -123,5 +123,10 @@ public class CustomerVo extends BaseEntity implements Serializable {
      * 来源渠道
      */
     private String customerFrom;
+    
+    /**
+     * 微信号
+     */
+    private String wechat;
 
 }

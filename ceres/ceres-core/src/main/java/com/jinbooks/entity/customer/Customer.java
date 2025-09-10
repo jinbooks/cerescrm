@@ -137,6 +137,11 @@ public class Customer extends BaseEntity implements Serializable {
     private String customerFrom;
 
     /**
+     * 微信号
+     */
+    private String wechat;
+    
+    /**
      * 删除标记：y-已删, n-正常
      */
     @TableField(fill = FieldFill.INSERT)

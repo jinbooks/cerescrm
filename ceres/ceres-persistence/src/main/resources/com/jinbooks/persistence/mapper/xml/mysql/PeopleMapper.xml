@@ -12,6 +12,7 @@
         <result column="gender" property="gender" jdbcType="VARCHAR"/>
         <result column="job_title" property="jobTitle" jdbcType="VARCHAR"/>
         <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="wechat" property="wechat" jdbcType="VARCHAR"/>
         <result column="email" property="email" jdbcType="VARCHAR"/>
         <result column="address" property="address" jdbcType="VARCHAR"/>
         <result column="remark" property="remark" jdbcType="VARCHAR"/>
@@ -33,6 +34,7 @@
         cc.gender,
         cc.job_title,
         cc.phone,
+        cc.wechat,
         cc.email,
         cc.address,
         cc.remark,
@@ -69,6 +71,7 @@
             cc.gender,
             cc.job_title,
             cc.phone,
+            cc.wechat,
             cc.email,
             cc.address,
             cc.remark,

@@ -6,74 +6,74 @@
     </template>
     <template #default>
       <el-form :model="form" :rules="rules" ref="formRef" label-width="100px" inline-message>
-        <h4 style="color: dodgerblue">基本信息</h4>
+        <h4 style="color: dodgerblue">{{t('jbx.users.tabBasic')}}</h4>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="姓名">
+            <el-form-item :label="t('jbx.users.displayName')">
               <el-input v-model="form.name"/>
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="公司">
+            <el-form-item :label="t('jbx.organizations.typeCompany')">
               <el-input v-model="form.company"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="职位">
+            <el-form-item :label="t('jbx.users.jobTitle')">
               <el-input v-model="form.title"/>
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="手机号">
+            <el-form-item :label="t('appLoginTextMobile')">
               <el-input v-model="form.phone"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="邮箱">
+            <el-form-item :label="t('jbx.institutions.email')">
               <el-input v-model="form.email"/>
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="微信号">
+            <el-form-item :label="t('wechat')">
               <el-input v-model="form.wechat"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="所在地区">
+            <el-form-item :label="t('Region')">
               <el-cascader
                   v-model="region"
                   :options="pcTextArr"
                   :props="{ emitPath: true, checkStrictly: true }"
                   clearable
                   filterable
-                  placeholder="请选择省市"
+                  :placeholder="t('RegionSelect')"
                   style="width: 100%"
               />
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="负责人">
+            <el-form-item :label="t('PersonCharge')">
               <owner-select v-model="form.ownerId"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="24">
-            <el-form-item label="线索需求">
+            <el-form-item :label="t('LeadRequirements')">
               <editor v-model="form.demand" :height="250"/>
             </el-form-item>
           </el-col>
         </el-row>
-        <h4 style="color: orangered">线索属性</h4>
+        <h4 style="color: orangered">{{t('ClueAttributes')}}</h4>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="来源类型">
+            <el-form-item :label="t('SourceType')">
               <el-select v-model="form.sourceType" clearable>
                 <el-option
                     v-for="dict in sourceTypes"
@@ -85,7 +85,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="来源详情">
+            <el-form-item :label="t('SourceDetails')">
               <el-input
                   type="textarea"
                   v-model="form.sourceDetail"
@@ -97,7 +97,7 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="行业">
+            <el-form-item :label="t('industry')">
               <el-select v-model="form.industry" clearable filterable>
                 <el-option-group
                     v-for="group in booksIndustries"
@@ -115,19 +115,19 @@
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="预算">
+            <el-form-item :label="t('budget')">
               <el-input-number :min="0" :precision="2" v-model="form.budget" style="width: 100%">
                 <template #suffix>
-                  <span>元</span>
+                  <span>{{t('Yuan')}}</span>
                 </template>
               </el-input-number>
             </el-form-item>
           </el-col>
         </el-row>
-        <h4 style="color: darkseagreen">状态管理</h4>
+        <h4 style="color: darkseagreen">{{t('StateManagement')}}</h4>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="状态">
+            <el-form-item :label="t('org.status')">
               <el-select v-model="form.status" clearable>
                 <el-option
                     v-for="dict in statusManages"
@@ -139,7 +139,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="优先级">
+            <el-form-item :label="t('priority')">
               <el-select v-model="form.priority" clearable>
                 <el-option
                     v-for="dict in priorities"
@@ -153,16 +153,16 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="质量评分">
+            <el-form-item :label="t('QualityRating')">
               <el-rate v-model="form.qualityScore" :colors="colors" />
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="最后联系时间">
+            <el-form-item :label="t('LastContactTime')">
               <el-date-picker
                   v-model="form.lastContactTime"
                   type="datetime"
-                  placeholder="选择时间"
+                  :placeholder="t('SelectTime')"
                   format="YYYY-MM-DD HH:mm:ss"
                   value-format="YYYY-MM-DD HH:mm:ss"
                   style="width: calc(100%);"
@@ -213,7 +213,7 @@ interface FormModel {
   title: string               // 职位
   phone: string               // 手机号
   email: string               // 邮箱
-  wechat: string              // 微信号
+  wechat: string              // 微信
   sourceType: number          // 来源类型
   sourceDetail: string        // 来源详情
   industry: number            // 行业
@@ -298,8 +298,13 @@ watch(
 );
 
 watch(region, (val) => {
-  data.form.province = val[0] || ''
-  data.form.city = val[1] || ''
+  if (Array.isArray(val)) {
+    data.form.province = val[0] || '';
+    data.form.city = val[1] || '';
+  } else {
+    data.form.province = '';
+    data.form.city = '';
+  }
 })
 
 

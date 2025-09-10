@@ -14,6 +14,7 @@
         <result column="address" property="address" jdbcType="VARCHAR"/>
         <result column="email" property="email" jdbcType="VARCHAR"/>
         <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="wechat" property="wechat" jdbcType="VARCHAR"/>
         <result column="website" property="website" jdbcType="VARCHAR"/>
         <result column="content" property="content" jdbcType="VARCHAR"/>
         <result column="tax_number" property="taxNumber" jdbcType="VARCHAR"/>
@@ -49,6 +50,7 @@
         c.address,
         c.email,
         c.phone,
+        c.wechat,
         c.website,
         c.content,
         c.tax_number,
@@ -98,6 +100,7 @@
                c.address,
                c.email,
                c.phone,
+               c.wechat,
                c.website,
                c.content,
                c.tax_number,

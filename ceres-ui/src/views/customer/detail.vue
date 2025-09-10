@@ -8,9 +8,10 @@
         <el-descriptions-item label="所属行业">{{ customer.industry }}</el-descriptions-item>
         <el-descriptions-item label="地区">{{ customer.province +"/" +customer.city}}</el-descriptions-item>
 
-        <el-descriptions-item label="负责人">{{ customer.customerHead }}</el-descriptions-item>
+        <el-descriptions-item :label="t('PersonCharge')">{{ customer.customerHead }}</el-descriptions-item>
         <el-descriptions-item label="联系电话">{{ customer.phone }}</el-descriptions-item>
         <el-descriptions-item label="邮箱">{{ customer.email }}</el-descriptions-item>
+        <el-descriptions-item label="微信">{{ customer.wechat }}</el-descriptions-item>
         <el-descriptions-item label="官网网址">{{ customer.website || '无' }}</el-descriptions-item>
         <el-descriptions-item label="来源渠道">{{ customer.customerFrom }}</el-descriptions-item>
 
@@ -20,7 +21,7 @@
           <el-rate v-model="customer.serviceSatisfaction" disabled/>
         </el-descriptions-item>
         <el-descriptions-item label="客户分层">{{ customer.segmentName || '未分类' }}</el-descriptions-item>
-        
+
       </el-descriptions>
       <el-divider><span>开票信息</span></el-divider>
       <el-descriptions :column="3" border label-class-name="label-style" style="margin-top: 15px">
@@ -29,7 +30,7 @@
 
         <el-descriptions-item label="开户银行">{{ customer.taxBank }}</el-descriptions-item>
         <el-descriptions-item label="银行账户">{{ customer.taxBankAccountNumber }}</el-descriptions-item>
-        
+
         <el-descriptions-item label="联系方式">{{ customer.taxContact }}</el-descriptions-item>
       </el-descriptions>
       <el-descriptions :column="2" border label-class-name="label-style" style="margin-top: 15px">
@@ -52,7 +53,7 @@
         <el-table-column prop="jobTitle" label="职位" align="center"></el-table-column>
         <el-table-column prop="phone" label="联系电话" align="center"></el-table-column>
         <el-table-column prop="email" label="邮箱" align="center"></el-table-column>
-        <el-table-column label="操作" align="center" width="120">
+        <el-table-column :label="t('org.operate')" align="center" width="120">
           <template #default="scope">
             <el-button link icon="Edit" @click="editContact(scope.row)"></el-button>
             <el-button link icon="Delete" type="danger" @click="handleContactDelete(scope.row)"></el-button>
@@ -82,7 +83,7 @@
         <el-table-column prop="signingDate" label="签订日期"  align="center" header-align="center" width="100"></el-table-column>
         <!--<el-table-column prop="effectiveDate" label="生效日期"  align="center"  header-align="center" width="100"></el-table-column>-->
         <el-table-column prop="expirationDate" label="到期日期"  align="center" header-align="center" width="100"></el-table-column>
-        <el-table-column prop="status" label="状态" align="center" width="120">
+        <el-table-column prop="status" :label="t('org.status')" align="center" width="120">
           <template #default="scope">
             <el-tag :type="getStatusLabel(scope.row.status).type">
               {{ getStatusLabel(scope.row.status).label }}
@@ -123,7 +124,7 @@
         <div v-else>未定义合同内容</div>
       </template>
     </el-drawer>
-    
+
     <receive-payment-list
         :title="titlePayment"
         :open="openPayment"

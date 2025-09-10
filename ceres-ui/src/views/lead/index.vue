@@ -3,16 +3,16 @@
     <el-card class="common-card query-box">
       <div class="queryForm">
         <el-form :model="queryParams" ref="queryRef" :inline="true" label-width="68px">
-          <el-form-item label="姓名">
+          <el-form-item :label="t('jbx.users.displayName')">
             <el-input v-model="queryParams.name"/>
           </el-form-item>
-          <el-form-item label="电话">
+          <el-form-item :label="t('jbx.institutions.phone')">
             <el-input v-model="queryParams.phone"/>
           </el-form-item>
-          <el-form-item label="公司">
+          <el-form-item :label="t('jbx.organizations.typeCompany')">
             <el-input v-model="queryParams.company"/>
           </el-form-item>
-          <el-form-item label="状态">
+          <el-form-item :label="t('org.status')">
             <el-select v-model="queryParams.status" clearable style="width: 120px">
               <el-option
                   v-for="dict in status_manage"
@@ -22,7 +22,7 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item label="优先级">
+          <el-form-item :label="t('priority')">
             <el-select v-model="queryParams.priority" clearable style="width: 120px">
               <el-option
                   v-for="dict in priority"
@@ -48,7 +48,7 @@
             </el-icon>
           </div>
           <div class="items-info">
-            <p class="items-title">总线索数</p>
+            <p class="items-title">{{t('totalLead2')}}</p>
             <p class="items-data">{{ statistics.totalLead }}</p>
           </div>
         </div>
@@ -61,7 +61,7 @@
             </el-icon>
           </div>
           <div class="items-info">
-            <p class="items-title">有意向</p>
+            <p class="items-title">{{t('Intention')}}</p>
             <p class="items-data">{{ statistics.intentionCount }}</p>
           </div>
         </div>
@@ -74,7 +74,7 @@
             </el-icon>
           </div>
           <div class="items-info">
-            <p class="items-title">待跟进</p>
+            <p class="items-title">{{t('ToFollowedUp')}}</p>
             <p class="items-data">{{ statistics.pendingFollowUpCount }}</p>
           </div>
         </div>
@@ -87,7 +87,7 @@
             </el-icon>
           </div>
           <div class="items-info">
-            <p class="items-title">转化率</p>
+            <p class="items-title">{{t('ConversionRate')}}</p>
             <p class="items-data">{{ statistics.conversionRate }}%</p>
           </div>
         </div>
@@ -95,68 +95,69 @@
     </div>
     <el-card class="common-card">
       <div class="btn-form">
-        <el-button type="primary" @click="handleAdd">新增</el-button>
-        <el-button @click="onBatchDelete" :disabled="ids.length === 0" type="danger">批量删除</el-button>
+        <el-button type="primary" @click="handleAdd">{{t('jbx.text.add')}}</el-button>
+        <el-button @click="onBatchDelete" :disabled="ids.length === 0" type="danger">{{t('org.button.deleteBatch')}}</el-button>
       </div>
       <el-table v-loading="loading" :data="dataList"
                 border
                 @selection-change="handleSelectionChange">
-        <el-table-column type="selection" width="50" align="center"/>
-        <el-table-column label="跟进" align="center" width="60"
-                         :show-overflow-tooltip="true">
+        <el-table-column type="selection" width="50" align="center" fixed/>
+        <el-table-column :label="t('followUp')" align="center" width="60"
+                         :show-overflow-tooltip="true" fixed>
           <template #default="scope">
             <el-button icon="Comment" type="warning" link @click="followUp(scope.row)"></el-button>
           </template>
         </el-table-column>
-        <el-table-column label="转商机" align="center" width="70"
-                         :show-overflow-tooltip="true">
+        <el-table-column :label="t('BusinessOpportunities')" align="center" width="70"
+                         :show-overflow-tooltip="true" fixed>
           <template #default="scope">
             <el-button icon="Connection" link type="success" @click="convertOpp(scope.row)" :disabled="scope.row.status === 4"></el-button>
           </template>
         </el-table-column>
-        
-        <el-table-column prop="leadCode" label="线索编码" align="center" width="140"
+
+        <el-table-column prop="leadCode" :label="t('clueCoding')" align="center" width="150"
+                         :show-overflow-tooltip="true" fixed>
+        </el-table-column>
+        <el-table-column prop="name" :label="t('jbx.users.displayName')" align="left" header-align="center" width="100"
+                         :show-overflow-tooltip="true" fixed>
+        </el-table-column>
+        <el-table-column prop="phone" :label="t('jbx.institutions.phone')" align="left" header-align="center"  width="130"
                          :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column prop="name" label="姓名" align="left" header-align="center" min-width="80"
+        <el-table-column prop="email" :label="t('jbx.institutions.email')" align="left" header-align="center"  width="200"
                          :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column prop="phone" label="电话" align="left" header-align="center"  width="120"
+         <el-table-column prop="province" :label="t('area')" align="left" header-align="center"  width="140"
+                         :show-overflow-tooltip="true">
+           <template #default="scope">{{formatRegion(scope.row.province, scope.row.city)}}</template>
+        </el-table-column>
+        <el-table-column prop="company" :label="t('jbx.organizations.typeCompany')" align="left" header-align="center" width="200"
                          :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column prop="email" label="邮箱" align="left" header-align="center"  min-width="80"
+        <el-table-column prop="ownerName" :label="t('PersonCharge')"  align="center"  width="120"
                          :show-overflow-tooltip="true">
         </el-table-column>
-         <el-table-column prop="province" label="地区" align="left" header-align="center"  width="80"
-                         :show-overflow-tooltip="true">
-        </el-table-column>
-        <el-table-column prop="company" label="公司" align="left" header-align="center"  min-width="100"
-                         :show-overflow-tooltip="true">
-        </el-table-column>
-        <el-table-column prop="ownerName" label="负责人"  align="center"  width="120"
-                         :show-overflow-tooltip="true">
-        </el-table-column>
-        <el-table-column prop="status" label="状态" align="center" width="80"
+        <el-table-column prop="status" :label="t('org.status')" align="center" width="100"
                          :show-overflow-tooltip="true">
           <template #default="scope"  >
             <dict-tag-number :options="status_manage" :value="scope.row.status"/>
           </template>
         </el-table-column>
-        <el-table-column prop="priority" label="优先级" align="center" width="80"
+        <el-table-column prop="priority" :label="t('priority')" align="center" width="80"
                          :show-overflow-tooltip="true">
           <template #default="scope">
-           <span v-if="scope.row.priority === 1"><el-tag type="info">低</el-tag></span>
-           <span v-if="scope.row.priority === 2"><el-tag type="warning">中</el-tag></span>
-           <span v-if="scope.row.priority === 3"><el-tag type="danger">高</el-tag></span>
+           <span v-if="scope.row.priority === 1"><el-tag type="info">{{t('low')}}</el-tag></span>
+           <span v-if="scope.row.priority === 2"><el-tag type="warning">{{t('middle')}}</el-tag></span>
+           <span v-if="scope.row.priority === 3"><el-tag type="danger">{{t('high')}}</el-tag></span>
           </template>
         </el-table-column>
-        <el-table-column prop="budget" label="预算" align="right" header-align="center" width="120"
+        <el-table-column prop="budget" :label="t('budget')" align="right" header-align="center" width="120"
                          :show-overflow-tooltip="true">
           <template #default="scope">
             {{ formatAmount(scope.row.budget) }}
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" width="110">
+        <el-table-column :label="t('org.operate')" align="center" width="120" fixed="right">
           <template #default="scope">
             <el-button icon="View"  link @click="handleShow(scope.row)"></el-button>
             <el-button icon="Edit" link @click="handleUpdate(scope.row)"></el-button>
@@ -220,6 +221,7 @@ import editOpp from "@/views/opportunity/edit.vue"
 import {useRouter} from "vue-router";
 import {formatAmount} from "../../utils";
 import FollowUpForm from "@/views/follow-up/edit.vue"
+import {formatRegion} from "@/utils/CommonFieldFormat";
 
 const {t} = useI18n()
 const {proxy} = getCurrentInstance()!;
@@ -309,7 +311,7 @@ function dialogOfClosedMethods(val: any): any {
 
 function handleUpdate(row: any) {
   id.value = row.id;
-  title.value = "修改线索";
+  title.value = t('updateLead');
   open.value = true;
 }
 
@@ -319,7 +321,7 @@ function handleShow(row: any) {
 
 function handleDelete(row: any) {
   const _ids = row.id || ids.value;
-  modal.confirm('是否确认删除线索编号为"' + _ids + '"的数据项？').then(function () {
+  modal.confirm(t('deleteTipLead') + _ids + t('deleteTipLead1')).then(function () {
     return delLead({listIds: [_ids]});
   }).then((res: any) => {
     if (res.code === 0) {
@@ -350,7 +352,7 @@ function onBatchDelete(): any {
 
 function handleAdd() {
   id.value = undefined;
-  title.value = "新增线索";
+  title.value = t('addLead');
   open.value = true;
 }
 
@@ -370,14 +372,14 @@ function resetForm() {
 function convertOpp(row: any) {
   leadId.value = row.id;
   openOpp.value = true;
-  title.value = "线索转化商机";
+  title.value = t('LeadConversionOpportunities');
   id.value = undefined;
 }
 
 function followUp(row: any) {
   id.value = row.id;
   ownerId.value = row.ownerId;
-  title.value = "线索跟进";
+  title.value = t('LeadFollowUp');
   followUpOpen.value = true;
 }
 

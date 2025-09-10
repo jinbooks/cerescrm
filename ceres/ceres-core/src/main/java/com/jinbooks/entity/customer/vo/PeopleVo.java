@@ -57,6 +57,11 @@ public class PeopleVo extends BaseEntity implements Serializable {
      * 电子邮箱
      */
     private String email;
+    
+    /**
+     * 微信号
+     */
+    private String wechat;
 
     /**
      * 地址信息

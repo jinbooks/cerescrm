@@ -12,7 +12,7 @@
               <el-option label="企业" value="企业"/>
             </el-select>
           </el-form-item>
-          <el-form-item label="负责人">
+          <el-form-item :label="t('PersonCharge')">
             <el-input v-model="queryParams.customerHead" placeholder="请输入负责人"/>
           </el-form-item>
           <el-form-item label="客户分组">
@@ -32,7 +32,7 @@
     <el-card class="common-card">
       <div class="btn-form">
         <el-button type="primary" @click="handleAdd">新增客户</el-button>
-        <el-button @click="onBatchDelete" :disabled="ids.length === 0">批量删除</el-button>
+        <el-button @click="onBatchDelete" :disabled="ids.length === 0">{{t('org.button.deleteBatch')}}</el-button>
       </div>
       <el-table v-loading="loading" :data="dataList" border @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
@@ -56,13 +56,15 @@
         </el-table-column>
         <el-table-column prop="industry" label="所属行业" align="center"></el-table-column>
         <el-table-column prop="customerFrom" label="客户来源" align="center"></el-table-column>
-        <el-table-column prop="industry" label="地区" align="center">
-          <template #default="scope">{{ scope.row.province+"/"+scope.row.city }}</template>
+        <el-table-column prop="province" label="地区" align="center"
+                         :show-overflow-tooltip="true">
+          <template #default="scope">{{formatRegion(scope.row.province, scope.row.city)}}</template>
         </el-table-column>
         <el-table-column prop="phone" label="联系电话" align="center" width="120"></el-table-column>
+        <el-table-column prop="wechat" label="微信" align="center" width="120"></el-table-column>
         <el-table-column prop="email" label="邮箱" align="center"  width="180"></el-table-column>
-        <el-table-column prop="customerHead" label="负责人" align="center"  width="120"></el-table-column>
-        <el-table-column label="操作" align="center" width="140">
+        <el-table-column prop="customerHead" :label="t('PersonCharge')" align="center"  width="120"></el-table-column>
+        <el-table-column :label="t('org.operate')" align="center" width="140">
           <template #default="scope">
             <el-button icon="View" link @click="handleShow(scope.row)"></el-button>
             <el-button icon="Edit" link @click="handleUpdate(scope.row)"></el-button>
@@ -104,6 +106,7 @@ import modal from '@/plugins/modal'
 import editForm from './edit.vue'
 import {useRouter} from "vue-router";
 import FollowUpForm from "@/views/follow-up/edit.vue";
+import {formatRegion} from "@/utils/CommonFieldFormat";
 
 const {t} = useI18n()
 const router = useRouter()

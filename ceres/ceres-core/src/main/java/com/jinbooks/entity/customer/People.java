@@ -78,6 +78,11 @@ public class People extends BaseEntity implements Serializable {
      */
     private String remark;
     
+    /**
+     * 微信号
+     */
+    private String wechat;
+    
     String workspaceId;
 
     /**

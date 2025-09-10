@@ -27,7 +27,7 @@
     <el-card class="common-card">
       <div class="btn-form">
         <el-button type="primary" @click="handleAdd">新增联系人</el-button>
-        <el-button @click="onBatchDelete" :disabled="ids.length === 0">批量删除</el-button>
+        <el-button @click="onBatchDelete" :disabled="ids.length === 0">{{t('org.button.deleteBatch')}}</el-button>
       </div>
       <el-table v-loading="loading" :data="dataList" border @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
@@ -36,8 +36,9 @@
         <el-table-column prop="gender" label="性别" align="center"></el-table-column>
         <el-table-column prop="jobTitle" label="职位" align="left" header-align="center"></el-table-column>
         <el-table-column prop="phone" label="联系电话" align="left" header-align="center"></el-table-column>
+        <el-table-column prop="wechat" label="微信" align="left" header-align="center"></el-table-column>
         <el-table-column prop="email" label="邮箱" align="left" header-align="center"></el-table-column>
-        <el-table-column label="操作" align="center" width="120">
+        <el-table-column :label="t('org.operate')" align="center" width="120">
           <template #default="scope">
             <el-button link icon="Edit" @click="handleUpdate(scope.row)"></el-button>
             <el-button link icon="Delete" type="danger" @click="handleDelete(scope.row)"></el-button>

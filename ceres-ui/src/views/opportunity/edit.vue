@@ -6,15 +6,15 @@
     </template>
     <template #default>
       <el-form :model="form" :rules="rules" ref="formRef" label-width="100px" inline-message>
-        <h4 style="color: dodgerblue">商机属性</h4>
+        <h4 style="color: dodgerblue">{{t('oppProperty')}}</h4>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="商机名称">
+            <el-form-item :label="t('oppName')">
               <el-input v-model="form.name"/>
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="商机描述">
+            <el-form-item :label="t('oppDes')">
               <el-input
                   type="textarea"
                   v-model="form.description"
@@ -26,7 +26,7 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="商机类型">
+            <el-form-item :label="t('oppType')">
               <el-select v-model="form.type" clearable>
                 <el-option
                     v-for="dict in opportunityTypes"
@@ -38,7 +38,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="来源类型">
+            <el-form-item :label="t('SourceType')">
               <el-select v-model="form.sourceType" clearable :disabled="!!leadId">
                 <el-option
                     v-for="dict in opportunitySourceTypes"
@@ -52,43 +52,43 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="客户">
+            <el-form-item :label="t('subjectCustomer')">
               <customer-select v-model="form.customerId"/>
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="联系人">
+            <el-form-item :label="t('contact')">
               <contact-select v-model="form.contactId"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="负责人">
+            <el-form-item :label="t('PersonCharge')">
               <owner-select v-model="form.ownerId"/>
             </el-form-item>
           </el-col>
           <el-col :span="span" v-if="form.sourceType === 1">
-            <el-form-item label="来源线索">
+            <el-form-item :label="t('sourceLead')">
               <lead-select v-model="form.leadId" :is-convert="!!leadId"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20" v-if="!form.leadId">
           <el-col :span="span">
-            <el-form-item label="姓名">
+            <el-form-item :label="t('jbx.users.displayName')">
               <el-input v-model="form.peopleName"/>
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="公司">
+            <el-form-item :label="t('jbx.organizations.typeCompany')">
               <el-input v-model="form.company"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="行业">
+            <el-form-item :label="t('industry')">
               <el-select v-model="form.industry" clearable filterable>
                 <el-option-group
                     v-for="group in booksIndustries"
@@ -106,7 +106,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="来源详情">
+            <el-form-item :label="t('SourceDetails')">
               <el-input
                   type="textarea"
                   v-model="form.sourceDetail"
@@ -118,20 +118,20 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="所在地区">
+            <el-form-item :label="t('Region')">
               <el-cascader
                   v-model="region"
                   :options="pcTextArr"
                   :props="{ emitPath: true, checkStrictly: true }"
                   clearable
                   filterable
-                  placeholder="请选择省市"
+                  :placeholder="t('RegionSelect')"
                   style="width: 100%"
               />
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="优先级">
+            <el-form-item :label="t('priority')">
               <el-select v-model="form.priority" clearable>
                 <el-option
                     v-for="dict in priorities"
@@ -145,12 +145,12 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="质量评分">
+            <el-form-item :label="t('QualityRating')">
               <el-rate v-model="form.qualityScore" :colors="colors"/>
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="状态">
+            <el-form-item :label="t('org.status')">
               <el-select v-model="form.status" clearable>
                 <el-option
                     v-for="dict in opportunityStatus"
@@ -162,10 +162,10 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <h4 style="color: goldenrod">金额信息</h4>
+        <h4 style="color: goldenrod">{{t('amountInfo')}}</h4>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="商机金额">
+            <el-form-item :label="t('oppAmount')">
               <el-input-number :min="0" :precision="2" v-model="form.amount" style="width: 100%">
                 <template #suffix>
                   <span>元</span>
@@ -174,10 +174,10 @@
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="预期金额">
+            <el-form-item :label="t('expAmount')">
               <el-input-number :min="0" :precision="2" v-model="form.expectedAmount" style="width: 100%">
                 <template #suffix>
-                  <span>元</span>
+                  <span>{{t('Yuan')}}</span>
                 </template>
               </el-input-number>
             </el-form-item>
@@ -185,7 +185,7 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="预估成本">
+            <el-form-item :label="t('expCost')">
               <el-input-number :min="0" :precision="2" v-model="form.cost" style="width: 100%">
                 <template #suffix>
                   <span>元</span>
@@ -194,14 +194,14 @@
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="成功概率">
+            <el-form-item :label="t('successProb')">
               <el-slider v-model="form.probability" placement="bottom"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="加权金额">
+            <el-form-item :label="t('weightAmount')">
               <el-input-number :min="0" :precision="2" :model-value="weightedAmountDisplay" style="width: 100%"
                                disabled>
                 <template #suffix>
@@ -211,23 +211,23 @@
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="预估利润">
+            <el-form-item :label="t('estimateProfit')">
               <el-input-number :precision="2" :model-value="profitDisplay" style="width: 100%" disabled>
                 <template #suffix>
-                  <span>元</span>
+                  <span>{{t('Yuan')}}</span>
                 </template>
               </el-input-number>
             </el-form-item>
           </el-col>
         </el-row>
-        <h4 style="color: darkseagreen">时间信息</h4>
+        <h4 style="color: darkseagreen">{{t('timeInfo')}}</h4>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="预计成交日期">
+            <el-form-item :label="t('expClosingDate')">
               <el-date-picker
                   v-model="form.expectedCloseDate"
                   type="datetime"
-                  placeholder="选择时间"
+                  :placeholder="t('SelectTime')"
                   format="YYYY-MM-DD HH:mm:ss"
                   value-format="YYYY-MM-DD HH:mm:ss"
                   style="width: calc(100%);"
@@ -235,11 +235,11 @@
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="首次接触日期">
+            <el-form-item :label="t('firstContactDate')">
               <el-date-picker
                   v-model="form.firstContactDate"
                   type="datetime"
-                  placeholder="选择时间"
+                  :placeholder="t('SelectTime')"
                   format="YYYY-MM-DD HH:mm:ss"
                   value-format="YYYY-MM-DD HH:mm:ss"
                   style="width: calc(100%);"
@@ -247,17 +247,17 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <h4 style="color: orangered">竞争信息</h4>
+        <h4 style="color: orangered">{{t('competitiveInfo')}}</h4>
         <el-row :gutter="20">
           <el-col :span="24">
-            <el-form-item label="竞争对手">
+            <el-form-item :label="t('competitors')">
               <editor v-model="form.competitors" :height="250"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="span" v-if="form.status === 2">
-            <el-form-item label="赢单原因">
+            <el-form-item :label="t('winReason')">
               <el-input
                   type="textarea"
                   v-model="form.winReason"
@@ -267,7 +267,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="span" v-if="form.status === 3">
-            <el-form-item label="输单原因">
+            <el-form-item :label="t('loseReason')">
               <el-input
                   type="textarea"
                   v-model="form.loseReason"
@@ -425,7 +425,7 @@ watch(
         // 线索转化
         if (props.leadId) {
           nextTick(() => {
-            form.value.leadId = props.leadId;
+            form.value.leadId = props.leadId as string;
           });
         }
       } else {
@@ -435,10 +435,14 @@ watch(
     { immediate: true }
 );
 watch(region, (val) => {
-  data.form.province = val[0] || ''
-  data.form.city = val[1] || ''
+  if (Array.isArray(val)) {
+    data.form.province = val[0] || '';
+    data.form.city = val[1] || '';
+  } else {
+    data.form.province = '';
+    data.form.city = '';
+  }
 })
-
 
 function dialogOfClosedMethods(val: any): any {
   dialogStatus.value = false;

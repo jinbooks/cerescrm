@@ -73,6 +73,13 @@
             </el-row>
             <el-row :gutter="20">
               <el-col :span="span">
+                <el-form-item label="微信" prop="wechat">
+                  <el-input v-model="form.wechat"/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="20">
+              <el-col :span="span">
                 <el-form-item label="官网网址" prop="website">
                   <el-input v-model="form.website"/>
                 </el-form-item>
@@ -87,7 +94,7 @@
             </el-row>
             <el-row :gutter="20">
               <el-col :span="span">
-                <el-form-item label="负责人" prop="customerHead">
+                <el-form-item :label="t('PersonCharge')" prop="customerHead">
                   <el-input v-model="form.customerHead"/>
                 </el-form-item>
               </el-col>
@@ -160,7 +167,7 @@ import {getCustomerOne, saveCustomer, updateCustomer} from '@/api/customer/custo
 import {listCustomerSegment} from '@/api/customer/customer-segment'
 
 const region = ref<string[]>([]) // 用于省市联动选择
-import {pcTextArr} from 'element-china-area-data'
+import { pcTextArr  } from 'element-china-area-data'
 
 const activeName = ref('first')
 const emit = defineEmits(['dialogOfClosedMethods'])
@@ -188,6 +195,7 @@ interface FormModel {
   taxBankAccountNumber: string
   customerHead: string
   customerFrom: string
+  wechat: string
 }
 
 interface FormState {
@@ -222,7 +230,8 @@ const data = reactive<FormState>({
     taxBankAccount: '',
     taxBankAccountNumber: '',
     customerHead: '',
-    customerFrom: ''
+    customerFrom: '',
+    wechat: ''
   },
   rules: {
     customerName: [
@@ -267,8 +276,13 @@ watch(
 )
 
 watch(region, (val) => {
-  data.form.province = val[0] || ''
-  data.form.city = val[1] || ''
+  if (Array.isArray(val)) {
+    data.form.province = val[0] || '';
+    data.form.city = val[1] || '';
+  } else {
+    data.form.province = '';
+    data.form.city = '';
+  }
 })
 
 function dialogOfClosedMethods(val: any) {
@@ -279,15 +293,21 @@ function dialogOfClosedMethods(val: any) {
 function reset() {
   form.value = {
     customerName: '',
-    segmentId: '',
     customerType: '',
+    segmentId: '',
     industry: '',
     address: '',
     email: '',
     phone: '',
     website: '',
+    taxNumber: '',
+    taxContact: '',
+    taxBank: '',
+    taxBankAccount: '',
+    taxBankAccountNumber: '',
     customerHead: '',
-    customerFrom: ''
+    customerFrom: '',
+    wechat: ''
   }
   formRef?.value?.resetFields()
 }

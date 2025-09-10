@@ -3,13 +3,13 @@
     <el-card class="common-card query-box">
       <div class="queryForm">
         <el-form :model="queryParams" ref="queryRef" :inline="true" label-width="90px">
-          <el-form-item label="名称">
+          <el-form-item :label="t('commonName')">
             <el-input v-model="queryParams.name"/>
           </el-form-item>
-          <el-form-item label="编号">
+          <el-form-item :label="t('commonNo')">
             <el-input v-model="queryParams.opportunityCode"/>
           </el-form-item>
-          <el-form-item label="状态">
+          <el-form-item :label="t('org.status')">
             <el-select v-model="queryParams.status" clearable style="width: 240px">
               <el-option
                   v-for="dict in opportunity_status"
@@ -19,7 +19,7 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item label="优先级">
+          <el-form-item :label="t('priority')">
             <el-select v-model="queryParams.priority" clearable style="width: 240px">
               <el-option
                   v-for="dict in priority"
@@ -29,10 +29,10 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item label="公司">
+          <el-form-item :label="t('jbx.organizations.typeCompany')">
             <el-input v-model="queryParams.customerName"/>
           </el-form-item>
-          <el-form-item label="联系人姓名">
+          <el-form-item :label="t('ContactName')">
             <el-input v-model="queryParams.contactName"/>
           </el-form-item>
           <el-form-item>
@@ -44,8 +44,8 @@
     </el-card>
     <el-card class="common-card">
       <div class="btn-form">
-        <el-button type="primary" @click="handleAdd">新增</el-button>
-        <el-button @click="onBatchDelete" :disabled="ids.length === 0" type="danger">批量删除</el-button>
+        <el-button type="primary" @click="handleAdd">{{t('jbx.text.add')}}</el-button>
+        <el-button @click="onBatchDelete" :disabled="ids.length === 0" type="danger">{{t('org.button.deleteBatch')}}</el-button>
       </div>
       <div class="kanban-board">
         <div class="stage-column" v-for="stage in stageList" :key="stage.id">
@@ -107,7 +107,7 @@
                         circle
                         size="small"
                         @click="handleShow(element)"
-                        title="查看"
+                        :title="t('buttonShow')"
                     >
                       <el-icon><View /></el-icon>
                     </el-button>
@@ -116,7 +116,7 @@
                         circle
                         size="small"
                         @click="handleUpdate(element)"
-                        title="编辑"
+                        :title="t('org.titleEdit')"
                     >
                       <el-icon><Edit /></el-icon>
                     </el-button>
@@ -126,7 +126,7 @@
                         size="small"
                         type="danger"
                         @click="handleDelete(element)"
-                        title="删除"
+                        :title="t('org.button.delete')"
                     >
                       <el-icon><Delete /></el-icon>
                     </el-button>
@@ -136,7 +136,7 @@
                         size="small"
                         type="primary"
                         @click="followUp(element)"
-                        title="跟进"
+                        :title="t('followUp')"
                     >
                       <el-icon><DocumentChecked /></el-icon>
                     </el-button>
@@ -182,7 +182,6 @@ import editForm from "./edit.vue"
 import {ElForm} from "element-plus";
 import {getAll} from "@/api/opportunity/oppStage";
 import draggable from 'vuedraggable'
-import {logsFetch} from "@/api/system/synchronizers";
 import {formatAmount} from "../../utils";
 import FollowUpForm from "@/views/follow-up/edit.vue";
 
@@ -266,13 +265,13 @@ function getStageAllList() {
 
 function handleAdd() {
   id.value = undefined;
-  title.value = "新增商机";
+  title.value = t('newOpp');
   open.value = true;
 }
 
 function handleDelete(row: any) {
   const _ids = row.id || ids.value;
-  modal.confirm('是否确认删除商机编号为"' + _ids + '"的数据项？').then(function () {
+  modal.confirm(t('deleteTipOpp') + _ids + t('deleteTipLead1')).then(function () {
     return delLead({listIds: [_ids]});
   }).then((res: any) => {
     if (res.code === 0) {
@@ -323,7 +322,7 @@ function handleShow(row: any) {
 
 function handleUpdate(row: any) {
   id.value = row.id;
-  title.value = "修改商机";
+  title.value = t('updateOpp');
   open.value = true;
 }
 
@@ -354,14 +353,14 @@ function onCardDrop(evt: any) {
 
     updateOpportunityStage(data).then((res: any) => {
       if (res.code === 0 && res.data === "修改成功") {
-        modal.msgSuccess('阶段更新成功');
+        modal.msgSuccess(t('stageUpdateOk'));
       }
       if (res.code === 2) {
-        modal.msgError('阶段更新失败');
+        modal.msgError(t('stageUpdateFail'));
       }
     });
 
-    console.log(`商机 ${item.id} 移动到了阶段 ${newStageId}`);
+    console.log(`${t('opportunity')} ${item.id} ${t('moveStage')} ${newStageId}`);
   }
 
 }
@@ -417,7 +416,7 @@ const toggleActions = (id: string | number): void => {
 function followUp(row: any) {
   id.value = row.id;
   ownerId.value = row.ownerId;
-  title.value = "商机跟进";
+  title.value = t('oppFU');
   followUpOpen.value = true;
 }
 

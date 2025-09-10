@@ -23,6 +23,11 @@
             </el-form-item>
           </el-col>
           <el-col :span="span">
+            <el-form-item label="微信" prop="wechat">
+              <el-input v-model="form.wechat"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="span">
             <el-form-item label="性别" prop="gender">
               <el-select v-model="form.gender" placeholder="请选择">
                 <el-option label="男" value="男"/>
@@ -94,6 +99,7 @@ interface FormModel {
   email: string
   address: string
   remark: string
+  wechat: string
 }
 
 interface FormState {
@@ -119,7 +125,8 @@ const data = reactive<FormState>({
     phone: '',
     email: '',
     address: '',
-    remark: ''
+    remark: '',
+    wechat: ''
   },
   rules: {
     contactName: [
@@ -182,7 +189,8 @@ function reset() {
     phone: '',
     email: '',
     address: '',
-    remark: ''
+    remark: '',
+    wechat: ''
   }
   formRef?.value?.resetFields()
 }
