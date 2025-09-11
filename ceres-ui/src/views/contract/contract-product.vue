@@ -7,11 +7,11 @@
     <template #default>
       <el-card class="common-card query-box">
         <el-form :inline="true" label-width="80px">
-          <el-form-item label="产品编码">
-            <el-input v-model="queryParams.productCode" placeholder="请输入产品编码"/>
+          <el-form-item :label="t('productCode')">
+            <el-input v-model="queryParams.productCode" :placeholder="t('productCodeInput')"/>
           </el-form-item>
           <el-form-item label="产品名称">
-            <el-input v-model="queryParams.productName" placeholder="请输入产品名称"/>
+            <el-input v-model="queryParams.productName" :placeholder="t('productNameInput')"/>
           </el-form-item>
           <el-form-item>
             <el-button @click="handleQuery">{{ t('org.button.query') }}</el-button>
@@ -25,15 +25,15 @@
           <el-button type="primary" @click="handleAdd">{{t('jbx.text.add')}}</el-button>
         </div>
         <el-table v-loading="loading" :data="dataList" border  show-summary :summary-method="getSummaries" >
-          <el-table-column prop="productCode" label="产品编码" align="center"></el-table-column>
-          <el-table-column prop="productName" label="产品名称" align="center"></el-table-column>
-          <el-table-column prop="productVersion" label="版本" align="center"></el-table-column>
-          <el-table-column prop="productUnit" label="单位" align="center"></el-table-column>
-          <el-table-column prop="price" label="价格" align="center"></el-table-column>
-          <el-table-column prop="quantity" label="购买数量" align="center"></el-table-column>
-          <el-table-column prop="originalPrice" label="原价" align="center"></el-table-column>
-          <el-table-column prop="discount" label="折扣率(%)" align="center"></el-table-column>
-          <el-table-column prop="amount" label="价格" align="center"></el-table-column>
+          <el-table-column prop="productCode" :label="t('productCode')" align="center"></el-table-column>
+          <el-table-column prop="productName" :label="t('productName')" align="center"></el-table-column>
+          <el-table-column prop="productVersion" :label="t('version')" align="center"></el-table-column>
+          <el-table-column prop="productUnit" :label="t('unit')" align="center"></el-table-column>
+          <el-table-column prop="price" :label="t('price')" align="center"></el-table-column>
+          <el-table-column prop="quantity" :label="t('PurchaseQuantity')" align="center"></el-table-column>
+          <el-table-column prop="originalPrice" :label="t('OriginalPrice')" align="center"></el-table-column>
+          <el-table-column prop="discount" :label="t('discount')" align="center"></el-table-column>
+          <el-table-column prop="amount" :label="t('price')" align="center"></el-table-column>
            <el-table-column :label="t('org.operate')" align="center" width="120">
           <template #default="scope">
             <el-button icon="Edit" link @click="handleUpdate(scope.row)"></el-button>
@@ -138,7 +138,7 @@ function getList() {
 
 function handleAdd() {
   id.value = undefined
-  title.value = '新增产品'
+  title.value = t('newProduct')
   openProduct.value = true
 }
 
@@ -157,7 +157,7 @@ function resetQuery() {
 function handleUpdate(row: any) {
   openProduct.value = true
   id.value = row.id
-  title.value = '编辑产品'
+  title.value = t('updateProduct')
   console.log("handleUpdate " +row.id);
 }
 

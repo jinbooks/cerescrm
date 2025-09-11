@@ -32,19 +32,19 @@
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="合同税率(%)">
+            <el-form-item :label="t('contractTaxRate')">
               <el-input-number v-model="form.taxRate" :precision="2" :step="1" :max="100" :min="0" style="width: 100%"/>
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="货币类型">
-              <el-input v-model="form.currency" placeholder="如：CNY / USD"/>
+            <el-form-item :label="t('currencyType')">
+              <el-input v-model="form.currency" :placeholder="t('currencyTypeTip')"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="24">
-            <el-form-item label="合同内容">
+            <el-form-item :label="t('contractContent')">
               <editor v-model="form.content" :height="300"/>
             </el-form-item>
           </el-col>
@@ -56,7 +56,7 @@
               <el-date-picker
                   v-model="form.signingDate"
                   type="date"
-                  placeholder="选择日期"
+                  :placeholder="t('selectDate')"
                   format="YYYY-MM-DD"
                   value-format="YYYY-MM-DD"
                   style="width: 100%"
@@ -64,11 +64,11 @@
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="生效日期">
+            <el-form-item :label="t('EffectiveDate')">
               <el-date-picker
                   v-model="form.effectiveDate"
                   type="date"
-                  placeholder="选择日期"
+                  :placeholder="t('selectDate')"
                   format="YYYY-MM-DD"
                   value-format="YYYY-MM-DD"
                   style="width: 100%"
@@ -82,7 +82,7 @@
               <el-date-picker
                   v-model="form.expirationDate"
                   type="date"
-                  placeholder="选择日期"
+                  :placeholder="t('selectDate')"
                   format="YYYY-MM-DD"
                   value-format="YYYY-MM-DD"
                   style="width: 100%"
@@ -92,13 +92,13 @@
           <el-col :span="span">
             <el-form-item :label="t('org.status')">
               <el-select v-model="form.status" :placeholder="t('pleaseSelect')">
-                <el-option label="草稿" value="草稿"/>
-                <el-option label="待审批" value="待审批"/>
-                <el-option label="审批通过" value="审批通过"/>
-                <el-option label="审批拒绝" value="审批拒绝"/>
-                <el-option label="履行中" value="履行中"/>
-                <el-option label="已完成" value="已完成"/>
-                <el-option label="已终止" value="已终止"/>
+                <el-option :label="t('draft')" value="草稿"/>
+                <el-option :label="t('AwaitingApproval')" value="待审批"/>
+                <el-option :label="t('Approved')" value="审批通过"/>
+                <el-option :label="t('ApprovalRejection')" value="审批拒绝"/>
+                <el-option :label="t('InProgress')" value="履行中"/>
+                <el-option :label="t('Completed')" value="已完成"/>
+                <el-option :label="t('Terminated')" value="已终止"/>
               </el-select>
             </el-form-item>
           </el-col>

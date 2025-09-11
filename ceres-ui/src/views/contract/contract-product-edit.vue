@@ -8,54 +8,54 @@
       <el-form :model="form" :rules="rules" ref="formRef" label-width="120px" inline-message>
         <el-row :gutter="20">
                     <el-col :span="span">
-            <el-form-item label="产品信息" prop="productId">
+            <el-form-item :label="t('productInfo')" prop="productId">
               <select-product v-model="form.productId"
                               @select="(ids, names) => selectProductChange(ids,names)"></select-product>
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="产品编码" prop="productCode" disabled>
+            <el-form-item :label="t('productCode')" prop="productCode" disabled>
               <el-input v-model="form.productCode" disabled />
             </el-form-item>
           </el-col>
           <el-col :span="span" >
-            <el-form-item label="版本" prop="productVersion" >
+            <el-form-item :label="t('version')" prop="productVersion" >
               <el-input v-model="form.productVersion"  disabled/>
             </el-form-item>
           </el-col>
           <el-col :span="span" >
-            <el-form-item label="单位" prop="productUnit" >
+            <el-form-item :label="t('unit')" prop="productUnit" >
               <el-input v-model="form.productUnit"  disabled/>
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="库存" prop="stock">
+            <el-form-item :label="t('inStock')" prop="stock">
               <el-input v-model="form.stock"  disabled/>
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="价格" prop="price" >
+            <el-form-item :label="t('price')" prop="price" >
               <el-input v-model="form.price" disabled />
             </el-form-item>
           </el-col>
 
           <el-col :span="span">
-            <el-form-item label="购买数量" prop="quantity" >
+            <el-form-item :label="t('PurchaseQuantity')" prop="quantity" >
               <el-input v-model="form.quantity" />
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="折扣(%)" prop="discount" >
+            <el-form-item :label="t('discount')" prop="discount" >
               <el-input v-model="form.discount" />
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="原价" prop="originalPrice" >
+            <el-form-item :label="t('OriginalPrice')" prop="originalPrice" >
               <el-input v-model="form.originalPrice"  />
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="折扣价格" prop="amount" >
+            <el-form-item :label="t('DiscountedPrices')" prop="amount" >
               <el-input v-model="form.amount" />
             </el-form-item>
           </el-col>
@@ -65,7 +65,7 @@
     <template #footer>
       <div style="flex: auto">
         <el-button @click="dialogFormOfClosedMethods(false)">{{ t('org.cancel') }}</el-button>
-        <el-button type="warning" @click="calculate">计算</el-button>
+        <el-button type="warning" @click="calculate">{{t('calculate')}}</el-button>
         <el-button type="primary" @click="submitForm">{{ t('org.confirm') }}</el-button>
       </div>
     </template>
@@ -138,13 +138,13 @@ const data = reactive<FormState>({
   },
   rules: {
     contactName: [
-      {required: true, message: '请输入联系人姓名', trigger: 'blur'}
+      {required: true, message: t('contactTip'), trigger: 'blur'}
     ],
     phone: [
       {required: true, message: t('phoneTipInput'), trigger: 'blur'},
       {
         pattern: /^1[3456789]\d{8}$/,
-        message: '请输入正确的手机号码',
+        message: t('phoneTipRule'),
         trigger: 'blur'
       }
     ],

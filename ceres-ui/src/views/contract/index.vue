@@ -10,15 +10,15 @@
             <el-date-picker
                 v-model="queryParams.startSigningDate"
                 type="date"
-                placeholder="开始日期"
+                :placeholder="t('startDate')"
                 format="YYYY-MM-DD"
                 value-format="YYYY-MM-DD"
             />
-            <span style="margin: 0 10px">至</span>
+            <span style="margin: 0 10px">{{t('to')}}</span>
             <el-date-picker
                 v-model="queryParams.endSigningDate"
                 type="date"
-                placeholder="结束日期"
+                :placeholder="t('endDate')"
                 format="YYYY-MM-DD"
                 value-format="YYYY-MM-DD"
             />
@@ -33,12 +33,12 @@
 
     <el-card class="common-card">
       <div class="btn-form">
-        <el-button type="primary" @click="handleAdd">新增合同</el-button>
+        <el-button type="primary" @click="handleAdd">{{t('newContract')}}</el-button>
         <el-button @click="onBatchDelete" :disabled="ids.length === 0">{{t('org.button.deleteBatch')}}</el-button>
       </div>
       <el-table v-loading="loading" :data="dataList" border @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
-        <el-table-column label="跟进" align="center" width="60"
+        <el-table-column :label="t('followUp')" align="center" width="60"
                          :show-overflow-tooltip="true">
           <template #default="scope">
             <el-button icon="Comment" type="warning" link @click="followUp(scope.row)"></el-button>
@@ -53,15 +53,15 @@
             </router-link>
           </template>
         </el-table-column>
-        <el-table-column label="产品" align="center" width="60">
+        <el-table-column :label="t('product')" align="center" width="60">
           <template #default="scope">
             <el-button link icon="ShoppingCartFull" @click="viewProduct(scope.row)"></el-button>
           </template>
         </el-table-column>
         <el-table-column prop="amount" :label="t('contractName')" align="right"  header-align="center"  width="120"></el-table-column>
         <!--<el-table-column prop="invoiceAmount" label="开票金额" align="right" header-align="center"  width="120"></el-table-column>-->
-        <el-table-column prop="receiveAmount" label="收款金额" align="right" header-align="center"  width="120"></el-table-column>
-        <el-table-column prop="invoiceAmount" label="剩余金额" align="right" header-align="center" width="120">
+        <el-table-column prop="receiveAmount" :label="t('ReceiptAmount')" align="right" header-align="center"  width="120"></el-table-column>
+        <el-table-column prop="invoiceAmount" :label="t('RemainingAmount')" align="right" header-align="center" width="120">
           <template #default="scope">
             {{ scope.row.amount -  scope.row.payAmount}}
           </template>
@@ -75,7 +75,7 @@
         </el-table-column>
         <el-table-column prop="signingDate" :label="t('SigningDate')"  align="center" header-align="center" width="100"></el-table-column>
         <el-table-column prop="expirationDate" :label="t('ExpiryDate')"  align="center" header-align="center" width="100"></el-table-column>
-        <el-table-column label="回款" align="center" width="60">
+        <el-table-column :label="t('Repayment')" align="center" width="60">
           <template #default="scope">
             <el-button link icon="View" @click="viewPayment(scope.row)"></el-button>
           </template>
@@ -196,13 +196,13 @@ function dialogOfClosedMethods(val: boolean) {
 
 function handleAdd() {
   id.value = undefined
-  title.value = '新增合同'
+  title.value = t('newContract')
   open.value = true
 }
 
 function viewProduct(row: any) {
   id.value = row.id
-  title.value = '查看产品'
+  title.value = t('showProduct')
   openProduct.value = true
   console.log(title.value +" , id "+id.value );
 }
@@ -210,7 +210,7 @@ function viewProduct(row: any) {
 
 function viewPayment(row: any) {
   id.value = row.id
-  title.value = '查看回款'
+  title.value = t('showRepay')
   openPayment.value = true
   console.log(title.value +" , id "+id.value );
 }
@@ -218,7 +218,7 @@ function viewPayment(row: any) {
 
 function handleUpdate(row: any) {
   id.value = row.id
-  title.value = '编辑合同'
+  title.value = t('editContract')
   open.value = true
 }
 
@@ -256,22 +256,23 @@ function handleSelectionChange(selection: any) {
   ids.value = selectionlist.value.map((item: any) => item.id)
 }
 
+// 状态标签样式
 function getStatusLabel(status: string) {
   switch (status) {
     case '草稿':
-      return {label: '草稿', type: ''}
+      return {label: t('draft'), type: ''}
     case '待审批':
-      return {label: '待审批', type: 'warning'}
+      return {label: t('AwaitingApproval'), type: 'warning'}
     case '审批通过':
-      return {label: '审批通过', type: 'success'}
+      return {label: t('Approved'), type: 'success'}
     case '审批拒绝':
-      return {label: '审批拒绝', type: 'danger'}
+      return {label: t('ApprovalRejection'), type: 'danger'}
     case '履行中':
-      return {label: '履行中', type: 'info'}
+      return {label: t('InProgress'), type: 'info'}
     case '已完成':
-      return {label: '已完成', type: 'success'}
+      return {label: t('Completed'), type: 'success'}
     case '已终止':
-      return {label: '已终止', type: 'danger'}
+      return {label: t('Terminated'), type: 'danger'}
     default:
       return {label: status, type: ''}
   }
@@ -279,7 +280,7 @@ function getStatusLabel(status: string) {
 
 function followUp(row: any) {
   id.value = row.id;
-  title.value = "合同跟进";
+  title.value = t('contractFollow');
   followUpOpen.value = true;
 }
 
