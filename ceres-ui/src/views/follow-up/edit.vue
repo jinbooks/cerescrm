@@ -6,7 +6,7 @@
     </template>
     <template #default>
       <el-form :model="form" :rules="rules" ref="formRef" label-width="100px" inline-message>
-        <el-form-item label="业务类别">
+        <el-form-item :label="t('BusinessCategory')">
           <el-select v-model="form.category" disabled>
             <el-option
                 v-for="dict in categories"
@@ -16,7 +16,7 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="跟进方式">
+        <el-form-item :label="t('FollowUpWay')">
           <el-select v-model="form.followType">
             <el-option
                 v-for="dict in follow_types"
@@ -26,10 +26,10 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="跟进标题">
+        <el-form-item :label="t('FollowUpTitle')">
           <el-input v-model="form.title"/>
         </el-form-item>
-        <el-form-item label="跟进内容">
+        <el-form-item :label="t('FollowUpContent')">
           <el-input
               type="textarea"
               v-model="form.content"
@@ -37,7 +37,7 @@
               show-word-limit
           />
         </el-form-item>
-        <el-form-item label="跟进结果">
+        <el-form-item :label="t('FollowUpResult')">
           <el-select v-model="form.result">
             <el-option
                 v-for="dict in results"
@@ -47,37 +47,37 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="跟进时间">
+        <el-form-item :label="t('FollowUpTime')">
           <el-date-picker
               v-model="form.followAt"
               type="datetime"
-              placeholder="选择时间"
+              :placeholder="t('SelectTime')"
               format="YYYY-MM-DD HH:mm:ss"
               value-format="YYYY-MM-DD HH:mm:ss"
               style="width: calc(100%);"
           />
         </el-form-item>
-        <el-form-item label="下次跟进时间">
+        <el-form-item :label="t('NextFollowTime')">
           <el-date-picker
               v-model="form.nextFollowTime"
               type="datetime"
-              placeholder="选择时间"
+              :placeholder="t('SelectTime')"
               format="YYYY-MM-DD HH:mm:ss"
               value-format="YYYY-MM-DD HH:mm:ss"
               style="width: calc(100%);"
           />
         </el-form-item>
-        <el-form-item label="下次提醒时间">
+        <el-form-item :label="t('nextRemindTime')">
           <el-date-picker
               v-model="form.remindTime"
               type="datetime"
-              placeholder="选择时间"
+              :placeholder="t('SelectTime')"
               format="YYYY-MM-DD HH:mm:ss"
               value-format="YYYY-MM-DD HH:mm:ss"
               style="width: calc(100%);"
           />
         </el-form-item>
-        <el-form-item label="跟进人">
+        <el-form-item :label="t('FollowUpPeople')">
           <follow-user-select v-model="form.followUserId"/>
         </el-form-item>
         <el-form-item :label="t('remark')">

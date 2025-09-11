@@ -14,8 +14,8 @@
             <el-input v-model="queryParams.name" placeholder="请输入名称"/>
           </el-form-item>
           <el-form-item>
-            <el-button @click="handleQuery">查询</el-button>
-            <el-button @click="resetQuery">重置</el-button>
+            <el-button @click="handleQuery">{{ t('org.button.query') }}</el-button>
+            <el-button @click="resetQuery">{{ t('org.button.reset') }}</el-button>
           </el-form-item>
         </el-form>
       </el-card>

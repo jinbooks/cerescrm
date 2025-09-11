@@ -8,14 +8,14 @@
 
     <el-dialog
         v-model="visible"
-        title="选择跟进人"
+        :title="t('selectFollowPeople')"
         width="1200px"
 
         @close="handleClose">
       <div class="app-container">
         <el-card class="common-card">
           <el-form :inline="true" label-width="80px">
-            <el-form-item :label="$t('jbx.users.username')">
+            <el-form-item :label="t('jbx.users.username')">
               <el-input
                   v-model="queryParams.username"
                   clearable
@@ -23,8 +23,8 @@
               />
             </el-form-item>
             <el-form-item>
-              <el-button @click="handleQuery">查询</el-button>
-              <el-button @click="resetQuery">重置</el-button>
+              <el-button @click="handleQuery">{{ t('org.button.query') }}</el-button>
+              <el-button @click="resetQuery">{{ t('org.button.reset') }}</el-button>
             </el-form-item>
           </el-form>
         </el-card>
@@ -43,9 +43,9 @@
                 <el-radio v-model="tempSingleSelectId" :value="row.id"></el-radio>
               </template>
             </el-table-column>
-            <el-table-column prop="username" :label="$t('jbx.users.username')" align="center"
+            <el-table-column prop="username" :label="t('jbx.users.username')" align="center"
                              min-width="100" :show-overflow-tooltip="true"/>
-            <el-table-column prop="displayName" :label="$t('jbx.users.displayName')" align="center"
+            <el-table-column prop="displayName" :label="t('jbx.users.displayName')" align="center"
                              min-width="120" :show-overflow-tooltip="true"/>
             <el-table-column prop="gender" :label="t('jbx.users.gender')" align="center" min-width="60">
               <template #default="scope">
@@ -53,31 +53,31 @@
                 <span v-if="scope.row.gender === 2">{{ t('jbx.users.genderMale') }}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="status" :label="$t('jbx.users.status')" align="center"
+            <el-table-column prop="status" :label="t('jbx.users.status')" align="center"
                              min-width="60">
               <template #default="scope">
-                <a :title="$t('jbx.users.statusActive')" v-if="scope.row.status === 1">
+                <a :title="t('jbx.users.statusActive')" v-if="scope.row.status === 1">
                   <el-icon color="green">
                     <SuccessFilled
                         class="success"/>
                   </el-icon>
                 </a>
-                <a :title="$t('jbx.users.statusInactive')" v-if="scope.row.status === 2">
+                <a :title="t('jbx.users.statusInactive')" v-if="scope.row.status === 2">
                   <el-icon color="grey">
                     <WarningFilled/>
                   </el-icon>
                 </a>
-                <a :title="$t('jbx.users.statusForbidden')" v-if="scope.row.status === 4">
+                <a :title="t('jbx.users.statusForbidden')" v-if="scope.row.status === 4">
                   <el-icon color="grey">
                     <RemoveFilled/>
                   </el-icon>
                 </a>
-                <a :title="$t('jbx.users.statusLock')" v-if="scope.row.status === 5">
+                <a :title="t('jbx.users.statusLock')" v-if="scope.row.status === 5">
                   <el-icon color="orange">
                     <Lock/>
                   </el-icon>
                 </a>
-                <a :title="$t('jbx.users.statusDelete')" v-if="scope.row.status === 9">
+                <a :title="t('jbx.users.statusDelete')" v-if="scope.row.status === 9">
                   <el-icon color="red">
                     <CircleCloseFilled/>
                   </el-icon>

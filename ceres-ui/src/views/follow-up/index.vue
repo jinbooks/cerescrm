@@ -18,37 +18,37 @@
                 border
                 @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="50" align="center"/>
-        <el-table-column prop="category" label="业务类别" align="center" min-width="50"
+        <el-table-column prop="category" :label="t('BusinessCategory')" align="center" min-width="50"
                          :show-overflow-tooltip="true">
           <template #default="scope">
             <dict-tag-number :options="categories" :value="scope.row.category"/>
           </template>
         </el-table-column>
-        <el-table-column prop="relationName" label="业务名称" align="center" min-width="100"
+        <el-table-column prop="relationName" :label="t('BNName')" align="center" min-width="100"
                          :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column prop="followType" label="跟进方式" align="center" min-width="50"
+        <el-table-column prop="followType" :label="t('FollowUpWay')" align="center" min-width="50"
                          :show-overflow-tooltip="true">
           <template #default="scope">
             <dict-tag-number :options="follow_types" :value="scope.row.followType"/>
           </template>
         </el-table-column>
-        <el-table-column prop="title" label="跟进标题" align="center" min-width="70"
+        <el-table-column prop="title" :label="t('FollowUpTitle')" align="center" min-width="70"
                          :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column prop="content" label="跟进内容" align="center" min-width="150"
+        <el-table-column prop="content" :label="t('FollowUpContent')" align="center" min-width="150"
                          :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column prop="result" label="跟进结果" align="center" min-width="50"
+        <el-table-column prop="result" :label="t('FollowUpResult')" align="center" min-width="50"
                          :show-overflow-tooltip="true">
           <template #default="scope">
             <dict-tag-number :options="results" :value="scope.row.result"/>
           </template>
         </el-table-column>
-        <el-table-column prop="followUserName" label="跟进人" align="center" min-width="70"
+        <el-table-column prop="followUserName" :label="t('FollowUpPeople')" align="center" min-width="70"
                          :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column prop="followAt" label="跟进时间" align="center" min-width="100"
+        <el-table-column prop="followAt" :label="t('FollowUpTime')" align="center" min-width="100"
                          :show-overflow-tooltip="true">
         </el-table-column>
       </el-table>
@@ -117,12 +117,6 @@ function getList() {
     total.value = res.total;
     loading.value = false;
   });
-}
-
-function handleAdd() {
-  id.value = undefined;
-  title.value = "新增线索";
-  open.value = true;
 }
 
 /** 多选删除操作*/
