@@ -9,7 +9,7 @@
         <el-form-item prop="name" :label="t('commonName')" :required="true">
           <el-input v-model="form.name"/>
         </el-form-item>
-        <el-form-item prop="companyName" label="单位名称" :required="true">
+        <el-form-item prop="companyName" :label="t('UnitName')" :required="true">
           <el-input v-model="form.companyName"/>
         </el-form-item>
         <el-form-item prop="industry" :label="t('belongIndustry')">
@@ -28,7 +28,7 @@
             </el-option-group>
           </el-select>
         </el-form-item>
-        <el-form-item prop="address" label="单位地址">
+        <el-form-item prop="address" :label="t('UnitAddress')">
           <el-input v-model="form.address"/>
         </el-form-item>
         <el-form-item prop="status" :label="t('org.status')">
@@ -100,7 +100,7 @@ const data: any = reactive({
       {required: true, message: t('accountingStandardNameError'), trigger: "blur"},
     ],
     companyName: [
-      {required: true, message: "单位名称不能为空", trigger: "blur"},
+      {required: true, message: t('UnitNameTip'), trigger: "blur"},
     ]
   }
 })

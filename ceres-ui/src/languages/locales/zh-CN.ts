@@ -1366,4 +1366,8 @@ export default {
   "authDate": "授权日期",
   "cstInfo": "客户信息",
   "productVersion": "产品版本",
+  "UnitName": "单位名称",
+  "remove": "移除",
+  "UnitAddress": "单位地址",
+  "UnitNameTip": "单位名称不能为空",
 }

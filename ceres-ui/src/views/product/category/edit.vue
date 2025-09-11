@@ -8,7 +8,7 @@
       <el-form :model="form" :rules="rules" ref="formRef" label-width="120px" inline-message>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="编码" prop="code">
+            <el-form-item :label="t('jbx.text.id')" prop="code">
               <el-input v-model="form.code"  />
             </el-form-item>
           </el-col>

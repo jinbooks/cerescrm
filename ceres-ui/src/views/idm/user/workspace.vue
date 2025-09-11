@@ -35,7 +35,7 @@
       </div>
       <el-table v-loading="loading" :data="groupsList" border @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="50" align="center"/>
-        <el-table-column prop="workspaceId" label="编码" min-width="80" align="left"/>
+        <el-table-column prop="workspaceId" :label="t('jbx.text.id')" min-width="80" align="left"/>
         <el-table-column prop="name" :label="t('workSpace')" min-width="100" align="left"/>
         <el-table-column :label="$t('jbx.text.action')" min-width="50" align="center">
           <template #default="scope">
@@ -55,10 +55,10 @@
       />
       <!--新增对话框-->
       <el-dialog v-model="addPermissionFlag" width="800" :title="addPermissionTitle" align-center :close-on-click-modal="false">
-        <addPermissionBook 
-          ref="addPermissionBookRef" 
-          :permission-open="addPermissionFlag" 
-          :username="username" 
+        <addPermissionBook
+          ref="addPermissionBookRef"
+          :permission-open="addPermissionFlag"
+          :username="username"
           :userId="formId"
           @onSubmitSuccess="addSuccess">
         </addPermissionBook>

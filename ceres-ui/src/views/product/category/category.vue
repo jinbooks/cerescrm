@@ -7,7 +7,7 @@
     <template #default>
       <el-card class="common-card query-box">
         <el-form :inline="true" label-width="80px">
-          <el-form-item label="编码">
+          <el-form-item :label="t('jbx.text.id')">
             <el-input v-model="queryParams.code" placeholder="请输入编码"/>
           </el-form-item>
           <el-form-item :label="t('commonName')">
@@ -25,7 +25,7 @@
           <el-button type="primary" @click="handleAdd">新增</el-button>
         </div>
         <el-table v-loading="loading" :data="dataList" border >
-          <el-table-column prop="code" label="编码" align="left"  width="120"></el-table-column>
+          <el-table-column prop="code" :label="t('jbx.text.id')" align="left"  width="120"></el-table-column>
           <el-table-column prop="name" label="分类" align="left"></el-table-column>
           <!--<el-table-column prop="parentId" label="父级" align="center"></el-table-column>-->
           <el-table-column :label="t('org.operate')" align="center" width="120">

@@ -40,11 +40,11 @@
           @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" align="center"/>
-        <el-table-column prop="workspaceId" label="编码" align="left" header-align="center" width="180"
+        <el-table-column prop="workspaceId" :label="t('jbx.text.id')" align="left" header-align="center" width="180"
                          :show-overflow-tooltip="true"></el-table-column>
         <el-table-column prop="name" :label="t('commonName')" align="left" header-align="center"
                          :show-overflow-tooltip="true"></el-table-column>
-        <el-table-column prop="companyName" label="单位名称" align="left" header-align="center"
+        <el-table-column prop="companyName" :label="t('UnitName')" align="left" header-align="center"
                          :show-overflow-tooltip="true"></el-table-column>
         <el-table-column prop="status" :label="t('org.status')" align="center" width="120">
           <template #default="scope">
@@ -56,12 +56,12 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('jbx.text.action')" align="center" width="120">
+        <el-table-column :label="t('jbx.text.action')" align="center" width="120">
           <template #default="scope">
-            <el-tooltip content="编辑">
+            <el-tooltip :content="t('jbx.text.edit')">
               <el-button link icon="Edit" @click="handleUpdate(scope.row)"></el-button>
             </el-tooltip>
-            <el-tooltip content="移除">
+            <el-tooltip :content="t('remove')">
               <el-button link icon="Delete" type="danger" @click="handleDelete(scope.row)"></el-button>
             </el-tooltip>
           </template>
