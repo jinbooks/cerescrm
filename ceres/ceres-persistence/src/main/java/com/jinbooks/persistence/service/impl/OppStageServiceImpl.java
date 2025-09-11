@@ -17,8 +17,8 @@ import com.jinbooks.exception.BusinessException;
 import com.jinbooks.persistence.mapper.OppStageMapper;
 import com.jinbooks.persistence.mapper.OpportunityMapper;
 import com.jinbooks.persistence.service.OppStageService;
+import com.jinbooks.web.WebContext;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.org.eclipse.jdt.core.IField;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -60,7 +60,7 @@ public class OppStageServiceImpl extends ServiceImpl<OppStageMapper, OppStage> i
 
         boolean result = super.save(oppStage);
 
-        return result ? Message.ok("新增成功") : Message.failed("新增失败");
+        return result ? Message.ok(WebContext.getI18nValue("common.add.success")) : Message.failed("新增失败");
     }
 
     @Override

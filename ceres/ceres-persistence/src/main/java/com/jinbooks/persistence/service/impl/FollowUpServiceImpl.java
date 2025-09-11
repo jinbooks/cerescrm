@@ -16,6 +16,7 @@ import com.jinbooks.enums.FollowUpCategoryEnum;
 import com.jinbooks.persistence.mapper.FollowUpMapper;
 import com.jinbooks.persistence.mapper.LeadMapper;
 import com.jinbooks.persistence.service.FollowUpService;
+import com.jinbooks.web.WebContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,7 +57,8 @@ public class FollowUpServiceImpl extends ServiceImpl<FollowUpMapper, FollowUp> i
 
         boolean save = super.save(followUp);
 
-        return save ? Message.ok("新增成功") : Message.failed("新增失败");
+
+        return save ? Message.ok(WebContext.getI18nValue("common.add.success")) : Message.failed("新增失败");
     }
 
     @Override

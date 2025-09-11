@@ -27,6 +27,7 @@ import com.jinbooks.persistence.mapper.LeadMapper;
 import com.jinbooks.persistence.mapper.OpportunityMapper;
 import com.jinbooks.persistence.mapper.UserInfoMapper;
 import com.jinbooks.persistence.service.LeadService;
+import com.jinbooks.web.WebContext;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -116,7 +117,7 @@ public class LeadServiceImpl extends ServiceImpl<LeadMapper, Lead> implements Le
 
         boolean save = super.save(lead);
 
-        return save ? Message.ok("新增成功") : Message.failed("新增失败");
+        return save ? Message.ok(WebContext.getI18nValue("common.add.success")) : Message.failed("新增失败");
     }
 
     @Override

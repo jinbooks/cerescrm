@@ -27,6 +27,7 @@ import com.jinbooks.exception.BusinessException;
 import com.jinbooks.persistence.mapper.*;
 import com.jinbooks.persistence.service.OpportunityService;
 import com.jinbooks.persistence.service.UserInfoService;
+import com.jinbooks.web.WebContext;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
@@ -154,7 +155,7 @@ public class OpportunityServiceImpl extends ServiceImpl<OpportunityMapper, Oppor
 
         boolean result = super.save(opportunity);
 
-        return result ? Message.ok("新增成功") : Message.failed("新增失败");
+        return result ? Message.ok(WebContext.getI18nValue("common.add.success")) : Message.failed("新增失败");
     }
 
     @Override

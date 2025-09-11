@@ -36,6 +36,7 @@ import com.jinbooks.persistence.mapper.OppStageMapper;
 import com.jinbooks.persistence.mapper.WorkspaceMapper;
 import com.jinbooks.persistence.service.*;
 
+import com.jinbooks.web.WebContext;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -80,7 +81,7 @@ public class WorkspaceServiceImpl extends ServiceImpl<WorkspaceMapper, Workspace
 
         //新增阶段（内置模板）
         addOpportunityStage(dto.getWorkspaceId());
-        return saveResult ? new Message<>(Message.SUCCESS, "新增成功") : new Message<>(Message.FAIL, "新增失败");
+        return saveResult ? new Message<>(Message.SUCCESS, WebContext.getI18nValue("common.add.success")) : new Message<>(Message.FAIL, "新增失败");
     }
 
     @Override

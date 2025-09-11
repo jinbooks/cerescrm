@@ -1,12 +1,12 @@
 /*
  * Copyright [2025] [JinBooks of copyright http://www.jinbooks.com]
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
- 
+
 
 package com.jinbooks.persistence.service.impl;
 
@@ -29,6 +29,7 @@ import com.jinbooks.entity.hr.dto.EmployeeChangeDto;
 import com.jinbooks.entity.hr.dto.EmployeePageDto;
 import com.jinbooks.persistence.mapper.EmployeeMapper;
 import com.jinbooks.persistence.service.EmployeeService;
+import com.jinbooks.web.WebContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,7 +78,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         String currentId = identifierGenerator.nextId(employee).toString();
         employee.setId(currentId);
         boolean save = super.save(employee);
-        return save ? new Message<>(Message.SUCCESS, "新增成功", currentId) : new Message<>(Message.FAIL, "新增失败");
+        return save ? new Message<>(Message.SUCCESS, WebContext.getI18nValue("common.add.success"), currentId) : new Message<>(Message.FAIL, "新增失败");
     }
 
     /**
