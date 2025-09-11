@@ -30,7 +30,7 @@
     <el-card class="common-card">
       <div class="btn-form">
         <el-button type="primary" @click="handleAdd">新增</el-button>
-        <el-button @click="onBatchDelete" :disabled="ids.length === 0">批量删除</el-button>
+        <el-button @click="onBatchDelete" :disabled="ids.length === 0">{{t('org.button.deleteBatch')}}</el-button>
       </div>
       <el-table v-loading="loading" :data="dataList" border @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
@@ -150,7 +150,7 @@ function handleUpdate(row: any) {
 
 function handleDelete(row: any) {
   const _ids = row.id || ids.value
-  modal.confirm(`是否确认删除编号为"${_ids}"的数据项？`).then(() => {
+  modal.confirm(`${t('deleteTipCommon')}${_ids}${t('deleteTipLead1')}`).then(() => {
     return receivePaymentService.del([_ids])
   }).then((res: any) => {
     if (res.code === 0) {

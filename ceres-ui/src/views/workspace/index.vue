@@ -4,7 +4,7 @@
       <div class="queryForm">
         <el-form :model="queryParams" ref="queryRef" :inline="true"
                  @submit.native.prevent>
-          <el-form-item label="名称">
+          <el-form-item :label="t('commonName')">
             <el-input
                 v-model="queryParams.name"
                 clearable
@@ -42,9 +42,9 @@
         <el-table-column type="selection" width="55" align="center"/>
         <el-table-column prop="workspaceId" label="编码" align="left" header-align="center" width="180"
                          :show-overflow-tooltip="true"></el-table-column>
-        <el-table-column prop="name" label="名称" align="left" header-align="center" 
+        <el-table-column prop="name" :label="t('commonName')" align="left" header-align="center"
                          :show-overflow-tooltip="true"></el-table-column>
-        <el-table-column prop="companyName" label="单位名称" align="left" header-align="center" 
+        <el-table-column prop="companyName" label="单位名称" align="left" header-align="center"
                          :show-overflow-tooltip="true"></el-table-column>
         <el-table-column prop="status" :label="t('org.status')" align="center" width="120">
           <template #default="scope">

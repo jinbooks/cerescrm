@@ -1,6 +1,6 @@
 <template>
   <!-- 替换 el-drawer 为 el-dialog -->
-  <el-dialog v-model="dialogStatus" title="客户分层管理" :width="600"
+  <el-dialog v-model="dialogStatus" :title="t('cstSegManage')" :width="600"
              style="top: 150px"
              :close-on-click-modal="false"
              @close="dialogOfClosedMethods(false)">
@@ -9,15 +9,15 @@
         <div class="form-container">
           <el-row :gutter="20" class="form-row">
             <el-col :span="24">
-              <el-form-item label="分层名称" prop="segmentName">
-                <el-input v-model="form.segmentName" placeholder="请输入分层名称"/>
+              <el-form-item :label="t('segmentName')" prop="segmentName">
+                <el-input v-model="form.segmentName" :placeholder="t('segmentNameTip')"/>
               </el-form-item>
             </el-col>
           </el-row>
 
           <el-row :gutter="20" class="form-row">
             <el-col :span="24">
-              <el-form-item label="颜色代码" prop="colorCode">
+              <el-form-item :label="t('colorCode')" prop="colorCode">
                 <el-color-picker v-model="form.colorCode" show-alpha color-format="hex"/>
                 <span class="color-code-text">{{ form.colorCode }}</span>
               </el-form-item>
@@ -26,20 +26,20 @@
 
           <el-row :gutter="20" class="form-row">
             <el-col :span="24">
-              <el-form-item label="描述信息" prop="description">
-                <el-input v-model="form.description" type="textarea" :rows="3" placeholder="请输入描述信息"/>
+              <el-form-item :label="t('desInfo')" prop="description">
+                <el-input v-model="form.description" type="textarea" :rows="3" :placeholder="t('desInfoInput')"/>
               </el-form-item>
             </el-col>
           </el-row>
 
           <el-row :gutter="20" class="form-row">
             <el-col :span="24">
-              <el-form-item label="分层规则" prop="ruleCondition">
+              <el-form-item :label="t('segRule')" prop="ruleCondition">
                 <el-input
                     v-model="form.ruleCondition"
                     type="textarea"
                     :rows="4"
-                    placeholder="输入SQL表达式，如：totalSpending > 10000 AND serviceSatisfaction >= 4"
+                    :placeholder="t('sqlTip')"
                     class="rule-textarea"
                 />
               </el-form-item>
@@ -96,7 +96,7 @@ const data = reactive<FormState>({
   },
   rules: {
     segmentName: [
-      {required: true, message: "名称不能为空", trigger: 'blur'}
+      {required: true, message: t('nameTipRule'), trigger: 'blur'}
     ],
   }
 })

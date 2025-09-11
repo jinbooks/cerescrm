@@ -17,7 +17,7 @@
     <el-table v-loading="loading" :data="list" border @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="50" align="center"/>
       <el-table-column prop="workspaceId" label="编码" min-width="70" align="left"/>
-      <el-table-column prop="name" label="名称" min-width="100" align="left"/>
+      <el-table-column prop="name" :label="t('commonName')" min-width="100" align="left"/>
     </el-table>
     <pagination
         v-show="total > 0"

@@ -6,7 +6,7 @@
     </template>
     <template #default>
       <el-form :model="form" :rules="rules" ref="formRef" label-width="110px" inline-message>
-        <el-form-item prop="name" label="名称" :required="true">
+        <el-form-item prop="name" :label="t('commonName')" :required="true">
           <el-input v-model="form.name"/>
         </el-form-item>
         <el-form-item prop="companyName" label="单位名称" :required="true">

@@ -3,8 +3,8 @@
     <el-card class="common-card query-box">
       <div class="queryForm">
         <el-form :model="queryParams" ref="queryRef" :inline="true">
-          <el-form-item label="名称">
-            <el-input v-model="queryParams.segmentName" placeholder="请输入名称"/>
+          <el-form-item :label="t('commonName')">
+            <el-input v-model="queryParams.segmentName" :placeholder="t('nameTipInput')"/>
           </el-form-item>
           <el-form-item>
             <el-button @click="handleQuery">{{ t('org.button.query') }}</el-button>
@@ -16,12 +16,12 @@
 
     <el-card class="common-card">
       <div class="btn-form">
-        <el-button type="primary" @click="handleAdd">新增分层</el-button>
-        <el-button @click="onBatchDelete" :disabled="ids.length === 0">批量删除</el-button>
+        <el-button type="primary" @click="handleAdd">{{t('newSegment')}}</el-button>
+        <el-button @click="onBatchDelete" :disabled="ids.length === 0">{{t('org.button.deleteBatch')}}</el-button>
       </div>
       <el-table v-loading="loading" :data="dataList" border @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
-        <el-table-column prop="segmentName" label="分层名称" align="center">
+        <el-table-column prop="segmentName" :label="t('segmentName')" align="center">
           <template #default="scope">
             <el-tag type="info" v-if="scope.row.id" effect="plain">
               <text  :style="{color: scope.row.colorCode}">
@@ -30,13 +30,13 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="description" label="描述"  align="left" header-align="center" ></el-table-column>
-        <el-table-column prop="colorCode" label="颜色标记" align="center">
+        <el-table-column prop="description" :label="t('jbx.text.description')"  align="left" header-align="center" ></el-table-column>
+        <el-table-column prop="colorCode" :label="t('colorFlag')" align="center">
           <template #default="scope">
             <span :style="{ color: scope.row.colorCode, fontWeight: 'bold' }">●</span> {{ scope.row.colorCode }}
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" width="120">
+        <el-table-column :label="t('org.operate')" align="center" width="120">
           <template #default="scope">
             <el-button icon="Edit" link @click="handleUpdate(scope.row)"></el-button>
             <el-button icon="Delete" link @click="handleDelete(scope.row)"></el-button>
@@ -120,19 +120,19 @@ function dialogOfClosedMethods(val: boolean) {
 
 function handleAdd() {
   id.value = undefined
-  title.value = '新增客户分层'
+  title.value = t('newCstSeg')
   open.value = true
 }
 
 function handleUpdate(row: any) {
   id.value = row.id
-  title.value = '编辑客户分层'
+  title.value = t('updateCstSeg')
   open.value = true
 }
 
 function handleDelete(row: any) {
   const _ids = row.id || ids.value
-  modal.confirm(`是否确认删除编号为"${_ids}"的数据项？`).then(() => {
+  modal.confirm(`${t('deleteTipCommon')}${_ids}${t('deleteTipLead1')}`).then(() => {
     return delCustomerSegment({listIds: [_ids]})
   }).then((res: any) => {
     if (res.code === 0) {

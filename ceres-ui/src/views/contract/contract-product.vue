@@ -96,7 +96,7 @@ const dialogStatus = ref(false)
 const dataList = ref([])
 const loading = ref(true)
 const id = ref<string | undefined>()
-const contractId = ref<string | undefined>()  
+const contractId = ref<string | undefined>()
 const total = ref(0)
 const title = ref('')
 const openProduct = ref(false)
@@ -162,8 +162,8 @@ function handleUpdate(row: any) {
 }
 
 function handleDelete(row: any) {
-  const _ids = row.id 
-  modal.confirm(`是否确认删除编号为"${_ids}"的数据项？`).then(() => {
+  const _ids = row.id
+  modal.confirm(`${t('deleteTipCommon')}${_ids}${t('deleteTipLead1')}`).then(() => {
     return contractProductService.del([_ids])
   }).then((res: any) => {
     if (res.code === 0) {

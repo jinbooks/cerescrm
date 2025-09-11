@@ -224,7 +224,7 @@ function handleUpdate(row: any) {
 
 function handleDelete(row: any) {
   const _ids = row.id || ids.value
-  modal.confirm(`是否确认删除编号为"${_ids}"的数据项？`).then(() => {
+  modal.confirm(`${t('deleteTipCommon')}${_ids}${t('deleteTipLead1')}`).then(() => {
     return delContract([_ids])
   }).then((res: any) => {
     if (res.code === 0) {

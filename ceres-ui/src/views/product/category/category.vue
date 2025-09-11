@@ -10,7 +10,7 @@
           <el-form-item label="编码">
             <el-input v-model="queryParams.code" placeholder="请输入编码"/>
           </el-form-item>
-          <el-form-item label="名称">
+          <el-form-item :label="t('commonName')">
             <el-input v-model="queryParams.name" placeholder="请输入名称"/>
           </el-form-item>
           <el-form-item>
@@ -28,7 +28,7 @@
           <el-table-column prop="code" label="编码" align="left"  width="120"></el-table-column>
           <el-table-column prop="name" label="分类" align="left"></el-table-column>
           <!--<el-table-column prop="parentId" label="父级" align="center"></el-table-column>-->
-          <el-table-column label="操作" align="center" width="120">
+          <el-table-column :label="t('org.operate')" align="center" width="120">
           <template #default="scope">
             <el-button icon="Edit" link @click="handleUpdate(scope.row)"></el-button>
             <el-button icon="Delete" link type="danger" @click="handleDelete(scope.row)"></el-button>
@@ -88,7 +88,7 @@ const dialogStatus = ref(false)
 const dataList = ref([])
 const loading = ref(true)
 const id = ref<string | undefined>()
-const contractId = ref<string | undefined>()  
+const contractId = ref<string | undefined>()
 const total = ref(0)
 const title = ref('')
 const openProductCategory = ref(false)
@@ -154,8 +154,8 @@ function handleUpdate(row: any) {
 }
 
 function handleDelete(row: any) {
-  const _ids = row.id 
-  modal.confirm(`是否确认删除编号为"${_ids}"的数据项？`).then(() => {
+  const _ids = row.id
+  modal.confirm(`${t('deleteTipCommon')}${_ids}${t('deleteTipLead1')}`).then(() => {
     return productCategoryService.del([_ids])
   }).then((res: any) => {
     if (res.code === 0) {
