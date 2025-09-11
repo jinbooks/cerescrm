@@ -205,7 +205,7 @@ const getSummaries = () => {
 
   if (tableSummary != null) {
     let sumsIndex = 0;
-    sums[sumsIndex++] = h('div', {style: {textDecoration: 'underline'}}, ['合计',])
+    sums[sumsIndex++] = h('div', {style: {textDecoration: 'underline'}}, [t('total'),])
     console.log("tableSummary " + tableSummary);
     sums[sumsIndex++] = "";
     sums[sumsIndex++] = "";

@@ -33,7 +33,7 @@
             </el-form-item>
             <!-- <el-form-item :label="t('org.status')">
               <el-select style="width: 120px" v-model="queryParams.status" clearable :placeholder="t('pleaseSelect')">
-                <el-option label="全部" value=""/>
+                <el-option :label="t('all')" value=""/>
                 <el-option label="正常" value="1"/>
                 <el-option label="下线" value="2"/>
               </el-select>

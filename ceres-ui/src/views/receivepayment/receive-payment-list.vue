@@ -11,21 +11,21 @@
           <el-table-column prop="receiveDate" label="收款日期" align="center"></el-table-column>
           <el-table-column prop="status" :label="t('org.status')" align="center">
             <template #default="scope">
-              <el-tag type="primary" v-show="scope.row.status=='1'">开票</el-tag>
-              <el-tag type="success" v-show="scope.row.status=='2'">收款</el-tag>
+              <el-tag type="primary" v-show="scope.row.status=='1'">{{t('Invoicing')}}</el-tag>
+              <el-tag type="success" v-show="scope.row.status=='2'">{{t('ReceivingPayments')}}</el-tag>
               </template>
           </el-table-column>
            <!--
           <el-table-column prop="contractCode" :label="t('contractCode')" align="center"></el-table-column>
-          <el-table-column prop="contractName" label="合同名称" align="center"></el-table-column>
+          <el-table-column prop="contractName" :label="t('contractName')" align="center"></el-table-column>
 
           <el-table-column prop="customerName" :label="t('customerName')" align="center"></el-table-column>
           <el-table-column prop="currency" label="币种" align="center"></el-table-column>
           -->
-          <el-table-column prop="percentage" label="合同额占比(%)" align="center"></el-table-column>
-          <el-table-column prop="amount" label="金额" align="center"></el-table-column>
-          <el-table-column prop="taxAmount" label="税额" align="center"></el-table-column>
-          <el-table-column prop="afterTaxAmount" label="税后金额" align="center"></el-table-column>
+          <el-table-column prop="percentage" :label="t('ContractAmountRatio')" align="center"></el-table-column>
+          <el-table-column prop="amount" :label="t('amount')" align="center"></el-table-column>
+          <el-table-column prop="taxAmount" :label="t('tax')" align="center"></el-table-column>
+          <el-table-column prop="afterTaxAmount" :label="t('AfterTaxAmount')" align="center"></el-table-column>
 
         </el-table>
         <pagination
@@ -133,7 +133,7 @@ const getSummaries = () => {
 
   if (tableSummary != null) {
     let sumsIndex = 0;
-    sums[sumsIndex++] = h('div', {style: {textDecoration: 'underline'}}, ['合计',])
+    sums[sumsIndex++] = h('div', {style: {textDecoration: 'underline'}}, [t('total'),])
     console.log("tableSummary " + tableSummary);
     sums[sumsIndex++] = "";
     sums[sumsIndex++] = "";

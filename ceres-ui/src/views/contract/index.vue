@@ -3,7 +3,7 @@
     <el-card class="common-card query-box">
       <div class="queryForm">
         <el-form :model="queryParams" ref="queryRef" :inline="true" label-width="80px">
-          <el-form-item label="合同名称">
+          <el-form-item :label="t('contractName')">
             <el-input v-model="queryParams.contractName" placeholder="请输入合同名称"/>
           </el-form-item>
           <el-form-item :label="t('SigningDate')">
@@ -45,7 +45,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="code" :label="t('contractCode')" align="left" header-align="center" width="120"></el-table-column>
-        <el-table-column prop="contractName" label="合同名称" align="left" header-align="center"></el-table-column>
+        <el-table-column prop="contractName" :label="t('contractName')" align="left" header-align="center"></el-table-column>
         <el-table-column prop="customerName" :label="t('customerName')" align="left" header-align="center">
           <template #default="scope">
             <router-link :to="'/customer/detail?id=' + scope.row.customerId">

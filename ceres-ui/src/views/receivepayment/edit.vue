@@ -8,8 +8,8 @@
       <el-form :model="form" :rules="rules" ref="formRef" label-width="120px" inline-message>
         <el-row :gutter="20">
           <el-col :span="span"  v-show="!form.contractId">
-            <el-form-item label="合同名称">
-              <el-select v-model="form.contractId" filterable placeholder="请选择合同" @change="selectContract">
+            <el-form-item :label="t('contractName')">
+              <el-select v-model="form.contractId" filterable :placeholder="t('selectContract')" @change="selectContract">
                 <el-option
                     v-for="item in contractList"
                     :key="item.id"
@@ -25,12 +25,12 @@
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="合同名称" prop="contractName">
+            <el-form-item :label="t('contractName')" prop="contractName">
               <el-input v-model="form.contractName" disabled />
             </el-form-item>
           </el-col>
           <el-col :span="span" v-show="false">
-            <el-form-item label="客户编码" prop="customerId">
+            <el-form-item :label="t('cstCode')" prop="customerId">
               <el-input v-model="form.customerId" disabled />
             </el-form-item>
           </el-col>
@@ -45,22 +45,22 @@
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="货币" prop="currency">
+            <el-form-item :label="t('currency')" prop="currency">
               <el-input v-model="form.currency" disabled />
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="税率(%)" prop="taxRate">
+            <el-form-item :label="t('taxRate')" prop="taxRate">
               <el-input v-model="form.taxRate" disabled />
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="剩余金额" prop="contractReceivableAmount">
+            <el-form-item :label="t('RemainingAmount')" prop="contractReceivableAmount">
               <el-input v-model="form.contractReceivableAmount" disabled />
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="纳税人识别号" prop="taxNumber">
+            <el-form-item :label="t('TaxpayerNo')" prop="taxNumber">
               <el-input v-model="form.taxNumber" disabled />
             </el-form-item>
           </el-col>
@@ -75,44 +75,43 @@
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="银行账号" prop="taxBankAccountNumber">
+            <el-form-item :label="t('bankAccount1')" prop="taxBankAccountNumber">
               <el-input v-model="form.taxBankAccountNumber" disabled />
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="联系地址" prop="taxContact">
+            <el-form-item :label="t('contactAddress')" prop="taxContact">
               <el-input v-model="form.taxContact" disabled />
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="合同额占比(%)" prop="percentage">
+            <el-form-item :label="t('ContractAmountRatio')" prop="percentage">
               <el-input v-model="form.percentage"/>
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="金额" prop="amount">
+            <el-form-item :label="t('amount')" prop="amount">
               <el-input v-model="form.amount"/>
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="税费" prop="taxAmount">
+            <el-form-item :label="t('taxAmount')" prop="taxAmount">
               <el-input v-model="form.taxAmount"/>
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="税后金额" prop="afterTaxAmount">
+            <el-form-item :label="t('AfterTaxAmount')" prop="afterTaxAmount">
               <el-input v-model="form.afterTaxAmount"/>
-            </el-form-item>
-          </el-col>
+            </el-form-item>         </el-col>
           <el-col :span="span">
-            <el-form-item label="开票日期" prop="invoiceDate">
+            <el-form-item :label="t('InvoicingDate')" prop="invoiceDate">
               <el-date-picker v-model="form.invoiceDate"
                 format="YYYY-MM-DD"
                 value-format="YYYY-MM-DD"/>
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="收款日期" prop="receiveDate">
+            <el-form-item :label="t('PaymentDate')" prop="receiveDate">
               <el-date-picker v-model="form.receiveDate"
                 format="YYYY-MM-DD"
                 value-format="YYYY-MM-DD"/>
@@ -121,8 +120,8 @@
           <el-col :span="span">
             <el-form-item :label="t('org.status')" prop="status">
               <el-select v-model="form.status" :placeholder="t('pleaseSelect')">
-                <el-option label="开票" value="1"/>
-                <el-option label="收款" value="2"/>
+                <el-option :label="t('Invoicing')" value="1"/>
+                <el-option :label="t('ReceivingPayments')" value="2"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -139,7 +138,7 @@
     <template #footer>
       <div style="flex: auto">
         <el-button @click="dialogOfClosedMethods(false)">{{ t('org.cancel') }}</el-button>
-        <el-button type="warning" @click="compute">计算</el-button>
+        <el-button type="warning" @click="compute">{{t('calculate')}}</el-button>
         <el-button type="primary" @click="submitForm">{{ t('org.confirm') }}</el-button>
       </div>
     </template>
@@ -232,13 +231,13 @@ const data = reactive<FormState>({
   },
   rules: {
     contactName: [
-      {required: true, message: '请输入联系人姓名', trigger: 'blur'}
+      {required: true, message: t('contactTip'), trigger: 'blur'}
     ],
     phone: [
       {required: true, message: t('phoneTipInput'), trigger: 'blur'},
       {
         pattern: /^1[3456789]\d{8}$/,
-        message: '请输入正确的手机号码',
+        message: t('phoneTipRule'),
         trigger: 'blur'
       }
     ],

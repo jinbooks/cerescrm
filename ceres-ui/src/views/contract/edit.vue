@@ -13,7 +13,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="合同名称">
+            <el-form-item :label="t('contractName')">
               <el-input v-model="form.contractName"/>
             </el-form-item>
           </el-col>
