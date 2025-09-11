@@ -51,12 +51,12 @@
         </el-table-column>
         <el-table-column prop="description" :label="t('jbx.text.description')" align="center" min-width="250"
                          :show-overflow-tooltip="true"></el-table-column>
-        <el-table-column :label="$t('jbx.text.action')" align="center" width="80">
+        <el-table-column :label="t('jbx.text.action')" align="center" width="80">
           <template #default="scope">
-            <el-tooltip content="编辑">
+            <el-tooltip :content="t('jbx.text.edit')">
               <el-button link icon="Edit" @click="handleUpdate(scope.row)"></el-button>
             </el-tooltip>
-            <el-tooltip content="成员管理">
+            <el-tooltip :content="t('roleMember')">
               <el-button link icon="User" @click="handleMember(scope.row)"></el-button>
             </el-tooltip>
           </template>

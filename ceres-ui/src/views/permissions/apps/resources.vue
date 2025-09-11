@@ -80,7 +80,7 @@
             <el-table-column :label="$t('jbx.text.action')" align="center"
                              class-name="small-padding fixed-width" width="80">
               <template #default="scope">
-                <el-tooltip content="编辑">
+                <el-tooltip :content="t('jbx.text.edit')">
                   <el-button link icon="Edit" @click="handleUpdate(scope.row)"></el-button>
                 </el-tooltip>
                 <el-tooltip content="移除">

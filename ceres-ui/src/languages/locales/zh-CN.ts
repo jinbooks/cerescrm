@@ -1370,4 +1370,5 @@ export default {
   "remove": "移除",
   "UnitAddress": "单位地址",
   "UnitNameTip": "单位名称不能为空",
+  "roleMember": "成员管理"
 }

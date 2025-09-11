@@ -1358,5 +1358,17 @@ export default {
     "productNameInput": "Please enter product name",
     "productName": "Product Name",
     "newProduct": "New Product",
-    "updateProduct": "Edit Product"
+    "updateProduct": "Edit Product",
+    "Effective": "Effective",
+    "Failure": "Failed",
+    "AuthorizationCode": "Authorization Code",
+    "authType": "Authorization Type",
+    "authDate": "Authorization Date",
+    "cstInfo": "Customer Information",
+    "productVersion": "Product Version",
+    "UnitName": "Unit Name",
+    "remove": "Remove",
+    "UnitAddress": "Unit Address",
+    "UnitNameTip": "Unit name cannot be empty",
+    "roleMember": "Member Management"
 }
