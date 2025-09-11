@@ -89,13 +89,13 @@ const data = reactive<FormState>({
   },
   rules: {
     contactName: [
-      {required: true, message: '请输入联系人姓名', trigger: 'blur'}
+      {required: true, message: t('contactTip'), trigger: 'blur'}
     ],
     phone: [
       {required: true, message: t('phoneTipInput'), trigger: 'blur'},
       {
         pattern: /^1[3456789]\d{8}$/,
-        message: '请输入正确的手机号码',
+        message: t('phoneTipRule'),
         trigger: 'blur'
       }
     ],

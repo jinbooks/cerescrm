@@ -3,10 +3,10 @@
     <el-card class="common-card query-box">
       <div class="queryForm">
         <el-form :model="queryParams" ref="queryRef" :inline="true" label-width="80px">
-          <el-form-item label="产品编码">
+          <el-form-item :label="t('productCode')">
             <el-input v-model="queryParams.productCode" placeholder="请输入产品编码"/>
           </el-form-item>
-          <el-form-item label="产品名称">
+          <el-form-item :label="t('productName')">
             <el-input v-model="queryParams.productName" placeholder="请输入产品名称"/>
           </el-form-item>
           <el-form-item label="分类">
@@ -20,7 +20,7 @@
                   style="width: 240px"  :placeholder="t('pleaseSelect')"
                 ></el-tree-select>
           </el-form-item>
-          <el-form-item label="状态">
+          <el-form-item :label="t('org.status')">
             <el-select style="width: 120px" v-model="queryParams.status" clearable :placeholder="t('pleaseSelect')">
               <el-option :label="t('all')" value=""/>
               <el-option label="正常" value="1"/>
@@ -43,9 +43,9 @@
       </div>
       <el-table v-loading="loading" :data="dataList" border @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
-        <el-table-column prop="productCode" label="产品编码" align="left" header-align="center" ></el-table-column>
-        <el-table-column prop="productName" label="产品名称" align="left" header-align="center" ></el-table-column>
-        <el-table-column prop="version" label="版本" align="left" header-align="center"  width="100"></el-table-column>
+        <el-table-column prop="productCode" :label="t('productCode')" align="left" header-align="center" ></el-table-column>
+        <el-table-column prop="productName" :label="t('productName')" align="left" header-align="center" ></el-table-column>
+        <el-table-column prop="version" :label="t('version')" align="left" header-align="center"  width="100"></el-table-column>
         <el-table-column prop="price" label="价格" align="right" header-align="center" width="120"></el-table-column>
         <el-table-column prop="stock" label="库存" align="right" header-align="center" width="120"></el-table-column>
         <el-table-column prop="productUnit" label="单位" align="center"  width="80"></el-table-column>
@@ -64,7 +64,7 @@
                 />
            </template>
         </el-table-column>
-        <el-table-column prop="status" label="状态" align="center" width="100">
+        <el-table-column prop="status" :label="t('org.status')" align="center" width="100">
             <template #default="scope">
                 <el-tag type="primary" v-show="scope.row.status == '1'">正常</el-tag>
                 <el-tag type="success" v-show="scope.row.status == '2'">下线</el-tag>
@@ -193,7 +193,7 @@ function handleCategory() {
 
 function handleUpdate(row: any) {
   id.value = row.id
-  title.value = '编辑'
+  title.value = t('jbx.text.edit')
   open.value = true
 }
 

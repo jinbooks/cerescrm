@@ -1358,5 +1358,12 @@ export default {
   "productNameInput": "请输入产品名称",
   "productName": "产品名称",
   "newProduct": "新增产品",
-  "updateProduct": "编辑产品"
+  "updateProduct": "编辑产品",
+  "Effective": "生效",
+  "Failure": "失效",
+  "AuthorizationCode": "授权码",
+  "authType": "授权方式",
+  "authDate": "授权日期",
+  "cstInfo": "客户信息",
+  "productVersion": "产品版本",
 }

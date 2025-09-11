@@ -8,34 +8,34 @@
       <el-form :model="form" :rules="rules" ref="formRef" label-width="120px" inline-message>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="客户信息" prop="customerId">
+            <el-form-item :label="t('cstInfo')" prop="customerId">
               <customer-select v-model="form.customerId"
                                @select="(ids, names) => {form.customerName = names}"/>
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="产品信息" prop="productId">
+            <el-form-item :label="t('productInfo')" prop="productId">
               <select-product v-model="form.productId"
                               @select="(ids, names) => selectProductChange(ids,names)"></select-product>
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="产品版本" prop="productVersion">
+            <el-form-item :label="t('productVersion')" prop="productVersion">
               <el-input v-model="form.productVersion" disabled/>
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="授权方式" prop="grantType">
+            <el-form-item :label="t('authType')" prop="grantType">
               <el-input v-model="form.grantType"/>
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="授权码" prop="license">
+            <el-form-item :label="t('AuthorizationCode')" prop="license">
               <el-input v-model="form.license"/>
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="授权日期" prop="grantDate">
+            <el-form-item :label="t('authDate')" prop="grantDate">
               <el-date-picker v-model="form.grantDate"
                               format="YYYY-MM-DD"
                               value-format="YYYY-MM-DD"/>
@@ -49,10 +49,10 @@
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="状态" prop="status">
+            <el-form-item :label="t('org.status')" prop="status">
               <el-select v-model="form.status" :placeholder="t('pleaseSelect')">
-                <el-option label="生效" value="1"/>
-                <el-option label="失效" value="2"/>
+                <el-option :label="t('Effective')" value="1"/>
+                <el-option :label="t('Failure')" value="2"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -136,13 +136,13 @@ const data = reactive<FormState>({
   },
   rules: {
     contactName: [
-      {required: true, message: '请输入联系人姓名', trigger: 'blur'}
+      {required: true, message: t('contactTip'), trigger: 'blur'}
     ],
     phone: [
       {required: true, message: t('phoneTipInput'), trigger: 'blur'},
       {
         pattern: /^1[3456789]\d{8}$/,
-        message: '请输入正确的手机号码',
+        message: t('phoneTipRule'),
         trigger: 'blur'
       }
     ],

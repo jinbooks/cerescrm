@@ -10,7 +10,7 @@
           <el-form-item :label="t('productCode')">
             <el-input v-model="queryParams.productCode" :placeholder="t('productCodeInput')"/>
           </el-form-item>
-          <el-form-item label="产品名称">
+          <el-form-item :label="t('productName')">
             <el-input v-model="queryParams.productName" :placeholder="t('productNameInput')"/>
           </el-form-item>
           <el-form-item>

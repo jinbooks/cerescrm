@@ -149,7 +149,7 @@ function resetQuery() {
 function handleUpdate(row: any) {
   openProductCategory.value = true
   id.value = row.id
-  title.value = '编辑'
+  title.value = t('jbx.text.edit')
   console.log("handleUpdate " +row.id);
 }
 

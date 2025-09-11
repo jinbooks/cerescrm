@@ -8,17 +8,17 @@
       <el-form :model="form" :rules="rules" ref="formRef" label-width="120px" inline-message>
         <el-row :gutter="20">
           <el-col :span="span">
-            <el-form-item label="产品编码" prop="productCode">
+            <el-form-item :label="t('productCode')" prop="productCode">
               <el-input v-model="form.productCode"  />
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="产品名称" prop="productName">
+            <el-form-item :label="t('productName')" prop="productName">
               <el-input v-model="form.productName"  />
             </el-form-item>
           </el-col>
           <el-col :span="span" >
-            <el-form-item label="版本" prop="version">
+            <el-form-item :label="t('version')" prop="version">
               <el-input v-model="form.version"  />
             </el-form-item>
           </el-col>
@@ -57,7 +57,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="span">
-            <el-form-item label="状态" prop="status">
+            <el-form-item :label="t('org.status')" prop="status">
               <el-select v-model="form.status" :placeholder="t('pleaseSelect')">
                 <el-option label="正常" value="1"/>
                 <el-option label="下线" value="2"/>
@@ -163,13 +163,13 @@ const data = reactive<FormState>({
   },
   rules: {
     contactName: [
-      {required: true, message: '请输入联系人姓名', trigger: 'blur'}
+      {required: true, message: t('contactTip'), trigger: 'blur'}
     ],
     phone: [
       {required: true, message: t('phoneTipInput'), trigger: 'blur'},
       {
         pattern: /^1[3456789]\d{8}$/,
-        message: '请输入正确的手机号码',
+        message: t('phoneTipRule'),
         trigger: 'blur'
       }
     ],

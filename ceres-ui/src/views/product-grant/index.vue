@@ -6,17 +6,17 @@
           <el-form-item :label="t('customerName')">
             <el-input v-model="queryParams.customerName" :placeholder="t('customerTip')"/>
           </el-form-item>
-          <el-form-item label="产品编码">
-            <el-input v-model="queryParams.productCode" placeholder="请输入产品编码"/>
+          <el-form-item :label="t('productCode')">
+            <el-input v-model="queryParams.productCode" :placeholder="t('productCodeInput')"/>
           </el-form-item>
-          <el-form-item label="产品名称">
-            <el-input v-model="queryParams.productName" placeholder="请输入产品名称"/>
+          <el-form-item :label="t('productName')">
+            <el-input v-model="queryParams.productName" :placeholder="t('productNameInput')"/>
           </el-form-item>
-          <el-form-item label="状态">
+          <el-form-item :label="t('org.status')">
             <el-select style="width: 120px" v-model="queryParams.status" clearable :placeholder="t('pleaseSelect')">
               <el-option :label="t('all')" value=""/>
-              <el-option label="生效" value="1"/>
-              <el-option label="失效" value="2"/>
+              <el-option :label="t('Effective')" value="1"/>
+              <el-option :label="t('Failure')" value="2"/>
             </el-select>
           </el-form-item>
           <el-form-item>
@@ -29,24 +29,24 @@
 
     <el-card class="common-card">
       <div class="btn-form">
-        <el-button type="primary" @click="handleAdd">新增</el-button>
+        <el-button type="primary" @click="handleAdd">{{t('jbx.text.add')}}</el-button>
         <el-button @click="onBatchDelete" :disabled="ids.length === 0">{{t('org.button.deleteBatch')}}</el-button>
       </div>
       <el-table v-loading="loading" :data="dataList" border @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <!--<el-table-column prop="customerId" label="客户编码"  align="left" header-align="center" ></el-table-column>-->
         <el-table-column prop="customerName" :label="t('customerName')"  align="left" header-align="center" ></el-table-column>
-        <el-table-column prop="productCode" label="产品编码" align="left" header-align="center"></el-table-column>
-        <el-table-column prop="productName" label="产品名称" align="left" header-align="center"></el-table-column>
-        <el-table-column prop="productVersion" label="版本" align="left" header-align="center"></el-table-column>
-        <el-table-column prop="license" label="授权码" align="left" header-align="center"></el-table-column>
-        <el-table-column prop="grantType" label="授权方式"  align="center" header-align="center" width="100"></el-table-column>
-        <el-table-column prop="grantDate" label="授权日期"  align="center" header-align="center" width="100" ></el-table-column>
+        <el-table-column prop="productCode" :label="t('productCode')" align="left" header-align="center"></el-table-column>
+        <el-table-column prop="productName" :label="t('productName')" align="left" header-align="center"></el-table-column>
+        <el-table-column prop="productVersion" :label="t('version')" align="left" header-align="center"></el-table-column>
+        <el-table-column prop="license" :label="t('AuthorizationCode')" align="left" header-align="center"></el-table-column>
+        <el-table-column prop="grantType" :label="t('authType')"  align="center" header-align="center" width="100"></el-table-column>
+        <el-table-column prop="grantDate" :label="t('authDate')"  align="center" header-align="center" width="100" ></el-table-column>
         <el-table-column prop="expirationDate" :label="t('ExpiryDate')" align="center"></el-table-column>
-        <el-table-column prop="status" label="状态" align="center"  width="100">
+        <el-table-column prop="status" :label="t('org.status')" align="center"  width="100">
             <template #default="scope">
-              <el-tag type="primary" v-show="scope.row.status=='1'">生效</el-tag>
-              <el-tag type="success" v-show="scope.row.status=='2'">失效</el-tag>
+              <el-tag type="primary" v-show="scope.row.status=='1'">{{t('Effective')}}</el-tag>
+              <el-tag type="success" v-show="scope.row.status=='2'">{{t('Failure')}}</el-tag>
               </template>
           </el-table-column>
         <el-table-column :label="t('org.operate')" align="center" width="120">
@@ -143,7 +143,7 @@ function handleAdd() {
 
 function handleUpdate(row: any) {
   id.value = row.id
-  title.value = '编辑'
+  title.value = t('jbx.text.edit')
   open.value = true
 }
 

@@ -15,10 +15,10 @@
       <div class="app-container">
         <el-card class="common-card query-box">
           <el-form :inline="true" label-width="80px">
-            <el-form-item label="产品编码">
+            <el-form-item :label="t('productCode')">
               <el-input v-model="queryParams.productCode" placeholder="请输入产品编码"/>
             </el-form-item>
-            <el-form-item label="产品名称">
+            <el-form-item :label="t('productName')">
               <el-input v-model="queryParams.productName" placeholder="请输入产品名称"/>
             </el-form-item>
             <el-form-item label="分类">
@@ -58,9 +58,9 @@
                 <el-radio v-model="singleSelectId" :value="row.id">{{ '' }}</el-radio>
               </template>
             </el-table-column>
-            <el-table-column prop="productCode" label="产品编码" align="center"></el-table-column>
-            <el-table-column prop="productName" label="产品名称" align="center"></el-table-column>
-            <el-table-column prop="version" label="版本" align="center"></el-table-column>
+            <el-table-column prop="productCode" :label="t('productCode')" align="center"></el-table-column>
+            <el-table-column prop="productName" :label="t('productName')" align="center"></el-table-column>
+            <el-table-column prop="version" :label="t('version')" align="center"></el-table-column>
             <el-table-column prop="price" label="价格" align="center"></el-table-column>
             <el-table-column prop="stock" label="库存" align="center"></el-table-column>
             <el-table-column prop="productUnit" label="单位" align="center"></el-table-column>
