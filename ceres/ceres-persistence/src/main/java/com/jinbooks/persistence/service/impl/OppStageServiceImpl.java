@@ -57,6 +57,7 @@ public class OppStageServiceImpl extends ServiceImpl<OppStageMapper, OppStage> i
         checkCodeAndName(dto, false);
 
         OppStage oppStage = BeanUtil.copyProperties(dto, OppStage.class);
+        oppStage.setIsSystem(1);
 
         boolean result = super.save(oppStage);
 

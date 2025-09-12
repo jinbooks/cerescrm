@@ -1370,5 +1370,9 @@ export default {
   "remove": "移除",
   "UnitAddress": "单位地址",
   "UnitNameTip": "单位名称不能为空",
-  "roleMember": "成员管理"
+  "roleMember": "成员管理",
+  "pleaseInput": "请输入内容",
+  "wrongPictureFormat": "图片格式错误!",
+  "limitUpload": "上传文件大小不能超过",
+  "failInsertPicture": "图片插入失败"
 }

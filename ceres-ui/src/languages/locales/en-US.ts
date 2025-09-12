@@ -1370,5 +1370,9 @@ export default {
     "remove": "Remove",
     "UnitAddress": "Unit Address",
     "UnitNameTip": "Unit name cannot be empty",
-    "roleMember": "Member Management"
+    "roleMember": "Member Management",
+    "pleaseInput": "Please enter content",
+    "wrongPictureFormat": "Image format error!",
+    "limitUpload": "Uploaded file size cannot exceed",
+    "failInsertPicture": "Image insertion failed"
 }
