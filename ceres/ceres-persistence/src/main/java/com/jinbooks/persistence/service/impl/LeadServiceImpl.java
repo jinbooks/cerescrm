@@ -117,7 +117,7 @@ public class LeadServiceImpl extends ServiceImpl<LeadMapper, Lead> implements Le
 
         boolean save = super.save(lead);
 
-        return save ? Message.ok(WebContext.getI18nValue("common.add.success")) : Message.failed("新增失败");
+        return save ? Message.ok(WebContext.getI18nValue("common.add.success")) : Message.failed(WebContext.getI18nValue("common.add.fail"));
     }
 
     @Override
@@ -128,14 +128,14 @@ public class LeadServiceImpl extends ServiceImpl<LeadMapper, Lead> implements Le
 
         boolean result = super.updateById(lead);
 
-        return result ? Message.ok("修改成功") : Message.failed("修改失败");
+        return result ? Message.ok(WebContext.getI18nValue("common.update.success")) : Message.failed(WebContext.getI18nValue("common.update.fail"));
     }
 
     @Override
     public Message<String> delete(ListIdsDto dto) {
         boolean result = super.removeBatchByIds(dto.getListIds());
 
-        return result ? Message.ok("删除成功") : Message.failed("删除失败");
+        return result ? Message.ok(WebContext.getI18nValue("common.delete.success")) : Message.failed(WebContext.getI18nValue("common.delete.fail"));
     }
 
     private void generateLeadCode(Lead lead) {
@@ -159,7 +159,7 @@ public class LeadServiceImpl extends ServiceImpl<LeadMapper, Lead> implements Le
 
                 // ✅ 超出 9999 上限判断
                 if (nextNumber > 9999) {
-                    throw new BusinessException(50001, "今日线索编号已达上限（9999），无法继续生成！");
+                    throw new BusinessException(50001, WebContext.getI18nValue("lead.exception.max"));
                 }
             } catch (NumberFormatException e) {
                 nextNumber = 1; // fallback
@@ -192,7 +192,7 @@ public class LeadServiceImpl extends ServiceImpl<LeadMapper, Lead> implements Le
             Integer oldStatus = originLead.getStatus();
 
             if (transferredCode.equals(status) && !Objects.equals(oldStatus, transferredCode)) {
-                throw new BusinessException(50001, "设置已转商机状态请使用操作栏更多里的“转化商机”功能");
+                throw new BusinessException(50001, WebContext.getI18nValue("opportunity.exception.convert"));
             }
 
             // 设置转化时间（仅状态从非转化变为转化时）
@@ -201,7 +201,7 @@ public class LeadServiceImpl extends ServiceImpl<LeadMapper, Lead> implements Le
                         .eq(Opportunity::getWorkspaceId, originLead.getWorkspaceId())
                         .eq(Opportunity::getLeadId, originLead.getId()));
                 if (l > 0) {
-                    throw new BusinessException(50001, "该线索已经转化成商机，请先删除对应商机后再修改线索状态");
+                    throw new BusinessException(50001, WebContext.getI18nValue("opportunity.exception.delete"));
                 }
             }
 
@@ -211,7 +211,7 @@ public class LeadServiceImpl extends ServiceImpl<LeadMapper, Lead> implements Le
             }
         } else {
             if (transferredCode.equals(status)) {
-                throw new BusinessException(50001, "设置已转商机状态请使用操作栏更多里的“转化商机”功能");
+                throw new BusinessException(50001, WebContext.getI18nValue("opportunity.exception.convert"));
             }
         /*    // 新增：状态为转化时设置转化时间
             if (Objects.equals(lead.getStatus(), transferredCode)) {

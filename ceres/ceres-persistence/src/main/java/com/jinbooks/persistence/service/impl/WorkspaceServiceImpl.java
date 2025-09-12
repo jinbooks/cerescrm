@@ -81,7 +81,7 @@ public class WorkspaceServiceImpl extends ServiceImpl<WorkspaceMapper, Workspace
 
         //新增阶段（内置模板）
         addOpportunityStage(dto.getWorkspaceId());
-        return saveResult ? new Message<>(Message.SUCCESS, WebContext.getI18nValue("common.add.success")) : new Message<>(Message.FAIL, "新增失败");
+        return saveResult ? new Message<>(Message.SUCCESS, WebContext.getI18nValue("common.add.success")) : new Message<>(Message.FAIL, WebContext.getI18nValue("common.add.fail"));
     }
 
     @Override
@@ -95,7 +95,7 @@ public class WorkspaceServiceImpl extends ServiceImpl<WorkspaceMapper, Workspace
         //新增阶段（内置模板）
         addOpportunityStage(dto.getWorkspaceId());
         boolean result = super.updateById(booksUpdate);
-        return result ? new Message<>(Message.SUCCESS, "修改成功") : new Message<>(Message.FAIL, "修改失败");
+        return result ? new Message<>(Message.SUCCESS, WebContext.getI18nValue("common.update.success")) : new Message<>(Message.FAIL, WebContext.getI18nValue("common.update.fail"));
     }
 
     private void checkIfTheNameExists(WorkspaceChangeDto dto, boolean isEdit) {
@@ -106,8 +106,7 @@ public class WorkspaceServiceImpl extends ServiceImpl<WorkspaceMapper, Workspace
         }
         List<Workspace> list = super.list(wrapper);
         if (ObjectUtils.isNotEmpty(list)) {
-            throw new BusinessException(
-                    BookBusinessExceptionEnum.DUPLICATE_SETNAME_EXIST.getCode(),
+            throw new BusinessException(BookBusinessExceptionEnum.DUPLICATE_SETNAME_EXIST.getCode(),
                     BookBusinessExceptionEnum.DUPLICATE_SETNAME_EXIST.getMsg()
             );
         }
@@ -125,8 +124,7 @@ public class WorkspaceServiceImpl extends ServiceImpl<WorkspaceMapper, Workspace
         wrapper.in(Workspace::getWorkspaceId, workspaceIds);
         List<Workspace> books = workspaceMapper.selectList(wrapper);
         if (ObjectUtils.isNotEmpty(books)) {
-            throw new BusinessException(
-                    BookBusinessExceptionEnum.DISABLE_BEFORE_DELETE.getCode(),
+            throw new BusinessException(BookBusinessExceptionEnum.DISABLE_BEFORE_DELETE.getCode(),
                     BookBusinessExceptionEnum.DISABLE_BEFORE_DELETE.getMsg()
             );
         }
@@ -134,7 +132,7 @@ public class WorkspaceServiceImpl extends ServiceImpl<WorkspaceMapper, Workspace
         //删除工作区数据
         boolean result = super.removeByIds(workspaceIds);
 
-        return result ? new Message<>(Message.SUCCESS, "删除成功") : new Message<>(Message.FAIL, "删除失败");
+        return result ? new Message<>(Message.SUCCESS, WebContext.getI18nValue("common.delete.success")) : new Message<>(Message.FAIL, WebContext.getI18nValue("common.delete.fail"));
     }
 
     @Override
@@ -156,7 +154,7 @@ public class WorkspaceServiceImpl extends ServiceImpl<WorkspaceMapper, Workspace
             );
 
             if (defaultStages == null || defaultStages.isEmpty()) {
-                throw new BusinessException(50001, "请导入商机阶段内置数据");
+                throw new BusinessException(50001, WebContext.getI18nValue("opportunity.exception.import"));
             }
 
             List<OppStage> newStages = defaultStages.stream()

@@ -136,11 +136,11 @@ public class OpportunityServiceImpl extends ServiceImpl<OpportunityMapper, Oppor
         wrapper.eq(OppStage::getIsSystem, 1);
         wrapper.eq(OppStage::getIsActive, 0);
         wrapper.orderByAsc(OppStage::getSortOrder);
-        Page<OppStage> page = new Page<>(1, 1); // 页码 1，每页 1 条
+        Page<OppStage> page = new Page<>(1, 1);
         IPage<OppStage> pageResult = oppStageMapper.selectPage(page, wrapper);
         OppStage firstStage = pageResult.getRecords().isEmpty() ? null : pageResult.getRecords().get(0);
         if (Objects.isNull(firstStage)) {
-            throw new BusinessException(50001, "请先生成商机阶段信息");
+            throw new BusinessException(50001, WebContext.getI18nValue("opportunity.exception.generate"));
         } else {
             opportunity.setStageId(firstStage.getId());
         }
@@ -155,7 +155,7 @@ public class OpportunityServiceImpl extends ServiceImpl<OpportunityMapper, Oppor
 
         boolean result = super.save(opportunity);
 
-        return result ? Message.ok(WebContext.getI18nValue("common.add.success")) : Message.failed("新增失败");
+        return result ? Message.ok(WebContext.getI18nValue("common.add.success")) : Message.failed(WebContext.getI18nValue("common.add.fail"));
     }
 
     @Override
@@ -170,14 +170,14 @@ public class OpportunityServiceImpl extends ServiceImpl<OpportunityMapper, Oppor
 
         boolean result = super.updateById(opportunity);
 
-        return result ? Message.ok("修改成功") : Message.failed("修改失败");
+        return result ? Message.ok(WebContext.getI18nValue("common.update.success")) : Message.failed(WebContext.getI18nValue("common.update.fail"));
     }
 
     @Override
     public Message<String> delete(ListIdsDto dto) {
         boolean result = super.removeBatchByIds(dto.getListIds());
 
-        return result ? Message.ok("删除成功") : Message.failed("删除失败");
+        return result ? Message.ok(WebContext.getI18nValue("common.delete.success")) : Message.failed(WebContext.getI18nValue("common.delete.fail"));
     }
 
     private void setAmountInfo(Opportunity opportunity) {
@@ -212,7 +212,7 @@ public class OpportunityServiceImpl extends ServiceImpl<OpportunityMapper, Oppor
 
                 // ✅ 超出 9999 上限判断
                 if (nextNumber > 9999) {
-                    throw new BusinessException(50001, "今日商机编号已达上限（9999），无法继续生成！");
+                    throw new BusinessException(50001, WebContext.getI18nValue("opportunity.exception.max"));
                 }
             } catch (NumberFormatException e) {
                 nextNumber = 1;
@@ -267,7 +267,7 @@ public class OpportunityServiceImpl extends ServiceImpl<OpportunityMapper, Oppor
         }*/
         opportunity.setLastActivityDate(new Date());
         boolean update = super.updateById(opportunity);
-        return update ? Message.ok("修改成功") : Message.failed("修改失败");
+        return update ? Message.ok(WebContext.getI18nValue("common.update.success")) : Message.failed(WebContext.getI18nValue("common.update.fail"));
     }
 
     /**

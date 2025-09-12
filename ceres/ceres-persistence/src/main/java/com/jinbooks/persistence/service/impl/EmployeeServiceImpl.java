@@ -78,7 +78,8 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         String currentId = identifierGenerator.nextId(employee).toString();
         employee.setId(currentId);
         boolean save = super.save(employee);
-        return save ? new Message<>(Message.SUCCESS, WebContext.getI18nValue("common.add.success"), currentId) : new Message<>(Message.FAIL, "新增失败");
+        return save ? new Message<>(Message.SUCCESS, WebContext.getI18nValue("common.add.success"), currentId) :
+                new Message<>(Message.FAIL, WebContext.getI18nValue("common.add.fail"));
     }
 
     /**
@@ -94,7 +95,8 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         BeanUtil.copyProperties(dto, employee);
         String currentId = dto.getId();
         boolean update = super.updateById(employee);
-        return update ? new Message<>(Message.SUCCESS, "修改成功", currentId) : new Message<>(Message.FAIL, "修改失败");
+        return update ? new Message<>(Message.SUCCESS, WebContext.getI18nValue("common.update.success"), currentId) :
+                new Message<>(Message.FAIL, WebContext.getI18nValue("common.update.fail"));
     }
 
 
@@ -109,6 +111,6 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
     public Message<String> delete(ListIdsDto dto) {
         List<String> ids = dto.getListIds();
         boolean result = super.removeBatchByIds(ids);
-        return result ? new Message<>(Message.SUCCESS, "删除成功") : new Message<>(Message.FAIL, "删除失败");
+        return result ? new Message<>(Message.SUCCESS, WebContext.getI18nValue("common.delete.success")) : new Message<>(Message.FAIL, WebContext.getI18nValue("common.delete.fail"));
     }
 }

@@ -1,12 +1,12 @@
 /*
  * Copyright [2025] [JinBooks of copyright http://www.jinbooks.com]
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
- 
+
 
 
 
@@ -160,8 +160,7 @@ public class OrganizationsServiceImpl extends ServiceImpl<OrganizationsMapper, O
         }
         String currentId = organization.getId();
         if (Objects.equals(parentId, currentId)) {
-            throw new BusinessException(
-                    OrgsBusinessExceptionEnum.ILLEGAL_MOVE_ORG.getCode(),
+            throw new BusinessException(OrgsBusinessExceptionEnum.ILLEGAL_MOVE_ORG.getCode(),
                     OrgsBusinessExceptionEnum.ILLEGAL_MOVE_ORG.getMsg()
             );
         }
@@ -173,8 +172,7 @@ public class OrganizationsServiceImpl extends ServiceImpl<OrganizationsMapper, O
         queryWrapper.ne(Organizations::getId, currentId);
         List<Organizations> orgInfos = super.list(queryWrapper);
         if (orgInfos.stream().anyMatch(orgInfo -> Objects.equals(parentId, orgInfo.getId()))) {
-            throw new BusinessException(
-                    OrgsBusinessExceptionEnum.ILLEGAL_MOVE_ORG.getCode(),
+            throw new BusinessException(OrgsBusinessExceptionEnum.ILLEGAL_MOVE_ORG.getCode(),
                     OrgsBusinessExceptionEnum.ILLEGAL_MOVE_ORG.getMsg()
             );
         }
@@ -230,8 +228,7 @@ public class OrganizationsServiceImpl extends ServiceImpl<OrganizationsMapper, O
         wrapper.eq(Organizations::getOrgName, orgName);
         List<Organizations> organizationsList = super.list(wrapper);
         if (ObjectUtils.isNotEmpty(organizationsList)) {
-            throw new BusinessException(
-                    OrgsBusinessExceptionEnum.DUPLICATE_ORGS_EXIST.getCode(),
+            throw new BusinessException(OrgsBusinessExceptionEnum.DUPLICATE_ORGS_EXIST.getCode(),
                     OrgsBusinessExceptionEnum.DUPLICATE_ORGS_EXIST.getMsg()
             );
         }
@@ -242,8 +239,7 @@ public class OrganizationsServiceImpl extends ServiceImpl<OrganizationsMapper, O
         secondWrapper.eq(Organizations::getOrgCode, orgCode);
         List<Organizations> secondOrgs = super.list(secondWrapper);
         if (ObjectUtils.isNotEmpty(secondOrgs)) {
-            throw new BusinessException(
-                    OrgsBusinessExceptionEnum.DUPLICATE_ORGSCODE_EXIST.getCode(),
+            throw new BusinessException(OrgsBusinessExceptionEnum.DUPLICATE_ORGSCODE_EXIST.getCode(),
                     OrgsBusinessExceptionEnum.DUPLICATE_ORGSCODE_EXIST.getMsg()
             );
         }
@@ -269,8 +265,7 @@ public class OrganizationsServiceImpl extends ServiceImpl<OrganizationsMapper, O
         wrapper.notIn(Organizations::getId, id);
         List<Organizations> organizationsList = super.list(wrapper);
         if (ObjectUtils.isNotEmpty(organizationsList)) {
-            throw new BusinessException(
-                    OrgsBusinessExceptionEnum.DUPLICATE_ORGS_EXIST.getCode(),
+            throw new BusinessException(OrgsBusinessExceptionEnum.DUPLICATE_ORGS_EXIST.getCode(),
                     OrgsBusinessExceptionEnum.DUPLICATE_ORGS_EXIST.getMsg()
             );
         }
@@ -282,8 +277,7 @@ public class OrganizationsServiceImpl extends ServiceImpl<OrganizationsMapper, O
         secondWrapper.notIn(Organizations::getId, id);
         List<Organizations> secondOrgs = super.list(secondWrapper);
         if (ObjectUtils.isNotEmpty(secondOrgs)) {
-            throw new BusinessException(
-                    OrgsBusinessExceptionEnum.DUPLICATE_ORGSCODE_EXIST.getCode(),
+            throw new BusinessException(OrgsBusinessExceptionEnum.DUPLICATE_ORGSCODE_EXIST.getCode(),
                     OrgsBusinessExceptionEnum.DUPLICATE_ORGSCODE_EXIST.getMsg()
             );
         }

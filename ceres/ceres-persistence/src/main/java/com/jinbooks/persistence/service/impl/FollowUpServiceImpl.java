@@ -58,13 +58,13 @@ public class FollowUpServiceImpl extends ServiceImpl<FollowUpMapper, FollowUp> i
         boolean save = super.save(followUp);
 
 
-        return save ? Message.ok(WebContext.getI18nValue("common.add.success")) : Message.failed("新增失败");
+        return save ? Message.ok(WebContext.getI18nValue("common.add.success")) : Message.failed(WebContext.getI18nValue("common.add.fail"));
     }
 
     @Override
     public Message<String> delete(ListIdsDto dto) {
         boolean result = super.removeBatchByIds(dto.getListIds());
 
-        return result ? Message.ok("删除成功") : Message.failed("删除失败");
+        return result ? Message.ok(WebContext.getI18nValue("common.delete.success")) : Message.failed(WebContext.getI18nValue("common.delete.fail"));
     }
 }

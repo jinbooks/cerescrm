@@ -60,7 +60,7 @@ public class OppStageServiceImpl extends ServiceImpl<OppStageMapper, OppStage> i
 
         boolean result = super.save(oppStage);
 
-        return result ? Message.ok(WebContext.getI18nValue("common.add.success")) : Message.failed("新增失败");
+        return result ? Message.ok(WebContext.getI18nValue("common.add.success")) : Message.failed(WebContext.getI18nValue("common.add.fail"));
     }
 
     @Override
@@ -71,7 +71,7 @@ public class OppStageServiceImpl extends ServiceImpl<OppStageMapper, OppStage> i
 
         boolean result = super.updateById(oppStage);
 
-        return result ? Message.ok("修改成功") : Message.failed("修改失败");
+        return result ? Message.ok(WebContext.getI18nValue("common.update.success")) : Message.failed(WebContext.getI18nValue("common.update.fail"));
     }
 
     @Override
@@ -80,12 +80,12 @@ public class OppStageServiceImpl extends ServiceImpl<OppStageMapper, OppStage> i
                 .in(Opportunity::getStageId, dto.getListIds()));
 
         if (ObjectUtils.isNotEmpty(opportunities)) {
-            throw new BusinessException(50001, "该阶段已被商机使用暂时无法删除");
+            throw new BusinessException(50001, WebContext.getI18nValue("opportunity.exception.used"));
         }
 
         boolean result = super.removeBatchByIds(dto.getListIds());
 
-        return result ? Message.ok("删除成功") : Message.failed("删除失败");
+        return result ? Message.ok(WebContext.getI18nValue("common.delete.success")) : Message.failed(WebContext.getI18nValue("common.delete.fail"));
     }
 
     private void checkCodeAndName(OppStageChangeDto dto, boolean isEdit) {
@@ -102,7 +102,7 @@ public class OppStageServiceImpl extends ServiceImpl<OppStageMapper, OppStage> i
             codeWrapper.ne(OppStage::getId, currentId);
         }
         if (super.count(codeWrapper) > 0) {
-            throw new BusinessException(50001, "操作失败，编码已存在，请修改");
+            throw new BusinessException(50001, WebContext.getI18nValue("opportunity.exception.code"));
         }
 
         // 校验名称唯一
@@ -113,7 +113,7 @@ public class OppStageServiceImpl extends ServiceImpl<OppStageMapper, OppStage> i
             nameWrapper.ne(OppStage::getId, currentId);
         }
         if (super.count(nameWrapper) > 0) {
-            throw new BusinessException(50001, "操作失败，名称已存在，请修改");
+            throw new BusinessException(50001, WebContext.getI18nValue("opportunity.exception.name"));
         }
     }
 

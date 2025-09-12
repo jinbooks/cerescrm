@@ -1,12 +1,12 @@
 /*
  * Copyright [2025] [JinBooks of copyright http://www.jinbooks.com]
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,10 +14,11 @@
  * limitations under the License.
  *
  */
- 
+
 
 package com.jinbooks.enums;
 
+import com.jinbooks.web.WebContext;
 import lombok.Getter;
 
 /**
@@ -28,29 +29,29 @@ import lombok.Getter;
 @Getter
 public enum BookBusinessExceptionEnum {
 
-    ILLEGAL_MOVE_ORG(500001, "非法的移动操作"),
+    ILLEGAL_MOVE_ORG(500001, WebContext.getI18nValue("illegal.move.org")),
 
-    DUPLICATE_SUBJECTSCODE_EXIST(500002, "当前会计准则已存在相同的科目编码，请重新输入"),
+    DUPLICATE_SUBJECTSCODE_EXIST(500002, WebContext.getI18nValue("duplicate.subjectscode.exist")),
 
-    SUB_SUBJECTS_EXISTS(500003, "请先移除/移动当前会计科目下的子科目"),
+    SUB_SUBJECTS_EXISTS(500003, WebContext.getI18nValue("sub.subjects.exists")),
 
-    SUB_SUBJECTS_ACTIVE(500004, "请先禁用当前会计科目下的活跃子科目"),
+    SUB_SUBJECTS_ACTIVE(500004, WebContext.getI18nValue("sub.subjects.active")),
 
-    PARENT_ORGS_FORBIDDEN(500005, "请先启用当前子科目的父级会计科目"),
+    PARENT_ORGS_FORBIDDEN(500005, WebContext.getI18nValue("parent.orgs.forbidden")),
 
-    DUPLICATE_DEEP_LIMIT(500006, "超出最大科目深度10级"),
+    DUPLICATE_DEEP_LIMIT(500006, WebContext.getI18nValue("duplicate.deep.limit")),
 
-    DUPLICATE_SUBJECTS_EXIST(500007, "当前会计准则已存在相同的科目名称，请重新输入"),
+    DUPLICATE_SUBJECTS_EXIST(500007, WebContext.getI18nValue("duplicate.subjects.exist")),
 
-    DUPLICATE_SETNAME_EXIST(500008, "当前系统已存在相同的账套名称，请重新输入"),
+    DUPLICATE_SETNAME_EXIST(500008, WebContext.getI18nValue("duplicate.setname.exist")),
 
-    ALREADY_STANDARD_USED(500009, "当前会计科目已被会计制度使用无法被禁用"),
+    ALREADY_STANDARD_USED(500009, WebContext.getI18nValue("already.standard.used")),
 
-    ALREADY_SET_USED(500010, "当前会计科目已被账套使用无法被禁用"),
+    ALREADY_SET_USED(500010, WebContext.getI18nValue("already.set.used")),
 
-    DISABLE_BEFORE_DELETE(500011, "请先禁用当前数据再进行删除操作"),
+    DISABLE_BEFORE_DELETE(500011, WebContext.getI18nValue("disable.before.delete")),
 
-    DELETE_HAS_VOUCHER(500012, "当前科目已被使用，不可删除");
+    DELETE_HAS_VOUCHER(500012, WebContext.getI18nValue("delete.has.voucher"));
 
     final String msg;
 
