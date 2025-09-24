@@ -154,6 +154,7 @@ import * as contractService from '@/api/customer/contract'
 import {listCustomer} from "@/api/customer/customer";
 import * as receivePaymentService  from '@/api/receivepayment/receive-payment'
 import * as customerService from '@/api/customer/customer'
+import Decimal from 'decimal.js'
 
 const emit = defineEmits(['dialogOfClosedMethods'])
 const dialogStatus = ref(false)
@@ -173,14 +174,14 @@ interface FormModel {
   taxBankAccount?: string
   taxBankAccountNumber?: string
   contactName: string
-  contractAmount: number
-  contractReceivableAmount: number
+  contractAmount: Decimal
+  contractReceivableAmount: Decimal
   currency: string
   percentage: number
   taxRate: number
-  amount: number
-  taxAmount: number
-  afterTaxAmount: number
+  amount: Decimal
+  taxAmount: Decimal
+  afterTaxAmount: Decimal
   invoiceDate: string
   receiveDate: string
   status: string
@@ -212,14 +213,14 @@ const data = reactive<FormState>({
     customerId: '',
     customerName: '',
     contactName: '',
-    contractAmount :0.00,
-    contractReceivableAmount:0.00,
+    contractAmount :new Decimal(0.00),
+    contractReceivableAmount:new Decimal(0.00),
     currency: '',
     taxRate: 0,
     percentage: 0,
-    amount: 0.00,
-    taxAmount: 0.00,
-    afterTaxAmount: 0.00,
+    amount: new Decimal(0.00),
+    taxAmount: new Decimal(0.00),
+    afterTaxAmount: new Decimal(0.00),
     invoiceDate: '',
     receiveDate: '',
     status: '1',
@@ -293,7 +294,11 @@ function selectContract(val:any) {
     form.value.currency=res.data.currency
     form.value.taxRate=res.data.taxRate
     form.value.contractAmount =res.data.amount
-    form.value.contractReceivableAmount = res.data.amount - res.data.payAmount
+    if(res.data.payAmount){
+      form.value.contractReceivableAmount = new Decimal(res.data.amount).minus( new Decimal(res.data.payAmount))
+    }else{
+      form.value.contractReceivableAmount = new Decimal(res.data.amount)
+    }
 
     customerService.getCustomerOne(form.value.customerId+"").then((res: any) => {
       form.value.taxNumber=res.data.taxNumber;
@@ -308,10 +313,13 @@ function selectContract(val:any) {
 
 function compute(val: any) {
   if(form.value.percentage > 0){
-    form.value.amount = (form.value.contractAmount * form.value.percentage) /100
+    form.value.amount = new Decimal(form.value.contractAmount).mul(form.value.percentage).div(100)
+  }else{
+    form.value.amount = new Decimal(form.value.amount)
   }
-  form.value.taxAmount = form.value.amount * form.value.taxRate /100
-  form.value.afterTaxAmount = form.value.amount - form.value.taxAmount
+
+    form.value.taxAmount =  new Decimal(form.value.amount.minus(form.value.amount.div(1 + form.value.taxRate/100)).toFixed(2))
+  form.value.afterTaxAmount = new Decimal(form.value.amount.minus(form.value.taxAmount).toFixed(2))
 }
 
 function dialogOfClosedMethods(val: any) {
