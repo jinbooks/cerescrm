@@ -205,7 +205,7 @@ const handleTrendMetric = (value) => {
       },
       {
         type: 'value',
-        name: t('quantity'),
+        name: t('newCustomer'),
         splitLine: {show: false}
       }
     ],
