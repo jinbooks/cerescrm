@@ -17,4 +17,6 @@ public interface OpportunityMapper extends BaseMapper<Opportunity> {
     List<BaseGroupVo<Long>> countRecentOpportunity(String workspaceId);
 
     Long countCurrentYear(String workspaceId);
+
+    List<BaseGroupVo<Long>> businessOpportunitySituation(String workspaceId);
 }

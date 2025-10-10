@@ -114,6 +114,23 @@ public class DashboardServiceImpl implements DashboardService {
 
         List<BaseGroupVo<Long>> customerFromData = customerMapper.countGroupFromCustomer(currentUser.getWorkspaceId());
 
+        // 执行中合同金额统计
+        ContractAmountTotal contractAmountTotalData = contractMapper.groupContractAmountTotal(currentUser.getWorkspaceId());
+
+        // 商机态势
+        List<BaseGroupVo<Long>> businessOpportunitySituation = opportunityMapper.businessOpportunitySituation(currentUser.getWorkspaceId());
+
+        return DashBoardResultVo.builder()
+                .countData(countData)
+                .funnelData(funnelData)
+                .customerFromData(customerFromData)
+                .contractAmountTotalData(contractAmountTotalData)
+                .businessOpportunitySituation(businessOpportunitySituation)
+                .build();
+    }
+
+    @Override
+    public DashBoardResultVo trendAnalysis(Integer year, UserInfo currentUser) {
         // 年度合同金额月统计
         List<BaseGroupVo<BigDecimal>> contractAmountGroupVos = contractMapper.groupYearContractAmount(year, currentUser.getWorkspaceId());
         BaseCountData<BigDecimal> contractAmountData = BaseCountData.<BigDecimal>builder()
@@ -162,9 +179,6 @@ public class DashboardServiceImpl implements DashboardService {
                 .build();
 
         return DashBoardResultVo.builder()
-                .countData(countData)
-                .funnelData(funnelData)
-                .customerFromData(customerFromData)
                 .contractAmountData(contractAmountData)
                 .yearAmountData(yearAmountData)
                 .customerData(customerData)

@@ -62,4 +62,29 @@
           AND deleted = 'n'
           AND workspace_id = #{workspaceId}
     </select>
+    <select id="businessOpportunitySituation" resultType="com.jinbooks.entity.dashboard.BaseGroupVo">
+        WITH status_dict AS (SELECT 1 AS status, '进行中' AS name
+                             UNION ALL
+                             SELECT 2, '已赢单'
+                             UNION ALL
+                             SELECT 3, '已输单'
+                             UNION ALL
+                             SELECT 4, '已暂停')
+        SELECT sd.name,
+               COALESCE(COUNT(o.id), 0) AS value
+        FROM status_dict sd
+            LEFT JOIN jbx_opportunity o
+        ON sd.status = o.status
+            AND o.deleted = 'n'
+            AND o.workspace_id = #{workspaceId}
+            AND (
+            -- 进行中和暂停统计所有时间
+            o.status IN (1, 4)
+            OR
+            -- 赢单和输单只统计今年（按实际成交日期）
+            (o.status IN (2, 3) AND YEAR (o.actual_close_date) = YEAR (CURDATE()))
+            )
+        GROUP BY sd.status, sd.name
+        ORDER BY sd.status
+    </select>
 </mapper>

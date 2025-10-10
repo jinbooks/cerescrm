@@ -1374,5 +1374,6 @@ export default {
   "pleaseInput": "请输入内容",
   "wrongPictureFormat": "图片格式错误!",
   "limitUpload": "上传文件大小不能超过",
+  "businessOpportunitySituation": "商机态势",
   "failInsertPicture": "图片插入失败"
 }

@@ -17,7 +17,7 @@
             </el-icon>
           </div>
           <div class="card-value">{{
-              card.title === t('repaymentAmount')  ? (card.value / 10000).toFixed(4) + '万' : card.value
+              card.title === t('repaymentAmount') ? (card.value / 10000).toFixed(4) + '万' : card.value
             }}
           </div>
           <div
@@ -43,7 +43,7 @@
         <el-card class="chart-card">
           <template #header>
             <div class="card-header">
-              <span>{{t('SalesFunnelAnalysis')}}</span>
+              <span>{{ t('SalesFunnelAnalysis') }}</span>
             </div>
           </template>
           <div ref="funnelChart" class="funnel-chart"></div>
@@ -53,7 +53,7 @@
         <el-card class="chart-card">
           <template #header>
             <div class="card-header">
-              <span>{{t('StatisticsAmountContractsExecution')}}</span>
+              <span>{{ t('StatisticsAmountContractsExecution') }}</span>
             </div>
           </template>
           <div ref="pieContractChart" class="pie-chart"></div>
@@ -63,7 +63,7 @@
         <el-card class="chart-card">
           <template #header>
             <div class="card-header">
-              <span>{{t('CustomerSourceDistribution')}}</span>
+              <span>{{ t('CustomerSourceDistribution') }}</span>
             </div>
           </template>
           <div ref="pieChart" class="pie-chart"></div>
@@ -71,34 +71,49 @@
       </el-col>
     </el-row>
 
-    <!-- 趋势分析区 -->
-    <el-card class="trend-card">
-      <template #header>
-        <div class="trend-header">
-          <span>{{t('TrendAnalysis')}}</span>
-          <div class="trend-controls">
-            <el-select v-model="queryYearValue" style="width: 120px" @change="updateData">
-             <el-option :label="t('ThisYear')" :value="new Date().getFullYear()"></el-option>
-              <el-option :label="t('LastYear')" :value="new Date().getFullYear() - 1"></el-option>
-              <el-option :label="t('YearBeforeLast')" :value="new Date().getFullYear() - 2"></el-option>
-            </el-select>
-            <el-radio-group v-model="trendMetric" style="margin-left: 16px" @change="handleTrendMetric">
-             <el-radio-button label="contract">{{t('contractAmount')}}</el-radio-button>
-              <el-radio-button label="payment">{{t('repaymentAmount')}}</el-radio-button>
-              <!--              <el-radio-button label="customers">新增客户</el-radio-button>-->
-            </el-radio-group>
-          </div>
-        </div>
-      </template>
-      <el-row>
-        <el-col :span="18">
-          <div ref="trendChart" class="trend-chart"></div>
-        </el-col>
-        <el-col :span="6">
-          <div ref="yearChart" class="year-chart"></div>
-        </el-col>
-      </el-row>
-    </el-card>
+    <el-row :gutter="24">
+      <el-col :span="8">
+        <el-card class="trend-card">
+          <template #header>
+            <div class="trend-header">
+              <span>{{ t('businessOpportunitySituation') }}</span>
+            </div>
+          </template>
+          <div ref="opportunityChart" class="opportunity-chart"></div>
+        </el-card>
+      </el-col>
+      <el-col :span="16">
+        <!-- 趋势分析区 -->
+        <el-card class="trend-card">
+          <template #header>
+            <div class="trend-header">
+              <span>{{ t('TrendAnalysis') }}</span>
+              <div class="trend-controls">
+                <el-select v-model="queryYearValue" style="width: 120px" @change="updateTrendAnalysisData">
+                  <el-option :label="t('ThisYear')" :value="new Date().getFullYear()"></el-option>
+                  <el-option :label="t('LastYear')" :value="new Date().getFullYear() - 1"></el-option>
+                  <el-option :label="t('YearBeforeLast')" :value="new Date().getFullYear() - 2"></el-option>
+                </el-select>
+                <el-radio-group v-model="trendMetric" style="margin-left: 16px" @change="handleTrendMetric">
+                  <el-radio-button label="contract">{{ t('contractAmount') }}</el-radio-button>
+                  <el-radio-button label="payment">{{ t('repaymentAmount') }}</el-radio-button>
+                  <!--              <el-radio-button label="customers">新增客户</el-radio-button>-->
+                </el-radio-group>
+              </div>
+            </div>
+          </template>
+          <el-row v-loading="loadingTrendAnalysis">
+            <el-col :span="16">
+              <div ref="trendChart" class="trend-chart"></div>
+            </el-col>
+            <el-col :span="8">
+              <div ref="yearChart" class="year-chart"></div>
+            </el-col>
+          </el-row>
+        </el-card>
+      </el-col>
+    </el-row>
+
   </div>
 </template>
 
@@ -106,10 +121,11 @@
 import {ref, onMounted} from 'vue';
 import * as echarts from 'echarts';
 import {More, ArrowUp, ArrowDown, Open} from '@element-plus/icons-vue';
-import {getDashboard} from "@/api/dashboard"
+import {getDashboard, getTrendAnalysis} from "@/api/dashboard"
 import {useI18n} from "vue-i18n";
 
-const { t } = useI18n()
+const {t} = useI18n()
+const loadingTrendAnalysis = ref(false)
 const trendMetric = ref('contract');
 const queryYearValue = ref(new Date().getFullYear())
 const charts = ref([]);
@@ -118,6 +134,7 @@ const pieChart = ref(null);
 const trendChart = ref(null);
 const yearChart = ref(null);
 const pieContractChart = ref(null);
+const opportunityChart = ref(null);
 let trendInstance = null
 
 const overviewCards = ref([
@@ -170,6 +187,10 @@ const handleTrendMetric = (value) => {
     legend: {
       data: legend
     },
+    grid: {
+      left: "80",
+      bottom: "25"
+    },
     xAxis: {
       type: 'category',
       data: customer.data.map(d => d.name)
@@ -177,7 +198,7 @@ const handleTrendMetric = (value) => {
     yAxis: [
       {
         type: 'value',
-         name: t('amount'),
+        name: t('amount'),
         axisLabel: {
           formatter: value => `￥${(value / 10000).toFixed(4)} 万`
         }
@@ -198,7 +219,7 @@ const handleTrendMetric = (value) => {
           position: 'inside',   // 标签显示在柱子顶部
           valueAnimation: true,
           formatter: params => {
-            if(params.value === 0){
+            if (params.value === 0) {
               return '';
             }
             return `￥${(params.value / 10000).toFixed(4)} 万`
@@ -215,7 +236,7 @@ const handleTrendMetric = (value) => {
           position: 'right',
           offset: [0, -10], // 向上偏移 10px
           formatter: params => {
-            if(params.value === 0){
+            if (params.value === 0) {
               return '';
             }
             return `${params.value}个`
@@ -233,10 +254,7 @@ const handleTrendMetric = (value) => {
 const updateData = () => {
   getDashboard(queryYearValue.value).then(res => {
     const countData = res.data.countData
-    const yearAmountData = res.data.yearAmountData
-    contractAmountData.value = res.data.contractAmountData
-    customerData.value = res.data.customerData
-    receivePaymentData.value = res.data.receivePaymentData
+
     contractAmountTotalData.value = res.data.contractAmountTotalData
     overviewCards.value.length = 0
     // 初始化迷你趋势图
@@ -373,6 +391,138 @@ const updateData = () => {
       pieInstance.resize()
     })
 
+    const pieContractInstance = echarts.init(pieContractChart.value);
+    const formatWan = value => (value / 10000).toFixed(4)
+    const pieContractData = contractAmountTotalData.value
+    pieContractInstance.setOption({
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {type: 'shadow'},
+        formatter: params => {
+          const lines = params.map(p =>
+              `${p.seriesName}: ￥${formatWan(p.value)} 万`
+          )
+          return lines.join('<br/>')
+        }
+      },
+      legend: {
+        bottom: '0%',
+        data: [t('totalAmount'), t('Refund'), t('Unpaid')]
+      },
+      grid: {
+        top: '5%',
+        left: '3%',
+        right: '3%',
+        bottom: "10%",
+        containLabel: true
+      },
+      xAxis: {
+        type: 'category',
+        data: [t('AmountCondition')]
+      },
+      yAxis: {
+        type: 'value',
+        axisLabel: {
+          formatter: value => `￥${(value / 10000).toFixed(0)} 万`
+        }
+      },
+      series: [
+        {
+          name: t('totalAmount'),
+          type: 'bar',
+          data: [pieContractData.contractTotalAmount],
+          label: {
+            show: true,
+            position: 'top',
+            formatter: value => `￥${formatWan(pieContractData.contractTotalAmount)} 万`
+          },
+          itemStyle: {color: '#5470c6'}
+        },
+        {
+          name: t('Refund'),
+          type: 'bar',
+          data: [pieContractData.receivedTotalAmount],
+          label: {
+            show: true,
+            position: 'top',
+            formatter: value => `￥${formatWan(pieContractData.receivedTotalAmount)} 万`
+          },
+          itemStyle: {color: '#91cc75'}
+        },
+        {
+          name: t('Unpaid'),
+          type: 'bar',
+          data: [pieContractData.unreceivedTotalAmount],
+          label: {
+            show: true,
+            position: 'top',
+            formatter: value => `￥${formatWan(pieContractData.unreceivedTotalAmount)} 万`
+          },
+          itemStyle: {color: '#fac858'}
+        }
+      ]
+    })
+    window.addEventListener('resize', () => {
+      pieContractInstance.resize()
+    })
+
+    const opportunityData = res.data.businessOpportunitySituation
+    const opportunityInstance = echarts.init(opportunityChart.value);
+    opportunityInstance.setOption({
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {type: 'shadow'},
+        formatter: params => {
+          const lines = params.map(p =>
+              `${p.seriesName}: ${p.value} 个`
+          )
+          return lines.join('<br/>')
+        }
+      },
+      grid: {
+        top: '20',
+        bottom: "25",
+        left: "10",
+        right: "10",
+        containLabel: true
+      },
+      xAxis: {
+        type: 'category',
+        data: opportunityData.map(t => t.name)
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          name: t('businessOpportunitySituation'),
+          type: 'bar',
+          data: opportunityData.map(t => t.value),
+          label: {
+            show: true,
+            position: 'top',
+            formatter: value => `${value.value} 个`
+          },
+          itemStyle: {color: '#5470c6'}
+        }
+      ]
+    })
+    window.addEventListener('resize', () => {
+      opportunityInstance.resize()
+    })
+  })
+
+  updateTrendAnalysisData()
+};
+
+const updateTrendAnalysisData = () => {
+  loadingTrendAnalysis.value = true
+  getTrendAnalysis(queryYearValue.value).then(res => {
+    const yearAmountData = res.data.yearAmountData
+    contractAmountData.value = res.data.contractAmountData
+    customerData.value = res.data.customerData
+    receivePaymentData.value = res.data.receivePaymentData
+
     const yearPieInstance = echarts.init(yearChart.value);
     yearPieInstance.setOption({
       title: {
@@ -437,85 +587,11 @@ const updateData = () => {
     window.addEventListener('resize', () => {
       yearPieInstance.resize()
     })
-
-    const pieContractInstance = echarts.init(pieContractChart.value);
-    const formatWan = value => (value / 10000).toFixed(4)
-    const pieContractData = contractAmountTotalData.value
-    pieContractInstance.setOption({
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {type: 'shadow'},
-        formatter: params => {
-          const lines = params.map(p =>
-              `${p.seriesName}: ￥${formatWan(p.value)} 万`
-          )
-          return lines.join('<br/>')
-        }
-      },
-      legend: {
-        bottom: '0%',
-        data: [t('totalAmount'), t('Refund'), t('Unpaid')]
-      },
-      grid: {
-        top: '5%',
-        left: '3%',
-        right: '3%',
-        bottom: "10%",
-        containLabel: true
-      },
-      xAxis: {
-        type: 'category',
-         data: [t('AmountCondition')]
-      },
-      yAxis: {
-        type: 'value',
-        axisLabel: {
-          formatter: value => `￥${(value / 10000).toFixed(0)} 万`
-        }
-      },
-      series: [
-        {
-          name: t('totalAmount'),
-          type: 'bar',
-          data: [pieContractData.contractTotalAmount],
-          label: {
-            show: true,
-            position: 'top',
-            formatter: value => `￥${formatWan(pieContractData.contractTotalAmount)} 万`
-          },
-          itemStyle: {color: '#5470c6'}
-        },
-        {
-           name: t('Refund'),
-          type: 'bar',
-          data: [pieContractData.receivedTotalAmount],
-          label: {
-            show: true,
-            position: 'top',
-            formatter: value => `￥${formatWan(pieContractData.receivedTotalAmount)} 万`
-          },
-          itemStyle: {color: '#91cc75'}
-        },
-        {
-          name: t('Unpaid'),
-          type: 'bar',
-          data: [pieContractData.unreceivedTotalAmount],
-          label: {
-            show: true,
-            position: 'top',
-            formatter: value => `￥${formatWan(pieContractData.unreceivedTotalAmount)} 万`
-          },
-          itemStyle: {color: '#fac858'}
-        }
-      ]
-    })
-    window.addEventListener('resize', () => {
-      pieContractInstance.resize()
-    })
-
     handleTrendMetric(trendMetric.value)
+  }).finally(() => {
+    loadingTrendAnalysis.value = false
   })
-};
+}
 
 onMounted(() => {
   updateData()
@@ -614,5 +690,9 @@ onMounted(() => {
 
 .year-chart {
   height: 320px;
+}
+
+.opportunity-chart {
+  height: 330px;
 }
 </style>

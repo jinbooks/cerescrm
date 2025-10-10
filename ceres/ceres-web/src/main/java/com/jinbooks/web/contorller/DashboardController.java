@@ -23,6 +23,7 @@ import com.jinbooks.persistence.service.DashboardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,14 +38,23 @@ import com.jinbooks.entity.idm.UserInfo;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/dashboard")
 public class DashboardController {
     private final DashboardService dashboardService;
 
     /**
      * 仪表盘数据
      */
-    @GetMapping("/dashboard")
+    @GetMapping
     public Message<DashBoardResultVo> dashboard(@RequestParam("year") Integer year, @CurrentUser UserInfo currentUser) {
         return Message.ok(dashboardService.dashboard(year, currentUser));
+    }
+
+    /**
+     * 仪表盘数据
+     */
+    @GetMapping("/trendAnalysis")
+    public Message<DashBoardResultVo> trendAnalysis(@RequestParam("year") Integer year, @CurrentUser UserInfo currentUser) {
+        return Message.ok(dashboardService.trendAnalysis(year, currentUser));
     }
 }

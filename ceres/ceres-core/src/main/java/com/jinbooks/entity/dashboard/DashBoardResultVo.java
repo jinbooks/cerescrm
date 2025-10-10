@@ -58,4 +58,9 @@ public class DashBoardResultVo {
      */
     private BaseCountData<BigDecimal> yearAmountData;
 
+    /**
+     * 商机态势
+     */
+    private List<BaseGroupVo<Long>> businessOpportunitySituation;
+
 }

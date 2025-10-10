@@ -14,4 +14,6 @@ import com.jinbooks.entity.idm.UserInfo;
 public interface DashboardService {
 
     DashBoardResultVo dashboard(Integer year, UserInfo currentUser);
+
+    DashBoardResultVo trendAnalysis(Integer year, UserInfo currentUser);
 }

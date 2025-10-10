@@ -1374,5 +1374,6 @@ export default {
     "pleaseInput": "Please enter content",
     "wrongPictureFormat": "Image format error!",
     "limitUpload": "Uploaded file size cannot exceed",
+    "businessOpportunitySituation": "Business opportunity situation",
     "failInsertPicture": "Image insertion failed"
 }

@@ -9,3 +9,13 @@ export function getDashboard(year: number): any {
         }
     })
 }
+
+export function getTrendAnalysis(year: number): any {
+    return request({
+        url: '/dashboard/trendAnalysis',
+        method: 'get',
+        params: {
+            year: year
+        }
+    })
+}
