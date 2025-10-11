@@ -13,8 +13,8 @@
           <div class="card-header">
             <span class="title">{{ card.title }}</span>
             <el-icon @click="handleOverviewCard(index)">
-              <More v-if="!card.change"/>
-              <Switch v-else/>
+              <Switch v-if="index === 1"/>
+              <More v-else/>
             </el-icon>
           </div>
           <div class="card-value">{{
