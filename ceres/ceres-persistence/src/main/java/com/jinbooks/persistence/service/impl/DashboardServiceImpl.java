@@ -187,6 +187,22 @@ public class DashboardServiceImpl implements DashboardService {
                 .build();
     }
 
+    @Override
+    public DashBoardResultVo areaMap(String type, UserInfo currentUser) {
+        if ("lead".equals(type)) {
+            List<BaseGroupVo<Long>> leadData = leadMapper.areaProvince(currentUser.getWorkspaceId());
+            return DashBoardResultVo.builder()
+                    .areaData(leadData)
+                    .build();
+        } else if ("customer".equals(type)) {
+            List<BaseGroupVo<Long>> customerData = customerMapper.areaProvince(currentUser.getWorkspaceId());
+            return DashBoardResultVo.builder()
+                    .areaData(customerData)
+                    .build();
+        }
+        return DashBoardResultVo.builder().build();
+    }
+
 
     /**
      * 计算最近两个月的趋势百分比

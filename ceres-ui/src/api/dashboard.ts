@@ -19,3 +19,12 @@ export function getTrendAnalysis(year: number): any {
         }
     })
 }
+export function getAreaData(type: string): any {
+    return request({
+        url: '/dashboard/areaMap',
+        method: 'get',
+        params: {
+            type: type
+        }
+    })
+}

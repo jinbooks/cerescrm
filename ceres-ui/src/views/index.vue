@@ -12,8 +12,9 @@
         <el-card class="overview-card" shadow="hover">
           <div class="card-header">
             <span class="title">{{ card.title }}</span>
-            <el-icon>
-              <More/>
+            <el-icon @click="handleOverviewCard(index)">
+              <More v-if="!card.change"/>
+              <Switch v-else/>
             </el-icon>
           </div>
           <div class="card-value">{{
@@ -72,17 +73,7 @@
     </el-row>
 
     <el-row :gutter="24">
-      <el-col :span="8">
-        <el-card class="trend-card">
-          <template #header>
-            <div class="trend-header">
-              <span>{{ t('businessOpportunitySituation') }}</span>
-            </div>
-          </template>
-          <div ref="opportunityChart" class="opportunity-chart"></div>
-        </el-card>
-      </el-col>
-      <el-col :span="16">
+      <el-col :span="24">
         <!-- 趋势分析区 -->
         <el-card class="trend-card">
           <template #header>
@@ -103,10 +94,10 @@
             </div>
           </template>
           <el-row v-loading="loadingTrendAnalysis">
-            <el-col :span="16">
+            <el-col :span="18">
               <div ref="trendChart" class="trend-chart"></div>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="6">
               <div ref="yearChart" class="year-chart"></div>
             </el-col>
           </el-row>
@@ -114,6 +105,32 @@
       </el-col>
     </el-row>
 
+    <!-- 趋势分析区 -->
+    <el-card>
+      <template #header>
+        <div class="trend-header">
+          <span>{{ t('chinaMap') }}</span>
+          <div class="trend-controls">
+            <el-radio-group v-model="areaType" style="margin-left: 16px" @change="handleMapType">
+              <el-radio-button label="lead">{{ t('lead') }}</el-radio-button>
+              <el-radio-button label="customer">{{ t('subjectCustomer') }}</el-radio-button>
+            </el-radio-group>
+          </div>
+        </div>
+      </template>
+      <el-row>
+        <el-col :span="16">
+          <div ref="mapChart" class="map-chart"></div>
+        </el-col>
+        <el-col :span="8">
+          <el-table border :data="mapData">
+            <el-table-column type="index" width="60" label="序号" align="center"></el-table-column>
+            <el-table-column label="省份" width="200" prop="name" align="center"></el-table-column>
+            <el-table-column label="数量" prop="value" align="center"></el-table-column>
+          </el-table>
+        </el-col>
+      </el-row>
+    </el-card>
   </div>
 </template>
 
@@ -121,12 +138,14 @@
 import {ref, onMounted} from 'vue';
 import * as echarts from 'echarts';
 import {More, ArrowUp, ArrowDown, Open} from '@element-plus/icons-vue';
-import {getDashboard, getTrendAnalysis} from "@/api/dashboard"
+import {getDashboard, getTrendAnalysis, getAreaData} from "@/api/dashboard"
 import {useI18n} from "vue-i18n";
+import chinaGeoJson from "@/assets/china-map.json"
 
 const {t} = useI18n()
 const loadingTrendAnalysis = ref(false)
 const trendMetric = ref('contract');
+const areaType = ref('lead');
 const queryYearValue = ref(new Date().getFullYear())
 const charts = ref([]);
 const funnelChart = ref(null);
@@ -134,7 +153,7 @@ const pieChart = ref(null);
 const trendChart = ref(null);
 const yearChart = ref(null);
 const pieContractChart = ref(null);
-const opportunityChart = ref(null);
+const mapChart = ref(null);
 let trendInstance = null
 
 const overviewCards = ref([
@@ -149,6 +168,13 @@ const contractAmountData = ref({})
 const customerData = ref({})
 const receivePaymentData = ref({})
 const contractAmountTotalData = ref({})
+const opportunityData = ref([])
+const countData = ref([])
+const mapData = ref([])
+
+const handleMapType = (value) => {
+  updateMapData(value)
+}
 
 const handleTrendMetric = (value) => {
   const customer = customerData.value
@@ -253,42 +279,20 @@ const handleTrendMetric = (value) => {
 
 const updateData = () => {
   getDashboard(queryYearValue.value).then(res => {
-    const countData = res.data.countData
+    countData.value = res.data.countData
 
     contractAmountTotalData.value = res.data.contractAmountTotalData
     overviewCards.value.length = 0
     // 初始化迷你趋势图
     charts.value.forEach((chart, index) => {
       overviewCards.value.push({
-        title: countData[index].title,
-        value: countData[index].value,
-        trend: countData[index].trend,
-        data: countData[index].data
+        title: countData.value[index].title,
+        value: countData.value[index].value,
+        trend: countData.value[index].trend,
+        data: countData.value[index].data,
+        change: false
       })
-
-      const chartInstance = echarts.init(chart);
-      chartInstance.setOption({
-        animation: false,
-        grid: {top: 0, right: 0, bottom: 0, left: 0},
-        xAxis: {show: false, type: 'category'},
-        yAxis: {show: false},
-        series: [{
-          type: 'line',
-          data: overviewCards.value[index].data.map(d => d.value),
-          smooth: true,
-          symbol: 'none',
-          lineStyle: {color: '#1890FF'},
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {offset: 0, color: 'rgba(24,144,255,0.3)'},
-              {offset: 1, color: 'rgba(24,144,255,0)'}
-            ])
-          }
-        }]
-      });
-      window.addEventListener('resize', () => {
-        chartInstance.resize()
-      })
+      updateOverviewCards(index)
     });
 
     // 初始化漏斗图
@@ -465,55 +469,81 @@ const updateData = () => {
     window.addEventListener('resize', () => {
       pieContractInstance.resize()
     })
+    // 商机态势
+    opportunityData.value = res.data.businessOpportunitySituation
+  })
+  updateTrendAnalysisData()
+  // 注册中国地图（只需执行一次）
+  echarts.registerMap('china', chinaGeoJson);
+  updateMapData("lead")
+};
 
-    const opportunityData = res.data.businessOpportunitySituation
-    const opportunityInstance = echarts.init(opportunityChart.value);
-    opportunityInstance.setOption({
+const updateMapData = (type) => {
+  getAreaData(type).then(res => {
+    mapData.value.length = 0
+    mapData.value = res.data.areaData
+    const mapChartInstance = echarts.init(mapChart.value);
+    mapChartInstance.setOption({
       tooltip: {
-        trigger: 'axis',
-        axisPointer: {type: 'shadow'},
-        formatter: params => {
-          const lines = params.map(p =>
-              `${p.seriesName}: ${p.value} 个`
-          )
-          return lines.join('<br/>')
-        }
+        trigger: 'item',
+        formatter: params => `${params.name}<br/>数量：${params.value || 0}`
       },
       grid: {
-        top: '20',
-        bottom: "25",
-        left: "10",
-        right: "10",
+        top: '0',
+        left: '0',
+        right: '0',
+        bottom: '0',
         containLabel: true
       },
-      xAxis: {
-        type: 'category',
-        data: opportunityData.map(t => t.name)
+      visualMap: {
+        min: 0,
+        max: Math.max(...mapData.value.map(d => d.value)) || 100,
+        left: '0',
+        bottom: '0',
+        text: ['高', '低'],
+        inRange: {
+          color: ['#e0f3ff', '#a0d8ef', '#64b5f6', '#1976d2', '#0d47a1']
+        },
+        calculable: true,
+        textStyle: {color: '#333'}
       },
-      yAxis: {
-        type: 'value'
-      },
-      series: [
-        {
-          name: t('businessOpportunitySituation'),
-          type: 'bar',
-          data: opportunityData.map(t => t.value),
-          label: {
-            show: true,
-            position: 'top',
-            formatter: value => `${value.value} 个`
-          },
-          itemStyle: {color: '#5470c6'}
+      geo: {
+        map: 'china',
+        layoutCenter: ['45%', '70%'], // 地图中心点在容器中心（x, y）
+        layoutSize: '80%',           // 地图整体大小（可用百分比或像素）
+        roam: true,
+        zoom: 1.75,
+        label: {
+          show: true,
+          fontSize: 10,
+          color: '#333'
+        },
+        itemStyle: {
+          borderColor: '#fff',
+          borderWidth: 1,
+          areaColor: '#f0f0f0'
+        },
+        emphasis: {
+          label: {show: true, color: '#000', fontWeight: 'bold'},
+          itemStyle: {
+            areaColor: '#a0c4ff'
+          }
         }
-      ]
-    })
+      },
+      series: [{
+        name: '省份数据',
+        type: 'map',
+        map: 'china',
+        geoIndex: 0,
+        data: mapData.value
+      }]
+    }, true);
     window.addEventListener('resize', () => {
-      opportunityInstance.resize()
+      mapChartInstance.resize()
     })
   })
-
-  updateTrendAnalysisData()
 };
+
 
 const updateTrendAnalysisData = () => {
   loadingTrendAnalysis.value = true
@@ -591,6 +621,109 @@ const updateTrendAnalysisData = () => {
   }).finally(() => {
     loadingTrendAnalysis.value = false
   })
+}
+
+const updateOverviewCards = (index) => {
+  const chartInstance = echarts.init(charts.value[index]);
+  if (overviewCards.value[index].change === true) {
+    if (index === 1) {
+      chartInstance.setOption({
+        grid: {
+          top: 0,
+          bottom: 0,
+          left: 10,
+          right: 80, // 预留右侧空间放图例
+          containLabel: false
+        },
+        xAxis: {
+          type: 'value',
+          show: false
+        },
+        yAxis: {
+          type: 'category',
+          show: false,
+          data: opportunityData.value.map(t => t.name)
+        },
+        series: [
+          {
+            type: 'bar',
+            data: opportunityData.value.map(t => t.value),
+            barWidth: 6,
+            itemStyle: {
+              color: params => {
+                const colors = ['#5470C6', '#91CC75', '#FAC858', '#EE6666']
+                return colors[params.dataIndex % colors.length]
+              },
+              borderRadius: [0, 3, 3, 0]
+            },
+            label: {
+              show: true,
+              position: 'right',
+              distance: 5,
+              fontSize: 10,
+              color: '#333'
+            }
+          }
+        ],
+        tooltip: {
+          trigger: 'item',
+          formatter: p => `${p.name}: ${p.value} 个`
+        },
+        graphic: opportunityData.value.map((t, i) => ({
+          type: 'group',
+          left: '90%',        // 调整图例整体靠右
+          top: 0 + i * 12,    // 整体上移
+          children: [
+            {
+              type: 'rect',
+              shape: {width: 8, height: 8},
+              style: {
+                fill: ['#5470C6', '#91CC75', '#FAC858', '#EE6666'][i]
+              }
+            },
+            {
+              type: 'text',
+              left: 10,
+              top: 0,
+              style: {
+                text: t.name,
+                fontSize: 10,
+                fill: '#333'
+              }
+            }
+          ]
+        }))
+      }, true);
+    }
+  } else {
+    chartInstance.setOption({
+      animation: false,
+      grid: {top: 0, right: 0, bottom: 0, left: 0},
+      xAxis: {show: false, type: 'category'},
+      yAxis: {show: false},
+      series: [{
+        type: 'line',
+        data: overviewCards.value[index].data.map(d => d.value),
+        smooth: true,
+        symbol: 'none',
+        lineStyle: {color: '#1890FF'},
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {offset: 0, color: 'rgba(24,144,255,0.3)'},
+            {offset: 1, color: 'rgba(24,144,255,0)'}
+          ])
+        }
+      }]
+    }, true);
+  }
+  window.addEventListener('resize', () => {
+    chartInstance.resize()
+  })
+}
+
+const handleOverviewCard = (index) => {
+  overviewCards.value[index].change = !overviewCards.value[index].change
+  updateOverviewCards(index)
 }
 
 onMounted(() => {
@@ -692,7 +825,7 @@ onMounted(() => {
   height: 320px;
 }
 
-.opportunity-chart {
-  height: 330px;
+.map-chart {
+  height: 600px;
 }
 </style>

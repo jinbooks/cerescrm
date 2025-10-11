@@ -16,4 +16,6 @@ public interface DashboardService {
     DashBoardResultVo dashboard(Integer year, UserInfo currentUser);
 
     DashBoardResultVo trendAnalysis(Integer year, UserInfo currentUser);
+
+    DashBoardResultVo areaMap(String type, UserInfo currentUser);
 }

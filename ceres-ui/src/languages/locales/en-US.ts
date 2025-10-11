@@ -1375,5 +1375,7 @@ export default {
     "wrongPictureFormat": "Image format error!",
     "limitUpload": "Uploaded file size cannot exceed",
     "businessOpportunitySituation": "Business opportunity situation",
+    "lead": "Lead",
+    "chinaMap": "China Map",
     "failInsertPicture": "Image insertion failed"
 }

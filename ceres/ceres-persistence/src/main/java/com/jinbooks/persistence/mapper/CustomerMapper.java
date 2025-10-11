@@ -40,4 +40,6 @@ public interface CustomerMapper extends BaseMapperPlus<CustomerMapper, Customer,
     Long countCurrentYear(String workspaceId);
 
     List<BaseGroupVo<Long>> groupYearCustomer(@Param("year") Integer year, @Param("workspaceId") String workspaceId);
+
+    List<BaseGroupVo<Long>> areaProvince(String workspaceId);
 }

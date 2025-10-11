@@ -51,10 +51,18 @@ public class DashboardController {
     }
 
     /**
-     * 仪表盘数据
+     * 商机趋势分析
      */
     @GetMapping("/trendAnalysis")
     public Message<DashBoardResultVo> trendAnalysis(@RequestParam("year") Integer year, @CurrentUser UserInfo currentUser) {
         return Message.ok(dashboardService.trendAnalysis(year, currentUser));
+    }
+
+    /**
+     * 各区域客户|线索分析
+     */
+    @GetMapping("/areaMap")
+    public Message<DashBoardResultVo> areaMap(@RequestParam("type") String type, @CurrentUser UserInfo currentUser) {
+        return Message.ok(dashboardService.areaMap(type, currentUser));
     }
 }

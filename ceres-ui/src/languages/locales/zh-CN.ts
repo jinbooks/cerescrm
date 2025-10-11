@@ -1375,5 +1375,7 @@ export default {
   "wrongPictureFormat": "图片格式错误!",
   "limitUpload": "上传文件大小不能超过",
   "businessOpportunitySituation": "商机态势",
+  "lead": "线索",
+  "chinaMap": "中国地图",
   "failInsertPicture": "图片插入失败"
 }

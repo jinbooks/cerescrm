@@ -22,4 +22,6 @@ public interface LeadMapper extends BaseMapper<Lead> {
     List<BaseGroupVo<Long>> countRecentLeads(@Param("workspaceId") String workspaceId);
 
     Long countCurrentYear(String workspaceId);
+
+    List<BaseGroupVo<Long>> areaProvince(String workspaceId);
 }

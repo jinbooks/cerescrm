@@ -57,4 +57,21 @@
           AND deleted = 'n'
           AND workspace_id = #{workspaceId}
     </select>
+    <select id="areaProvince" resultType="com.jinbooks.entity.dashboard.BaseGroupVo">
+        SELECT
+            CASE
+                WHEN province IS NULL OR TRIM(province) = '' THEN '其他'
+                ELSE province
+                END AS name,
+            COUNT(1) AS value
+        FROM jbx_lead
+        WHERE deleted = 'n'
+          AND workspace_id = #{workspaceId}
+        GROUP BY
+            CASE
+            WHEN province IS NULL OR TRIM(province) = '' THEN '其他'
+            ELSE province
+        END
+        ORDER BY value DESC;
+    </select>
 </mapper>

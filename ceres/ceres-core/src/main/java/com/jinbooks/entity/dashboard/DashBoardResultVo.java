@@ -63,4 +63,9 @@ public class DashBoardResultVo {
      */
     private List<BaseGroupVo<Long>> businessOpportunitySituation;
 
+    /**
+     * 商机态势
+     */
+    private List<BaseGroupVo<Long>> areaData;
+
 }
