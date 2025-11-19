@@ -18,7 +18,6 @@ import com.jinbooks.entity.lead.vo.LeadFollowUpVo;
 import com.jinbooks.entity.lead.vo.LeadStatisticsVo;
 import com.jinbooks.entity.lead.vo.LeadVo;
 import com.jinbooks.entity.opportunity.Opportunity;
-import com.jinbooks.entity.opportunity.OpportunityVo;
 import com.jinbooks.enums.FollowUpCategoryEnum;
 import com.jinbooks.enums.LeadStatusEnum;
 import com.jinbooks.exception.BusinessException;
@@ -138,35 +137,21 @@ public class LeadServiceImpl extends ServiceImpl<LeadMapper, Lead> implements Le
         return result ? Message.ok(WebContext.getI18nValue("common.delete.success")) : Message.failed(WebContext.getI18nValue("common.delete.fail"));
     }
 
-    private void generateLeadCode(Lead lead) {
+    private synchronized void generateLeadCode(Lead lead) {
         String datePrefix = LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
 
         LambdaQueryWrapper<Lead> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Lead::getWorkspaceId, lead.getWorkspaceId())
-                .likeRight(Lead::getLeadCode, "Lead-" + datePrefix)
-                .orderByDesc(Lead::getLeadCode)
-                .last("LIMIT 1");
-                // 只查一条最新的
-
-        Lead lastLead = super.getOne(wrapper);
-
-        int nextNumber = 1;
-        if (lastLead != null && lastLead.getLeadCode() != null) {
-            String lastCode = lastLead.getLeadCode(); // e.g., Lead-2406180012
-            String numberStr = lastCode.substring(11); // 取最后四位
-            try {
-                nextNumber = Integer.parseInt(numberStr) + 1;
-
-                // ✅ 超出 9999 上限判断
-                if (nextNumber > 9999) {
-                    throw new BusinessException(50001, WebContext.getI18nValue("lead.exception.max"));
-                }
-            } catch (NumberFormatException e) {
-                nextNumber = 1; // fallback
-            }
+                .likeRight(Lead::getLeadCode, "L" + datePrefix);
+        
+        long nextNumber = super.count(wrapper);
+        nextNumber ++;//下一个编码
+        // ✅ 超出 9999 上限判断
+        if (nextNumber > 9999) {
+            throw new BusinessException(50001, WebContext.getI18nValue("lead.exception.max"));
         }
 
-        String code = String.format("Lead-%s%04d", datePrefix, nextNumber);
+        String code = String.format("L%s%04d", datePrefix, nextNumber);
         lead.setLeadCode(code);
     }
 
