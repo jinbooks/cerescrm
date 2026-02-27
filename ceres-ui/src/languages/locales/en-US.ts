@@ -1,7 +1,7 @@
 export default {
-    "appTitle": "Ceres Customer Relationship Management",
+    "appTitle": "Ceres CRM",
     "login": {
-        "title": "Ceres Customer Relationship Management",
+        "title": "Ceres CRM",
         "titleSub": "Open source CRM customer relationship management",
         "tabCredentials": "Account Login",
         "tabMobile": "Mobile login",
