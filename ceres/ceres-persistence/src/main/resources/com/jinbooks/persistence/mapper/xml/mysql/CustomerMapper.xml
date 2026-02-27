@@ -87,6 +87,7 @@
         <if test="dto.customerHead != null and dto.customerHead != ''">
             AND c.customer_head = #{dto.customerHead}
         </if>
+        order by created_date desc
     </select>
 
     <!-- 根据ID查询客户详情 -->
