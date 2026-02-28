@@ -29,7 +29,7 @@
 
     <el-card class="common-card">
       <div class="btn-form">
-        <el-button type="primary" @click="handleAdd">{{t('jbx.text.button')}}</el-button>
+        <el-button type="primary" @click="handleAdd">新增</el-button>
         <el-button @click="onBatchDelete" :disabled="ids.length === 0">{{t('org.button.deleteBatch')}}</el-button>
       </div>
       <el-table v-loading="loading" :data="dataList" border @selection-change="handleSelectionChange">

@@ -39,6 +39,15 @@ public class FollowUp extends BaseEntity implements Serializable {
      * 关联业务ID
      */
     private String relationId;
+    
+    /**
+     * 业务名称
+     */
+    private String relationName;
+    /**
+     * 客户
+     */
+    private String customerName;
 
     /**
      * 工作区ID
@@ -100,6 +109,5 @@ public class FollowUp extends BaseEntity implements Serializable {
     @TableField(exist = false)
     private String followUserName;
 
-    @TableField(exist = false)
-    private String relationName;
+    
 }

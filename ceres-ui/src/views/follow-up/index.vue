@@ -3,6 +3,12 @@
     <el-card class="common-card query-box">
       <div class="queryForm">
         <el-form :model="queryParams" ref="queryRef" :inline="true" label-width="68px">
+          <el-form-item label="业务名称">
+            <el-input v-model="queryParams.relationName"/>
+          </el-form-item>
+          <el-form-item label="客户">
+            <el-input v-model="queryParams.customerName"/>
+          </el-form-item>
           <el-form-item>
             <el-button @click="handleQuery">{{ t('org.button.query') }}</el-button>
             <el-button @click="resetQuery">{{ t('org.button.reset') }}</el-button>
@@ -24,7 +30,10 @@
             <dict-tag-number :options="categories" :value="scope.row.category"/>
           </template>
         </el-table-column>
-        <el-table-column prop="relationName" :label="t('BNName')" align="center" min-width="100"
+        <el-table-column prop="relationName" label="业务名称"  align="left" header-align="center"  width="180"
+                         :show-overflow-tooltip="true">
+        </el-table-column>
+        <el-table-column prop="customerName" label="客户"  align="left" header-align="center"  width="180"
                          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column prop="followType" :label="t('FollowUpWay')" align="center" min-width="50"

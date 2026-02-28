@@ -21,4 +21,13 @@ public class FollowUpPageDto extends PageQuery {
     Integer category;
 
     Integer result;
+    
+    /**
+     * 业务名称
+     */
+    String relationName;
+    /**
+     * 客户
+     */
+    String customerName;
 }
